@@ -1,3 +1,6 @@
+#ifndef STRINGUTILS_H
+#define STRINGUTILS_H
+
 #include <string>
 #include <regex>
 #include <vector>
@@ -71,3 +74,5 @@ namespace tvnj {
         toLowerCase(std::string str),
         toUpperCase(std::string str);
 }
+
+#endif

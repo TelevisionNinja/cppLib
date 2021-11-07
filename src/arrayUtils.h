@@ -1,3 +1,6 @@
+#ifndef ARRAYUTILS_H
+#define ARRAYUTILS_H
+
 #include <vector>
 #include <unordered_set>
 
@@ -111,3 +114,5 @@ namespace tvnj {
         return true;
     }
 }
+
+#endif
