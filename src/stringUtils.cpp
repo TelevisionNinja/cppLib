@@ -1,6 +1,15 @@
 #include "stringUtils.h"
 #include <stdexcept>
 
+const std::unordered_set<char> whitespaceChars = {
+    '\n',
+    '\r',
+    '\t',
+    ' ',
+    '\v',
+    '\f'
+};
+
 /**
  * trims a specified character from a string
  * 
@@ -249,13 +258,13 @@ bool tvnj::includesPhrase1(std::string str, std::string phrase, bool caseSensiti
     bool isSpace = true;
 
     for (int i = 0; i <= limit; i++) {
-        if (str[i] == ' ') {
+        if (whitespaceChars.count(str[i])) {
             isSpace = true;
         }
         else if (isSpace) {
             isSpace = false;
 
-            if ((i < limit && str[i + substrLen] == ' ') || i == limit) {
+            if (i == limit || whitespaceChars.count(str[i + substrLen])) {
                 int j = 0;
 
                 while (j < substrLen && str[i + j] == phrase[j]) {
@@ -876,14 +885,6 @@ std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substr
 
 //-------------------------------------------------
 
-const std::unordered_set<char> whitespaceChars = {
-    '\n',
-    '\r',
-    '\t',
-    ' ',
-    '\v',
-    '\f'
-};
 /**
  * trim whitespace
  * 
@@ -1043,7 +1044,7 @@ int tvnj::indexOf(const std::string& str, const std::string& substr, const int& 
         return tvnj::indexOfChar(str, substr[0], index);
     }
 
-    if (substrLen <= 1024) {
+    if (substrLen <= 8192) {
         return tvnj::indexOfNaiveSkip(str, substr, index);
     }
 
