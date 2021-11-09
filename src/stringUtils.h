@@ -56,18 +56,18 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    int indexOf(const std::string& str, const std::string& substr, const int& index = 0),
+    int indexOf(std::string str, std::string substr, int index = 0),
 
-        indexOfTwoWay(const std::string& str, const std::string& substr, const int& index = 0),
+        indexOfTwoWay(std::string str, std::string substr, int index = 0),
 
-        indexOfNaive(const std::string& str, const std::string& substr, const int& index = 0),
-        indexOfNaiveLast(const std::string& str, const std::string& substr, const int& index = -1),
+        indexOfNaive(std::string str, std::string substr, int index = 0),
+        indexOfNaiveLast(std::string str, std::string substr, int index = -1),
 
-        indexOfNaiveSkip(const std::string& str, const std::string& substr, const int& index = 0),
-        indexOfNaiveSkipLast(const std::string& str, const std::string& substr, const int& index = -1),
+        indexOfNaiveSkip(std::string str, std::string substr, int index = 0),
+        indexOfNaiveSkipLast(std::string str, std::string substr, int index = -1),
 
-        indexOfChar(const std::string& str, const char& substr, const int& index = 0),
-        indexOfCharLast(const std::string& str, const char& substr, const int& index = -1);
+        indexOfChar(std::string str, char substr, int index = 0),
+        indexOfCharLast(std::string str, char substr, int index = -1);
 
     //-------------------------------------------------
 

@@ -907,7 +907,7 @@ std::string tvnj::trim(std::string str) {
  * @param {*} index starting index
  * @returns index of the substring, returns -1 if not found
  */
-int tvnj::indexOfNaiveSkip(const std::string& str, const std::string& substr, const int& index) {
+int tvnj::indexOfNaiveSkip(std::string str, std::string substr, int index) {
     const int substrLen = substr.size();
 
     if (!substrLen) {
@@ -967,7 +967,7 @@ int tvnj::indexOfNaiveSkip(const std::string& str, const std::string& substr, co
  * @param {*} index starting index from the right (inclusive)
  * @returns index of the substring, returns -1 if not found
  */
-int tvnj::indexOfNaiveSkipLast(const std::string& str, const std::string& substr, const int& index) {
+int tvnj::indexOfNaiveSkipLast(std::string str, std::string substr, int index) {
     int substrLen = substr.size();
 
     if (!substrLen) {
@@ -1033,7 +1033,7 @@ int tvnj::indexOfNaiveSkipLast(const std::string& str, const std::string& substr
  * @param {*} index starting index
  * @returns index of the substring, returns -1 if not found
  */
-int tvnj::indexOf(const std::string& str, const std::string& substr, const int& index) {
+int tvnj::indexOf(std::string str, std::string substr, int index) {
     const int substrLen = substr.size();
 
     if (!substrLen) {
@@ -1053,7 +1053,7 @@ int tvnj::indexOf(const std::string& str, const std::string& substr, const int& 
 
 //-------------------------------------------------
 
-void maxSuffix(const std::string& substr, const int& len, int *maxSuffix, int *p) {
+void maxSuffix(std::string substr, int len, int *maxSuffix, int *p) {
     int j = 0,
         k = 1;
 
@@ -1087,7 +1087,7 @@ void maxSuffix(const std::string& substr, const int& len, int *maxSuffix, int *p
     }
 }
 
-void maxSuffixReverse(const std::string& substr, const int& len, int *maxSuffix, int *p) {
+void maxSuffixReverse(std::string substr, int len, int *maxSuffix, int *p) {
     int j = 0,
         k = 1;
 
@@ -1141,7 +1141,7 @@ void maxSuffixReverse(const std::string& substr, const int& len, int *maxSuffix,
  * @param {*} index starting index
  * @returns index of the substring, returns -1 if not found
  */
-int tvnj::indexOfTwoWay(const std::string& str, const std::string& substr, const int& index) {
+int tvnj::indexOfTwoWay(std::string str, std::string substr, int index) {
     const int substrLen = substr.size(),
         limit = str.size() - substrLen;
 
@@ -1282,7 +1282,7 @@ int tvnj::indexOfTwoWay(const std::string& str, const std::string& substr, const
  * @param {*} index starting index
  * @returns index of the substring, returns -1 if not found
  */
-int tvnj::indexOfNaive(const std::string& str, const std::string& substr, const int& index) {
+int tvnj::indexOfNaive(std::string str, std::string substr, int index) {
     const int substrLen = substr.size();
 
     if (!substrLen) {
@@ -1322,7 +1322,7 @@ int tvnj::indexOfNaive(const std::string& str, const std::string& substr, const 
  * @param {*} index starting index from the right (inclusive)
  * @returns index of the substring, returns -1 if not found
  */
-int tvnj::indexOfNaiveLast(const std::string& str, const std::string& substr, const int& index) {
+int tvnj::indexOfNaiveLast(std::string str, std::string substr, int index) {
     int substrLen = substr.size();
 
     if (!substrLen) {
@@ -1368,7 +1368,7 @@ int tvnj::indexOfNaiveLast(const std::string& str, const std::string& substr, co
  * @param {*} index starting index
  * @returns index of the char, returns -1 if not found
  */
-int tvnj::indexOfChar(const std::string& str, const char& c, const int& index) {
+int tvnj::indexOfChar(std::string str, char c, int index) {
     const int strLen = str.size();
     int i = index;
 
@@ -1393,7 +1393,7 @@ int tvnj::indexOfChar(const std::string& str, const char& c, const int& index) {
  * @param {*} index starting index from the right (inclusive)
  * @returns index of the char, returns -1 if not found
  */
-int tvnj::indexOfCharLast(const std::string& str, const char& c, const int& index) {
+int tvnj::indexOfCharLast(std::string str, char c, int index) {
     const int strLen = str.size() - 1;
     int i = index;
 
