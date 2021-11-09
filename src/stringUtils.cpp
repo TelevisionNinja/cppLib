@@ -738,6 +738,38 @@ std::string tvnj::trimCharArr(std::string str, std::vector<char> charArr) {
     return str.substr(start, end - start);
 }
 
+/**
+ * trims a set of characters from a string
+ * 
+ * @param {*} str 
+ * @param {*} charSet chars that will be trimed off of the str
+ * @returns 
+ */
+std::string tvnj::trimCharSet(std::string str, std::unordered_set<char> charSet) {
+    int end = str.size();
+
+    while (end) {
+        --end;
+ 
+        if (!charSet.count(str[end])) {
+            ++end;
+            break;
+        }
+    }
+
+    if (!end) {
+        return "";
+    }
+
+    int start = 0;
+
+    while (charSet.count(str[start])) {
+        ++start;
+    }
+
+    return str.substr(start, end - start);
+}
+
 //-------------------------------------------------
 
 /**
@@ -844,7 +876,7 @@ std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substr
 
 //-------------------------------------------------
 
-const std::vector<char> whitespaceChars = {
+const std::unordered_set<char> whitespaceChars = {
     '\n',
     '\r',
     '\t',
@@ -859,7 +891,7 @@ const std::vector<char> whitespaceChars = {
  * @returns 
  */
 std::string tvnj::trim(std::string str) {
-    return tvnj::trimCharArr(str, whitespaceChars);
+    return tvnj::trimCharSet(str, whitespaceChars);
 }
 
 //-------------------------------------------------

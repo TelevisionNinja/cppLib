@@ -4,6 +4,7 @@
 #include <string>
 #include <regex>
 #include <vector>
+#include <unordered_set>
 
 namespace tvnj {
     std::string rotate(std::string str, int n);
@@ -44,9 +45,13 @@ namespace tvnj {
     //-------------------------------------------------
 
     std::string trim(std::string str),
+
         trimChar(std::string str, char trimChar),
         trimSubstr(std::string str, std::string trimSubstr),
+
         trimCharArr(std::string str, std::vector<char> charArr),
+        trimCharSet(std::string str, std::unordered_set<char> charSet),
+
         trimSubstrArr(std::string str, std::vector<std::string> substrArr);
 
     //-------------------------------------------------
