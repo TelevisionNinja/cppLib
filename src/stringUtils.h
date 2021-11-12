@@ -32,7 +32,7 @@ namespace tvnj {
     std::string replaceAll1(std::string str, std::string substr, std::string replacement),
         replaceAll2(std::string str, std::string substr, std::string replacement),
 
-        replace(std::string str, std::string substr, std::string replacement, int index = 0),
+        replaceFirst(std::string str, std::string substr, std::string replacement, int index = 0),
         replaceLast(std::string str, std::string substr, std::string replacement, int index = -1),
 
         replaceNTimes(std::string str, std::string substr, std::string replacement, int n, int index = 0),
@@ -40,23 +40,36 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    std::vector<std::string> split(std::string str, char delimiter = ' ');
+    std::vector<std::string> split(std::string str, char delimiter = ' '),
+        splitWhitespace(std::string str);
 
     //-------------------------------------------------
 
     std::string trim(std::string str),
+        trimLeft(std::string str),
+        trimRight(std::string str),
 
         trimChar(std::string str, char trimChar),
+        trimCharLeft(std::string str, char trimChar),
+        trimCharRight(std::string str, char trimChar),
+
         trimSubstr(std::string str, std::string trimSubstr),
+        trimSubstrLeft(std::string str, std::string trimSubstr),
+        trimSubstrRight(std::string str, std::string trimSubstr),
 
         trimCharArr(std::string str, std::vector<char> charArr),
         trimCharSet(std::string str, std::unordered_set<char> charSet),
+        trimCharSetLeft(std::string str, std::unordered_set<char> charSet),
+        trimCharSetRight(std::string str, std::unordered_set<char> charSet),
 
-        trimSubstrArr(std::string str, std::vector<std::string> substrArr);
+        trimSubstrArr(std::string str, std::vector<std::string> substrArr),
+        trimSubstrArrLeft(std::string str, std::vector<std::string> substrArr),
+        trimSubstrArrRight(std::string str, std::vector<std::string> substrArr);
 
     //-------------------------------------------------
 
     int indexOf(std::string str, std::string substr, int index = 0),
+        indexOfLast(std::string str, std::string substr, int index = -1),
 
         indexOfTwoWay(std::string str, std::string substr, int index = 0),
 
@@ -78,6 +91,9 @@ namespace tvnj {
     std::string properCase(std::string str),
         toLowerCase(std::string str),
         toUpperCase(std::string str);
+
+    bool startsWith(std::string str, std::string substr),
+        endsWith(std::string str, std::string substr);
 }
 
 #endif
