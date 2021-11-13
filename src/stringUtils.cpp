@@ -1790,7 +1790,7 @@ bool tvnj::startsWith(std::string str, std::string substr) {
         return false;
     }
 
-    if (!strLen || !substrLen) {
+    if (!strLen) {
         return true;
     }
 
@@ -1821,7 +1821,7 @@ bool tvnj::endsWith(std::string str, std::string substr) {
         return false;
     }
 
-    if (!strLen || !substrLen) {
+    if (!strLen) {
         return true;
     }
 
