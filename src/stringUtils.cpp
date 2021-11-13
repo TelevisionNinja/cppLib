@@ -1836,3 +1836,45 @@ bool tvnj::endsWith(std::string str, std::string substr) {
 
     return true;
 }
+
+/**
+ * 
+ * @param {*} str1
+ * @param {*} str2
+ * @returns
+ * 		combined str of 2 strings that are alternated w/ each other
+ */
+std::string tvnj::alternateStrings(std::string str1, std::string str2) {
+    const int str1Len = str1.size(),
+        str2Len = str2.size();
+    std::string alternate = "";
+    int x = 0,
+        length;
+
+    if (str1Len > str2Len) {
+        length = str2Len;
+    }
+    else {
+        length = str1Len;
+    }
+
+    //----------------------------
+
+    while (x < length) {
+        alternate += str1[x];
+        alternate += str2[x];
+        x++;
+    }
+
+    while (x < str1Len) {
+        alternate += str1[x];
+        x++;
+    }
+
+    while (x < str2Len) {
+        alternate += str2[x];
+        x++;
+    }
+
+    return alternate;
+}

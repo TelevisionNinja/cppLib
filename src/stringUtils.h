@@ -94,6 +94,10 @@ namespace tvnj {
 
     bool startsWith(std::string str, std::string substr),
         endsWith(std::string str, std::string substr);
+
+    //-------------------------------------------------
+
+    std::string alternateStrings(std::string str1, std::string str2);
 }
 
 #endif
