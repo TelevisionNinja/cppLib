@@ -827,7 +827,6 @@ std::vector<std::string> tvnj::split(std::string str, char delimiter) {
  * splits strings by whitespace
  * 
  * @param {*} str 
- * @param {*} delimiter default is a space
  * @returns 
  */
 std::vector<std::string> tvnj::splitWhitespace(std::string str) {
@@ -971,7 +970,7 @@ std::string tvnj::trimCharSetLeft(std::string str, std::unordered_set<char> char
  * trims a set of characters from the right side of a string
  * 
  * @param {*} str str to be trimmmed
- * @param {*} trimChar chars that will be trimed off of the str
+ * @param {*} charSet chars that will be trimed off of the str
  * @returns 
  */
 std::string tvnj::trimCharSetRight(std::string str, std::unordered_set<char> charSet) {
@@ -2046,4 +2045,20 @@ std::string tvnj::alternateStrings(std::string str1, std::string str2) {
     // }
 
     return alternate;
+}
+
+/**
+ * 
+ * @param {*} str
+ * @param {*} n
+ * @returns
+ */
+std::string tvnj::repeat(std::string str, int n) {
+    std::string repeated = "";
+
+    for (int i = 0; i < n; i++) {
+        repeated += str;
+    }
+
+    return repeated;
 }

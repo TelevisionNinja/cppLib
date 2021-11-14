@@ -92,12 +92,18 @@ namespace tvnj {
         toLowerCase(std::string str),
         toUpperCase(std::string str);
 
+    //-------------------------------------------------
+
     bool startsWith(std::string str, std::string substr),
         endsWith(std::string str, std::string substr);
 
     //-------------------------------------------------
 
     std::string alternateStrings(std::string str1, std::string str2);
+
+    //-------------------------------------------------
+
+    std::string repeat(std::string str, int n);
 }
 
 #endif
