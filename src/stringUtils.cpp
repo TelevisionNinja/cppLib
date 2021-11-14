@@ -2028,15 +2028,22 @@ std::string tvnj::alternateStrings(std::string str1, std::string str2) {
         x++;
     }
 
-    while (x < str1Len) {
-        alternate += str1[x];
-        x++;
+    if (x < str1Len) {
+        alternate += str1.substr(x);
+    }
+    else {
+        alternate += str2.substr(x);
     }
 
-    while (x < str2Len) {
-        alternate += str2[x];
-        x++;
-    }
+    // while (x < str1Len) {
+    //     alternate += str1[x];
+    //     x++;
+    // }
+
+    // while (x < str2Len) {
+    //     alternate += str2[x];
+    //     x++;
+    // }
 
     return alternate;
 }
