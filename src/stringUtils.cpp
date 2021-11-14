@@ -1001,10 +1001,10 @@ std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substr
     const int substrsLen = substrArr.size();
 
     /*
-    reject substring arrays with empty strings, (assumes the list is not sorted by length)
-    use this if statement if the array will always be sorted:
+    reject substring arrays with empty strings
+    use this if statement if the array is guaranteed to be sorted:
 
-    if (!substrsLen || !substrArr[0].size()) {
+    if (!substrsLen || !substrArr[substrsLen - 1].size()) {
         return str;
     }
     */
@@ -1014,39 +1014,36 @@ std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substr
         }
     }
 
-    int end = str.size();
+    int end = str.size(),
+        i = 0;
 
-    while (end) {
-        int i = 0;
+    while (i < substrsLen) {
+        const std::string substr = substrArr[i];
+        int substrIndex = substr.size();
 
-        while (i < substrsLen) {
-            const std::string substr = substrArr[i];
-            int substrIndex = substr.size();
+        if (substrIndex <= end) {
+            int strIndex = end;
 
-            if (substrIndex <= end) {
-                int strIndex = end;
+            while (substrIndex) {
+                --strIndex;
+                --substrIndex;
 
-                while (substrIndex) {
-                    --strIndex;
-                    --substrIndex;
-
-                    if (str[strIndex] != substr[substrIndex]) {
-                        ++substrIndex;
-                        break;
-                    }
-                }
-
-                if (!substrIndex) {
-                    end = strIndex;
+                if (str[strIndex] != substr[substrIndex]) {
+                    ++substrIndex;
                     break;
                 }
             }
 
-            i++;
+            if (!substrIndex) {
+                end = strIndex;
+                i = 0;
+            }
+            else {
+                i++;
+            }
         }
-
-        if (i == substrsLen) {
-            break;
+        else {
+            i++;
         }
     }
 
@@ -1057,39 +1054,135 @@ std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substr
     int start = 0,
         len = end;
 
-    while (true) {
-        int i = 0;
+    i = 0;
 
-        while (i < substrsLen) {
-            const std::string substr = substrArr[i];
-            const int substrLen = substr.size();
+    while (i < substrsLen) {
+        const std::string substr = substrArr[i];
+        const int substrLen = substr.size();
 
+        if (substrLen < len) {
             i++;
 
-            if (substrLen < len) {
-                int strIndex = start,
-                    substrIndex = 0;
+            int strIndex = start,
+                substrIndex = 0;
 
-                while (str[strIndex] == substr[substrIndex]) {
-                    ++strIndex;
-                    ++substrIndex;
+            while (str[strIndex] == substr[substrIndex]) {
+                ++strIndex;
+                ++substrIndex;
 
-                    if (substrIndex == substrLen) {
-                        start = strIndex;
-                        len = end - start;
-                        i = 0;
-                        break;
-                    }
+                if (substrIndex == substrLen) {
+                    start = strIndex;
+                    len = end - start;
+                    i = 0;
+                    break;
                 }
             }
         }
-
-        if (i == substrsLen) {
-            break;
+        else {
+            i++;
         }
     }
 
     return str.substr(start, len);
+}
+
+/**
+ * trims a list of substrings from the left side of a string
+ * 
+ * @param {*} str 
+ * @param {*} substrArr substrings that will be trimed off of the str, must be sorted from longest to shortest
+ * @returns 
+ */
+std::string tvnj::trimSubstrArrLeft(std::string str, std::vector<std::string> substrArr) {
+    const int substrsLen = substrArr.size();
+
+    if (!substrsLen || !substrArr[substrsLen - 1].size()) {
+        return str;
+    }
+
+    const int end = str.size();
+    int start = 0,
+        len = end,
+        i = 0;
+
+    while (i < substrsLen) {
+        const std::string substr = substrArr[i];
+        const int substrLen = substr.size();
+
+        if (substrLen <= len) {
+            i++;
+
+            int strIndex = start,
+                substrIndex = 0;
+
+            while (str[strIndex] == substr[substrIndex]) {
+                ++strIndex;
+                ++substrIndex;
+
+                if (substrIndex == substrLen) {
+                    start = strIndex;
+                    len = end - start;
+                    i = 0;
+                    break;
+                }
+            }
+        }
+        else {
+            i++;
+        }
+    }
+
+    return str.substr(start);
+}
+
+/**
+ * trims a list of substrings from the right side of a string
+ * 
+ * @param {*} str 
+ * @param {*} substrArr substrings that will be trimed off of the str, must be sorted from longest to shortest
+ * @returns 
+ */
+std::string tvnj::trimSubstrArrRight(std::string str, std::vector<std::string> substrArr) {
+    const int substrsLen = substrArr.size();
+
+    if (!substrsLen || !substrArr[substrsLen - 1].size()) {
+        return str;
+    }
+
+    int end = str.size(),
+        i = 0;
+
+    while (i < substrsLen) {
+        const std::string substr = substrArr[i];
+        int substrIndex = substr.size();
+
+        if (substrIndex <= end) {
+            int strIndex = end;
+
+            while (substrIndex) {
+                --strIndex;
+                --substrIndex;
+
+                if (str[strIndex] != substr[substrIndex]) {
+                    ++substrIndex;
+                    break;
+                }
+            }
+
+            if (!substrIndex) {
+                end = strIndex;
+                i = 0;
+            }
+            else {
+                i++;
+            }
+        }
+        else {
+            i++;
+        }
+    }
+
+    return str.substr(0, end);
 }
 
 //-------------------------------------------------
