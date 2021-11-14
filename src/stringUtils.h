@@ -88,7 +88,7 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    std::string properCase(std::string str),
+    std::string toProperCase(std::string str),
         toLowerCase(std::string str),
         toUpperCase(std::string str);
 

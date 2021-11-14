@@ -111,8 +111,8 @@ std::string tvnj::trimSubstr(std::string str, std::string trimSubstr) {
         }
 
         if (!substrIndex) {
-            end = strIndex,
-                substrIndex = substrLen;
+            end = strIndex;
+            substrIndex = substrLen;
         }
     }
 
@@ -121,19 +121,88 @@ std::string tvnj::trimSubstr(std::string str, std::string trimSubstr) {
     }
 
     int start = 0;
-    strIndex = 0,
-        substrIndex = 0;
+    strIndex = 0;
+    substrIndex = 0;
     while (str[strIndex] == trimSubstr[substrIndex]) {
         ++strIndex;
         ++substrIndex;
 
         if (substrIndex == substrLen) {
-            start = strIndex,
-                substrIndex = 0;
+            start = strIndex;
+            substrIndex = 0;
         }
     }
 
     return str.substr(start, end - start);
+}
+
+/**
+ * trims a substring from the left side of a string
+ * 
+ * @param {*} str str to be trimmmed
+ * @param {*} trimSubstr substring that will be trimed off of the str
+ * @returns 
+ */
+std::string tvnj::trimSubstrLeft(std::string str, std::string trimSubstr) {
+    const int substrLen = trimSubstr.size(),
+        len = str.size();
+
+    if (!substrLen || len < substrLen) {
+        return str;
+    }
+
+    int start = 0,
+        strIndex = 0,
+        substrIndex = 0;
+    while (start < len) {
+        if (str[strIndex] != trimSubstr[substrIndex]) {
+            return str.substr(start);
+        }
+
+        ++strIndex;
+        ++substrIndex;
+
+        if (substrIndex == substrLen) {
+            start = strIndex;
+            substrIndex = 0;
+        }
+    }
+
+    return "";
+}
+
+/**
+ * trims a substring from the right side of a string
+ * 
+ * @param {*} str str to be trimmmed
+ * @param {*} trimSubstr substring that will be trimed off of the str
+ * @returns 
+ */
+std::string tvnj::trimSubstrRight(std::string str, std::string trimSubstr) {
+    const int substrLen = trimSubstr.size();
+    int end = str.size();
+
+    if (!substrLen || end < substrLen) {
+        return str;
+    }
+
+    int strIndex = end,
+        substrIndex = substrLen;
+    while (strIndex) {
+        --strIndex;
+        --substrIndex;
+
+        if (str[strIndex] != trimSubstr[substrIndex]) {
+            return str.substr(0, end);
+        }
+
+        if (!substrIndex) {
+            end = strIndex;
+            substrIndex = substrLen;
+        }
+    }
+
+    return "";
 }
 
 //-------------------------------------------------
@@ -1711,7 +1780,7 @@ std::vector<std::string> tvnj::cmdLnToArgArr(std::string cmdLn, bool throwError)
  * @param {*} str 
  * @returns 
  */
-std::string tvnj::properCase(std::string str) {
+std::string tvnj::toProperCase(std::string str) {
     std::string proper = "";
     bool isWhitespace = true;
     const int n = str.size();
