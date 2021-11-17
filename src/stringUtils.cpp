@@ -1068,18 +1068,8 @@ std::string tvnj::trimCharSetRight(std::string str, std::unordered_set<char> cha
 std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substrArr) {
     const int substrsLen = substrArr.size();
 
-    /*
-    reject substring arrays with empty strings
-    use this if statement if the array is guaranteed to be sorted:
-
     if (!substrsLen || !substrArr[substrsLen - 1].size()) {
         return str;
-    }
-    */
-    for (int i = 0; i < substrsLen; i++) {
-        if (!substrArr[i].size()) {
-            return str;
-        }
     }
 
     int end = str.size(),
@@ -2012,11 +2002,11 @@ std::string tvnj::toUpperCase(std::string str) {
  * @param {*} substr 
  * @returns 
  */
-bool tvnj::startsWith(std::string str, std::string substr) {
+bool tvnj::startsWith(std::string str, std::string substr, int index) {
     const int strLen = str.size(),
         substrLen = substr.size();
 
-    if (strLen < substrLen) {
+    if (strLen < substrLen || index < 0) {
         return false;
     }
 
@@ -2024,7 +2014,7 @@ bool tvnj::startsWith(std::string str, std::string substr) {
         return true;
     }
 
-    int i = 0;
+    int i = index;
 
     while (i < substrLen) {
         if (str[i] != substr[i]) {
@@ -2043,9 +2033,13 @@ bool tvnj::startsWith(std::string str, std::string substr) {
  * @param {*} substr 
  * @returns 
  */
-bool tvnj::endsWith(std::string str, std::string substr) {
+bool tvnj::endsWith(std::string str, std::string substr, int length) {
     int strLen = str.size(),
         substrLen = substr.size();
+
+    if (length >= 0 && length <= substrLen) {
+        substrLen = length;
+    }
 
     if (strLen < substrLen) {
         return false;
