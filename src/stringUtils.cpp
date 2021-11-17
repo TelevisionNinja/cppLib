@@ -887,8 +887,7 @@ std::vector<std::string> tvnj::split(std::string str, std::string delimiter) {
         }
     }
 
-    word += str.substr(i);
-    words.push_back(word);
+    words.push_back(word + str.substr(i));
 
     return words;
 }
