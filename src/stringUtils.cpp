@@ -824,6 +824,76 @@ std::vector<std::string> tvnj::split(std::string str, char delimiter) {
 }
 
 /**
+ * splits strings by a specified delimiter
+ * 
+ * @param {*} str 
+ * @param {*} delimiter 
+ * @returns 
+ */
+std::vector<std::string> tvnj::split(std::string str, std::string delimiter) {
+    std::vector<std::string> words;
+    const int delimiterLen = delimiter.size();
+
+    if (!delimiterLen) {
+        words.push_back(str);
+        return words;
+    }
+
+    std::string word = "";
+    const char firstChar = delimiter[0];
+    int i = 0;
+    const int limit = str.size() - delimiterLen;
+
+    while (i <= limit) {
+        const char current = str[i];
+
+        if (current == firstChar) {
+            int j = 1,
+                indexSkip = 0;
+
+            while (j < delimiterLen) {
+                const char compareChar = str[i + j];
+
+                if (!indexSkip && compareChar == firstChar) {
+                    indexSkip = j;
+                }
+
+                if (compareChar == delimiter[j]) {
+                    j++;
+                }
+                else {
+                    word += str.substr(i, j);
+
+                    if (!indexSkip) {
+                        i += j + 1;
+                    }
+                    else {
+                        i += indexSkip;
+                    }
+
+                    break;
+                }
+            }
+
+            if (j == delimiterLen) {
+                words.push_back(word);
+                word = "";
+                i += delimiterLen;
+            }
+        }
+        else {
+            word += current;
+            i++;
+        }
+    }
+
+    word += str.substr(i);
+    words.push_back(word);
+
+    return words;
+}
+
+/**
  * splits strings by whitespace
  * 
  * @param {*} str 

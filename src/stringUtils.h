@@ -41,6 +41,7 @@ namespace tvnj {
     //-------------------------------------------------
 
     std::vector<std::string> split(std::string str, char delimiter = ' '),
+        split(std::string str, std::string delimiter),
         splitWhitespace(std::string str);
 
     //-------------------------------------------------
