@@ -104,6 +104,11 @@ namespace tvnj {
     //-------------------------------------------------
 
     std::string repeat(std::string str, int n);
+
+    //-------------------------------------------------
+
+    std::string padLeft(std::string str, int len, char c = ' '),
+        padRight(std::string str, int len, char c = ' ');
 }
 
 #endif

@@ -2062,3 +2062,37 @@ std::string tvnj::repeat(std::string str, int n) {
 
     return repeated;
 }
+
+/**
+ * 
+ * @param {*} str 
+ * @param {*} len 
+ * @param {*} c 
+ * @returns
+ */
+std::string tvnj::padLeft(std::string str, int len, char c) {
+    const int n = len - str.size();
+
+    for (int i = 0; i < n; i++) {
+        str = c + str;
+    }
+
+    return str;
+}
+
+/**
+ * 
+ * @param {*} str 
+ * @param {*} len 
+ * @param {*} c 
+ * @returns
+ */
+std::string tvnj::padRight(std::string str, int len, char c) {
+    const int n = len - str.size();
+
+    for (int i = 0; i < n; i++) {
+        str += c;
+    }
+
+    return str;
+}
