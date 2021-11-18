@@ -515,13 +515,9 @@ std::string tvnj::replaceAll2(std::string str, std::string substr, std::string r
  * @returns 
  */
 std::string tvnj::replaceFirst(std::string str, std::string substr, std::string replacement, int index) {
-    if (index < 0) {
-        return str;
-    }
-
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (!substrLen || index < 0) {
         return str;
     }
 
@@ -645,14 +641,10 @@ std::string tvnj::replaceLast(std::string str, std::string substr, std::string r
  * @param {*} index 
  * @returns 
  */
-std::string tvnj::replaceNTimes(std::string str, std::string substr, std::string replacement, int n, int index) {
-    if (n <= 0 || index < 0) {
-        return str;
-    }
-
+std::string tvnj::replaceNTimesLeft(std::string str, std::string substr, std::string replacement, int n, int index) {
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (!substrLen || n <= 0 || index < 0) {
         return str;
     }
 
@@ -720,14 +712,10 @@ std::string tvnj::replaceNTimes(std::string str, std::string substr, std::string
  * @param {*} index 
  * @returns 
  */
-std::string tvnj::replaceNTimesLast(std::string str, std::string substr, std::string replacement, int n, int index) {
-    if (n <= 0) {
-        return str;
-    }
-
+std::string tvnj::replaceNTimesRight(std::string str, std::string substr, std::string replacement, int n, int index) {
     int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (!substrLen || n <= 0) {
         return str;
     }
 
@@ -879,6 +867,82 @@ std::vector<std::string> tvnj::split(std::string str, std::string delimiter) {
                 words.push_back(word);
                 word = "";
                 i += delimiterLen;
+            }
+        }
+        else {
+            word += current;
+            i++;
+        }
+    }
+
+    words.push_back(word + str.substr(i));
+
+    return words;
+}
+
+/**
+ * splits strings by a specified delimiter from the left side
+ * 
+ * @param {*} str 
+ * @param {*} delimiter 
+ * @returns 
+ */
+std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string delimiter, int n, int index) {
+    std::vector<std::string> words;
+    const int delimiterLen = delimiter.size();
+
+    if (!delimiterLen || n <= 0 || index < 0) {
+        words.push_back(str);
+        return words;
+    }
+
+    std::string word = str.substr(0, index);
+    const char firstChar = delimiter[0];
+    int i = index,
+        count = 0;
+    const int limit = str.size() - delimiterLen;
+
+    while (i <= limit) {
+        const char current = str[i];
+
+        if (current == firstChar) {
+            int j = 1,
+                indexSkip = 0;
+
+            while (j < delimiterLen) {
+                const char compareChar = str[i + j];
+
+                if (!indexSkip && compareChar == firstChar) {
+                    indexSkip = j;
+                }
+
+                if (compareChar == delimiter[j]) {
+                    j++;
+                }
+                else {
+                    word += str.substr(i, j);
+
+                    if (!indexSkip) {
+                        i += j + 1;
+                    }
+                    else {
+                        i += indexSkip;
+                    }
+
+                    break;
+                }
+            }
+
+            if (j == delimiterLen) {
+                words.push_back(word);
+                word = "";
+                i += delimiterLen;
+
+                count++;
+                if (count == n) {
+                    words.push_back(str.substr(i));
+                    return words;
+                }
             }
         }
         else {
@@ -1118,9 +1182,9 @@ std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substr
         const std::string substr = substrArr[i];
         const int substrLen = substr.size();
 
-        if (substrLen < len) {
-            i++;
+        i++;
 
+        if (substrLen < len) {
             int strIndex = start,
                 substrIndex = 0;
 
@@ -1135,9 +1199,6 @@ std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substr
                     break;
                 }
             }
-        }
-        else {
-            i++;
         }
     }
 
@@ -1167,9 +1228,9 @@ std::string tvnj::trimSubstrArrLeft(std::string str, std::vector<std::string> su
         const std::string substr = substrArr[i];
         const int substrLen = substr.size();
 
-        if (substrLen <= len) {
-            i++;
+        i++;
 
+        if (substrLen <= len) {
             int strIndex = start,
                 substrIndex = 0;
 
@@ -1184,9 +1245,6 @@ std::string tvnj::trimSubstrArrLeft(std::string str, std::vector<std::string> su
                     break;
                 }
             }
-        }
-        else {
-            i++;
         }
     }
 

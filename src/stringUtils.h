@@ -35,13 +35,15 @@ namespace tvnj {
         replaceFirst(std::string str, std::string substr, std::string replacement, int index = 0),
         replaceLast(std::string str, std::string substr, std::string replacement, int index = -1),
 
-        replaceNTimes(std::string str, std::string substr, std::string replacement, int n, int index = 0),
-        replaceNTimesLast(std::string str, std::string substr, std::string replacement, int n, int index = -1);
+        replaceNTimesLeft(std::string str, std::string substr, std::string replacement, int n, int index = 0),
+        replaceNTimesRight(std::string str, std::string substr, std::string replacement, int n, int index = -1);
 
     //-------------------------------------------------
 
     std::vector<std::string> split(std::string str, char delimiter = ' '),
         split(std::string str, std::string delimiter),
+        splitNTimesLeft(std::string str, std::string delimiter, int n, int index = 0),
+
         splitWhitespace(std::string str);
 
     //-------------------------------------------------
