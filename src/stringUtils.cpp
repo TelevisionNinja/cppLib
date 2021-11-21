@@ -1,5 +1,6 @@
 #include "stringUtils.h"
 #include <stdexcept>
+#include <algorithm>
 
 const std::unordered_set<char> whitespaceChars = {
     '\n',
@@ -571,7 +572,7 @@ std::string tvnj::replaceFirst(std::string str, std::string substr, std::string 
  * @param {*} str 
  * @param {*} substr 
  * @param {*} replacement 
- * @param {*} index 
+ * @param {*} index inclusive
  * @returns 
  */
 std::string tvnj::replaceLast(std::string str, std::string substr, std::string replacement, int index) {
@@ -583,12 +584,11 @@ std::string tvnj::replaceLast(std::string str, std::string substr, std::string r
 
     substrLen--;
 
-    const int strLen = str.size() - 1;
     const char lastChar = substr[substrLen];
-    int i = index;
+    int i = str.size() - 1;
 
-    if (index < 0 || index > strLen) {
-        i = strLen;
+    if (index >= 0 && index <= i) {
+        i = index;
     }
 
     while (i >= substrLen) {
@@ -632,7 +632,7 @@ std::string tvnj::replaceLast(std::string str, std::string substr, std::string r
 }
 
 /**
- * replaces n instances of the substring
+ * replaces n instances of the substring starting from the left side
  * 
  * @param {*} str 
  * @param {*} substr 
@@ -709,7 +709,7 @@ std::string tvnj::replaceNTimesLeft(std::string str, std::string substr, std::st
  * @param {*} substr 
  * @param {*} replacement 
  * @param {*} n 
- * @param {*} index 
+ * @param {*} index inclusive
  * @returns 
  */
 std::string tvnj::replaceNTimesRight(std::string str, std::string substr, std::string replacement, int n, int index) {
@@ -721,13 +721,12 @@ std::string tvnj::replaceNTimesRight(std::string str, std::string substr, std::s
 
     substrLen--;
 
-    const int strLen = str.size() - 1;
     const char lastChar = substr[substrLen];
-    int i = index,
+    int i = str.size() - 1,
         count = 0;
 
-    if (index < 0 || index > strLen) {
-        i = strLen;
+    if (index >= 0 && index <= i) {
+        i = index;
     }
 
     while (i >= substrLen) {
@@ -916,21 +915,11 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
                     indexSkip = j;
                 }
 
-                if (compareChar == delimiter[j]) {
-                    j++;
-                }
-                else {
-                    word += str.substr(i, j);
-
-                    if (!indexSkip) {
-                        i += j + 1;
-                    }
-                    else {
-                        i += indexSkip;
-                    }
-
+                if (compareChar != delimiter[j]) {
                     break;
                 }
+
+                j++;
             }
 
             if (j == delimiterLen) {
@@ -944,6 +933,15 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
                     return words;
                 }
             }
+            else if (!indexSkip) {
+                j++;
+                word += str.substr(i, j);
+                i += j;
+            }
+            else {
+                word += str.substr(i, indexSkip);
+                i += indexSkip;
+            }
         }
         else {
             word += current;
@@ -953,6 +951,99 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
 
     words.push_back(word + str.substr(i));
 
+    return words;
+}
+
+/**
+ * splits strings by a specified delimiter from the right side
+ * 
+ * @param {*} str 
+ * @param {*} substr 
+ * @param {*} replacement 
+ * @param {*} n 
+ * @param {*} index inclusive
+ * @returns 
+ */
+std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string delimiter, int n, int index) {
+    std::vector<std::string> words;
+    int delimiterLen = delimiter.size();
+
+    if (!delimiterLen || n <= 0) {
+        words.push_back(str);
+        return words;
+    }
+
+    delimiterLen--;
+
+    const char lastChar = delimiter[delimiterLen];
+    int i = str.size() - 1,
+        count = 0;
+
+    if (index >= 0 && index <= i) {
+        i = index;
+    }
+
+    std::string word = str.substr(i + 1);
+
+    while (i >= delimiterLen) {
+        const char current = str[i];
+
+        if (current == lastChar) {
+            int j = 1,
+                indexSkip = 0;
+
+            while (j <= delimiterLen) {
+                const char compareChar = str[i - j];
+
+                if (!indexSkip && compareChar == lastChar) {
+                    indexSkip = j;
+                }
+
+                if (compareChar != delimiter[delimiterLen - j]) {
+                    break;
+                }
+
+                j++;
+            }
+
+            if (j > delimiterLen) {
+                words.push_back(word);
+
+                word = "";
+
+                count++;
+                if (count == n) {
+                    words.push_back(str.substr(0, i - delimiterLen));
+                    std::reverse(words.begin(), words.end());
+                    return words;
+                }
+
+                i -= delimiterLen + 1;
+            }
+            else if (!indexSkip) {
+                j++;
+                i -= j;
+                word = str.substr(i + 1, j) + word;
+            }
+            else {
+                i -= indexSkip;
+                word = str.substr(i + 1, indexSkip) + word;
+            }
+        }
+        else {
+            word = current + word;
+            i--;
+        }
+    }
+
+    if (i > 0) {
+        words.push_back(str.substr(0, i) + word);
+    }
+    else {
+        words.push_back(word);
+    }
+
+    std::reverse(words.begin(), words.end());
     return words;
 }
 
@@ -1410,24 +1501,23 @@ int tvnj::indexOfNaiveSkip(std::string str, std::string substr, int index) {
  * @returns index of the substring, returns -1 if not found
  */
 int tvnj::indexOfNaiveSkipLast(std::string str, std::string substr, int index) {
-    int substrLen = substr.size();
-    const int strLen = str.size() - 1;
+    int substrLen = substr.size(),
+        i = str.size() - 1;
 
     if (!substrLen) {
-        if (strLen == -1) {
+        if (i == -1) {
             return 0;
         }
 
-        return strLen;
+        return i;
     }
 
     substrLen--;
 
     const char lastChar = substr[substrLen];
-    int i = index;
 
-    if (index < 0 || index > strLen) {
-        i = strLen;
+    if (index >= 0 && index <= i) {
+        i = index;
     }
 
     while (i >= substrLen) {
@@ -1504,7 +1594,7 @@ int tvnj::indexOf(std::string str, std::string substr, int index) {
  * 
  * @param {*} str 
  * @param {*} substr 
- * @param {*} index starting index
+ * @param {*} index starting index (inclusive)
  * @returns index of the substring, returns -1 if not found
  */
 int tvnj::indexOfLast(std::string str, std::string substr, int index) {
@@ -1807,24 +1897,23 @@ int tvnj::indexOfNaive(std::string str, std::string substr, int index) {
  * @returns index of the substring, returns -1 if not found
  */
 int tvnj::indexOfNaiveLast(std::string str, std::string substr, int index) {
-    int substrLen = substr.size();
-    const int strLen = str.size() - 1;
+    int substrLen = substr.size(),
+        i = str.size() - 1;
 
     if (!substrLen) {
-        if (strLen == -1) {
+        if (i == -1) {
             return 0;
         }
 
-        return strLen;
+        return i;
     }
 
     substrLen--;
 
     const char lastChar = substr[substrLen];
-    int i = index;
 
-    if (index < 0 || index > strLen) {
-        i = strLen;
+    if (index >= 0 && index <= i) {
+        i = index;
     }
 
     while (i >= substrLen) {
@@ -1886,11 +1975,10 @@ int tvnj::indexOfChar(std::string str, char c, int index) {
  * @returns index of the char, returns -1 if not found
  */
 int tvnj::indexOfCharLast(std::string str, char c, int index) {
-    const int strLen = str.size() - 1;
-    int i = index;
+    int i = str.size() - 1;
 
-    if (index < 0 || index > strLen) {
-        i = strLen;
+    if (index >= 0 && index <= i) {
+        i = index;
     }
 
     while (i >= 0) {
@@ -2058,6 +2146,7 @@ std::string tvnj::toUpperCase(std::string str) {
  * 
  * @param {*} str 
  * @param {*} substr 
+ * @param {*} index inclusive
  * @returns 
  */
 bool tvnj::startsWith(std::string str, std::string substr, int index) {
@@ -2089,6 +2178,7 @@ bool tvnj::startsWith(std::string str, std::string substr, int index) {
  * 
  * @param {*} str 
  * @param {*} substr 
+ * @param {*} length 
  * @returns 
  */
 bool tvnj::endsWith(std::string str, std::string substr, int length) {
@@ -2216,4 +2306,110 @@ std::string tvnj::padRight(std::string str, int len, char c) {
     }
 
     return str;
+}
+
+/**
+ * finds the first instance of the substring
+ * 
+ * this implementation jumps to the second occurance of the substring's first char when a comparison failed in the substring comparison loop
+ * 
+ * @param {*} str 
+ * @param {*} substr 
+ * @param {*} index starting index
+ * @param {*} includeOverlap 
+ * @returns index of the substring, returns an empty vector if not found
+ */
+std::vector<int> tvnj::indexOfAll(std::string str, std::string substr, int index, bool includeOverlap) {
+    std::vector<int> finds;
+
+    if (index < 0) {
+        return finds;
+    }
+
+    const int substrLen = substr.size();
+
+    if (!substrLen) {
+        finds.push_back(0);
+        return finds;
+    }
+
+    const char firstChar = substr[0];
+    int i = index;
+    const int strLen = str.size() - substrLen;
+
+    while (i <= strLen) {
+        if (str[i] == firstChar) {
+            int j = 1,
+                indexSkip = 0;
+
+            while (j < substrLen) {
+                const char compareChar = str[i + j];
+
+                if (!indexSkip && compareChar == firstChar) {
+                    indexSkip = j;
+                }
+
+                if (compareChar == substr[j]) {
+                    j++;
+                }
+                else {
+                    if (!indexSkip) {
+                        i += j + 1;
+                    }
+                    else {
+                        i += indexSkip;
+                    }
+
+                    break;
+                }
+            }
+
+            if (j == substrLen) {
+                finds.push_back(i);
+
+                if (includeOverlap) {
+                    i++;
+                }
+                else {
+                    i += substrLen;
+                }
+            }
+        }
+        else {
+            i++;
+        }
+    }
+
+    return finds;
+}
+
+/**
+ * joins the elements of a vector and returns a string
+ * 
+ * @param {*} vec 
+ * @param {*} separator 
+ * @param {*} indexStart inclusive
+ * @param {*} indexEnd exclusive
+ * @returns 
+ */
+std::string tvnj::join(std::vector<std::string> vec, std::string separator, int indexStart, int indexEnd) {
+    int n = vec.size();
+
+    if (indexEnd >= 0 && indexEnd <= n) {
+        n = indexEnd;
+    }
+
+    n--;
+
+    if (n < 0) {
+        return "";
+    }
+
+    std::string s = "";
+
+    for (int i = indexStart; i < n; i++) {
+        s += vec[i] + separator;
+    }
+
+    return s + vec[n];
 }

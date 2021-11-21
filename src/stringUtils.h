@@ -41,8 +41,10 @@ namespace tvnj {
     //-------------------------------------------------
 
     std::vector<std::string> split(std::string str, char delimiter = ' '),
+
         split(std::string str, std::string delimiter),
         splitNTimesLeft(std::string str, std::string delimiter, int n, int index = 0),
+        splitNTimesRight(std::string str, std::string delimiter, int n, int index = -1),
 
         splitWhitespace(std::string str);
 
@@ -84,6 +86,46 @@ namespace tvnj {
 
         indexOfChar(std::string str, char substr, int index = 0),
         indexOfCharLast(std::string str, char substr, int index = -1);
+
+    //-------------------------------------------------
+
+    std::vector<int> indexOfAll(std::string str, std::string substr, int index = 0, bool includeOverlap = false);
+
+    //-------------------------------------------------
+
+    /**
+     * joins the elements of a vector and returns a string
+     * 
+     * @param {*} vec 
+     * @param {*} separator 
+     * @param {*} indexStart inclusive
+     * @param {*} indexEnd exclusive
+     * @returns 
+     */
+    template <typename type>
+    std::string join(std::vector<type> vec, std::string separator = " ", int indexStart = 0, int indexEnd = -1) {
+        int n = vec.size();
+
+        if (indexEnd >= 0 && indexEnd <= n) {
+            n = indexEnd;
+        }
+
+        n--;
+
+        if (n < 0) {
+            return "";
+        }
+
+        std::string s = "";
+
+        for (int i = indexStart; i < n; i++) {
+            s += std::to_string(vec[i]) + separator;
+        }
+
+        return s + std::to_string(vec[n]);
+    }
+
+    std::string join(std::vector<std::string> vec, std::string separator = " ", int indexStart = 0, int indexEnd = -1);
 
     //-------------------------------------------------
 
