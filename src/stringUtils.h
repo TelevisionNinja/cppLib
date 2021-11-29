@@ -89,7 +89,7 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    std::vector<int> indexOfAll(std::string str, std::string substr, int index = 0, bool includeOverlap = false);
+    std::vector<int> indexOfAll(std::string str, std::string substr, int index = 0, bool includeOverlap = true);
 
     //-------------------------------------------------
 
