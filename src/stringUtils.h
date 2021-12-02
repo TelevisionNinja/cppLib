@@ -110,11 +110,11 @@ namespace tvnj {
             n = indexEnd;
         }
 
-        n--;
-
-        if (n < 0) {
+        if (!n || indexStart < 0 || indexStart >= n) {
             return "";
         }
+
+        n--;
 
         std::string s = "";
 

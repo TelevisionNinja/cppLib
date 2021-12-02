@@ -2399,11 +2399,11 @@ std::string tvnj::join(std::vector<std::string> vec, std::string separator, int 
         n = indexEnd;
     }
 
-    n--;
-
-    if (n < 0) {
+    if (!n || indexStart < 0 || indexStart >= n) {
         return "";
     }
+
+    n--;
 
     std::string s = "";
 
