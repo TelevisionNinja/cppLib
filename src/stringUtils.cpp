@@ -18,7 +18,7 @@ const std::unordered_set<char> whitespaceChars = {
  * @param {*} trimChar char that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimChar(std::string str, char trimChar) {
+std::string tvnj::trim(std::string str, char trimChar) {
     int end = str.size();
     while (end) {
         --end;
@@ -48,7 +48,7 @@ std::string tvnj::trimChar(std::string str, char trimChar) {
  * @param {*} trimChar char that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimCharLeft(std::string str, char trimChar) {
+std::string tvnj::trimLeft(std::string str, char trimChar) {
     int start = 0;
     const int len = str.size();
 
@@ -70,7 +70,7 @@ std::string tvnj::trimCharLeft(std::string str, char trimChar) {
  * @param {*} trimChar char that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimCharRight(std::string str, char trimChar) {
+std::string tvnj::trimRight(std::string str, char trimChar) {
     int end = str.size();
 
     while (end) {
@@ -93,7 +93,7 @@ std::string tvnj::trimCharRight(std::string str, char trimChar) {
  * @param {*} trimSubstr substring that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimSubstr(std::string str, std::string trimSubstr) {
+std::string tvnj::trim(std::string str, std::string trimSubstr) {
     const int substrLen = trimSubstr.size();
     int end = str.size();
 
@@ -144,7 +144,7 @@ std::string tvnj::trimSubstr(std::string str, std::string trimSubstr) {
  * @param {*} trimSubstr substring that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimSubstrLeft(std::string str, std::string trimSubstr) {
+std::string tvnj::trimLeft(std::string str, std::string trimSubstr) {
     const int substrLen = trimSubstr.size(),
         len = str.size();
 
@@ -179,7 +179,7 @@ std::string tvnj::trimSubstrLeft(std::string str, std::string trimSubstr) {
  * @param {*} trimSubstr substring that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimSubstrRight(std::string str, std::string trimSubstr) {
+std::string tvnj::trimRight(std::string str, std::string trimSubstr) {
     const int substrLen = trimSubstr.size();
     int end = str.size();
 
@@ -1326,7 +1326,7 @@ std::vector<std::string> tvnj::splitWhitespace(std::string str) {
  * @param {*} charArr chars that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimCharArr(std::string str, std::vector<char> charArr) {
+std::string tvnj::trim(std::string str, std::vector<char> charArr) {
     const int charsLen = charArr.size();
     int end = str.size();
 
@@ -1376,7 +1376,7 @@ std::string tvnj::trimCharArr(std::string str, std::vector<char> charArr) {
  * @param {*} charSet chars that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimCharSet(std::string str, std::unordered_set<char> charSet) {
+std::string tvnj::trim(std::string str, std::unordered_set<char> charSet) {
     int end = str.size();
 
     while (end) {
@@ -1408,7 +1408,7 @@ std::string tvnj::trimCharSet(std::string str, std::unordered_set<char> charSet)
  * @param {*} charSet chars that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimCharSetLeft(std::string str, std::unordered_set<char> charSet) {
+std::string tvnj::trimLeft(std::string str, std::unordered_set<char> charSet) {
     int start = 0;
     const int len = str.size();
 
@@ -1430,7 +1430,7 @@ std::string tvnj::trimCharSetLeft(std::string str, std::unordered_set<char> char
  * @param {*} charSet chars that will be trimed off of the str
  * @returns 
  */
-std::string tvnj::trimCharSetRight(std::string str, std::unordered_set<char> charSet) {
+std::string tvnj::trimRight(std::string str, std::unordered_set<char> charSet) {
     int end = str.size();
 
     while (end) {
@@ -1453,7 +1453,7 @@ std::string tvnj::trimCharSetRight(std::string str, std::unordered_set<char> cha
  * @param {*} substrArr substrings that will be trimed off of the str, must be sorted from longest to shortest
  * @returns 
  */
-std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substrArr) {
+std::string tvnj::trim(std::string str, std::vector<std::string> substrArr) {
     const int substrsLen = substrArr.size();
 
     if (!substrsLen || !substrArr[substrsLen - 1].size()) {
@@ -1536,7 +1536,7 @@ std::string tvnj::trimSubstrArr(std::string str, std::vector<std::string> substr
  * @param {*} substrArr substrings that will be trimed off of the str, must be sorted from longest to shortest
  * @returns 
  */
-std::string tvnj::trimSubstrArrLeft(std::string str, std::vector<std::string> substrArr) {
+std::string tvnj::trimLeft(std::string str, std::vector<std::string> substrArr) {
     const int substrsLen = substrArr.size();
 
     if (!substrsLen || !substrArr[substrsLen - 1].size()) {
@@ -1582,7 +1582,7 @@ std::string tvnj::trimSubstrArrLeft(std::string str, std::vector<std::string> su
  * @param {*} substrArr substrings that will be trimed off of the str, must be sorted from longest to shortest
  * @returns 
  */
-std::string tvnj::trimSubstrArrRight(std::string str, std::vector<std::string> substrArr) {
+std::string tvnj::trimRight(std::string str, std::vector<std::string> substrArr) {
     const int substrsLen = substrArr.size();
 
     if (!substrsLen || !substrArr[substrsLen - 1].size()) {
@@ -1634,7 +1634,7 @@ std::string tvnj::trimSubstrArrRight(std::string str, std::vector<std::string> s
  * @returns 
  */
 std::string tvnj::trim(std::string str) {
-    return tvnj::trimCharSet(str, whitespaceChars);
+    return tvnj::trim(str, whitespaceChars);
 }
 
 /**
@@ -1644,7 +1644,7 @@ std::string tvnj::trim(std::string str) {
  * @returns 
  */
 std::string tvnj::trimLeft(std::string str) {
-    return tvnj::trimCharSetLeft(str, whitespaceChars);
+    return tvnj::trimLeft(str, whitespaceChars);
 }
 
 /**
@@ -1654,7 +1654,7 @@ std::string tvnj::trimLeft(std::string str) {
  * @returns 
  */
 std::string tvnj::trimRight(std::string str) {
-    return tvnj::trimCharSetRight(str, whitespaceChars);
+    return tvnj::trimRight(str, whitespaceChars);
 }
 
 //-------------------------------------------------

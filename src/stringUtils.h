@@ -60,22 +60,22 @@ namespace tvnj {
         trimLeft(std::string str),
         trimRight(std::string str),
 
-        trimChar(std::string str, char trimChar),
-        trimCharLeft(std::string str, char trimChar),
-        trimCharRight(std::string str, char trimChar),
+        trim(std::string str, char trimChar),
+        trimLeft(std::string str, char trimChar),
+        trimRight(std::string str, char trimChar),
 
-        trimSubstr(std::string str, std::string trimSubstr),
-        trimSubstrLeft(std::string str, std::string trimSubstr),
-        trimSubstrRight(std::string str, std::string trimSubstr),
+        trim(std::string str, std::string trimSubstr),
+        trimLeft(std::string str, std::string trimSubstr),
+        trimRight(std::string str, std::string trimSubstr),
 
-        trimCharArr(std::string str, std::vector<char> charArr),
-        trimCharSet(std::string str, std::unordered_set<char> charSet),
-        trimCharSetLeft(std::string str, std::unordered_set<char> charSet),
-        trimCharSetRight(std::string str, std::unordered_set<char> charSet),
+        trim(std::string str, std::vector<char> charArr),
+        trim(std::string str, std::unordered_set<char> charSet),
+        trimLeft(std::string str, std::unordered_set<char> charSet),
+        trimRight(std::string str, std::unordered_set<char> charSet),
 
-        trimSubstrArr(std::string str, std::vector<std::string> substrArr),
-        trimSubstrArrLeft(std::string str, std::vector<std::string> substrArr),
-        trimSubstrArrRight(std::string str, std::vector<std::string> substrArr);
+        trim(std::string str, std::vector<std::string> substrArr),
+        trimLeft(std::string str, std::vector<std::string> substrArr),
+        trimRight(std::string str, std::vector<std::string> substrArr);
 
     //-------------------------------------------------
 
