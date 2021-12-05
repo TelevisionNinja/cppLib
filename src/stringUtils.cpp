@@ -811,6 +811,238 @@ std::vector<std::string> tvnj::split(std::string str, char delimiter) {
 }
 
 /**
+ * splits strings by a specified delimiter from the left side
+ * 
+ * @param {*} str 
+ * @param {*} delimiter 
+ * @param {*} n 
+ * @param {*} index 
+ * @returns 
+ */
+std::vector<std::string> tvnj::splitNTimesLeft(std::string str, char delimiter, int n, int index) {
+    std::vector<std::string> words;
+
+    if (n <= 0 || index < 0) {
+        words.push_back(str);
+        return words;
+    }
+
+    std::string word = "";
+    const int len = str.size();
+    int i = index,
+        count = 0;
+
+    while (i < len) {
+        const char current = str[i];
+
+        if (current == delimiter) {
+            words.push_back(word);
+
+            count++;
+            if (count == n) {
+                words.push_back(str.substr(i + 1));
+                return words;
+            }
+
+            word = "";
+        }
+        else {
+            word += current;
+        }
+
+        i++;
+    }
+
+    words.push_back(word);
+
+    return words;
+}
+
+/**
+ * splits strings by a specified delimiter from the right side
+ * 
+ * @param {*} str 
+ * @param {*} delimiter 
+ * @param {*} n 
+ * @param {*} index 
+ * @returns 
+ */
+std::vector<std::string> tvnj::splitNTimesRight(std::string str, char delimiter, int n, int index) {
+    std::vector<std::string> words;
+
+    if (n <= 0) {
+        words.push_back(str);
+        return words;
+    }
+
+    std::string word = "";
+    int i = str.size() - 1,
+        count = 0;
+
+    if (index >= 0 && index <= i) {
+        i = index;
+    }
+
+    while (i >= 0) {
+        const char current = str[i];
+
+        if (current == delimiter) {
+            words.push_back(word);
+
+            count++;
+            if (count == n) {
+                words.push_back(str.substr(0, i));
+                std::reverse(words.begin(), words.end());
+                return words;
+            }
+
+            word = "";
+        }
+        else {
+            word = current + word;
+        }
+
+        i--;
+    }
+
+    words.push_back(word);
+    std::reverse(words.begin(), words.end());
+    return words;
+}
+
+/**
+ * splits strings by specified delimiters
+ * 
+ * @param {*} str 
+ * @param {*} delimiters set of delimiters
+ * @returns 
+ */
+std::vector<std::string> tvnj::split(std::string str, std::unordered_set<char> delimiters) {
+    std::vector<std::string> words;
+    std::string word = "";
+    const int len = str.size();
+    int i = 0;
+
+    while (i < len) {
+        const char current = str[i];
+
+        if (delimiters.count(current)) {
+            words.push_back(word);
+            word = "";
+        }
+        else {
+            word += current;
+        }
+
+        i++;
+    }
+
+    words.push_back(word);
+
+    return words;
+}
+
+/**
+ * splits strings by a specified delimiters from the left side
+ * 
+ * @param {*} str 
+ * @param {*} delimiters set of delimiters
+ * @param {*} n 
+ * @param {*} index 
+ * @returns 
+ */
+std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::unordered_set<char> delimiters, int n, int index) {
+    std::vector<std::string> words;
+
+    if (n <= 0 || index < 0) {
+        words.push_back(str);
+        return words;
+    }
+
+    std::string word = "";
+    const int len = str.size();
+    int i = index,
+        count = 0;
+
+    while (i < len) {
+        const char current = str[i];
+
+        if (delimiters.count(current)) {
+            words.push_back(word);
+
+            count++;
+            if (count == n) {
+                words.push_back(str.substr(i + 1));
+                return words;
+            }
+
+            word = "";
+        }
+        else {
+            word += current;
+        }
+
+        i++;
+    }
+
+    words.push_back(word);
+
+    return words;
+}
+
+/**
+ * splits strings by a specified delimiters from the right side
+ * 
+ * @param {*} str 
+ * @param {*} delimiters set of delimiters
+ * @param {*} n 
+ * @param {*} index 
+ * @returns 
+ */
+std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::unordered_set<char> delimiters, int n, int index) {
+    std::vector<std::string> words;
+
+    if (n <= 0) {
+        words.push_back(str);
+        return words;
+    }
+
+    std::string word = "";
+    int i = str.size() - 1,
+        count = 0;
+
+    if (index >= 0 && index <= i) {
+        i = index;
+    }
+
+    while (i >= 0) {
+        const char current = str[i];
+
+        if (delimiters.count(current)) {
+            words.push_back(word);
+
+            count++;
+            if (count == n) {
+                words.push_back(str.substr(0, i));
+                std::reverse(words.begin(), words.end());
+                return words;
+            }
+
+            word = "";
+        }
+        else {
+            word = current + word;
+        }
+
+        i--;
+    }
+
+    words.push_back(word);
+    std::reverse(words.begin(), words.end());
+    return words;
+}
+
+/**
  * splits strings by a specified delimiter
  * 
  * @param {*} str 
@@ -884,6 +1116,8 @@ std::vector<std::string> tvnj::split(std::string str, std::string delimiter) {
  * 
  * @param {*} str 
  * @param {*} delimiter 
+ * @param {*} n 
+ * @param {*} index 
  * @returns 
  */
 std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string delimiter, int n, int index) {
@@ -924,7 +1158,6 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
 
             if (j == delimiterLen) {
                 words.push_back(word);
-                word = "";
                 i += delimiterLen;
 
                 count++;
@@ -932,6 +1165,8 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
                     words.push_back(str.substr(i));
                     return words;
                 }
+
+                word = "";
             }
             else if (!indexSkip) {
                 j++;
@@ -958,8 +1193,7 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
  * splits strings by a specified delimiter from the right side
  * 
  * @param {*} str 
- * @param {*} substr 
- * @param {*} replacement 
+ * @param {*} delimiter 
  * @param {*} n 
  * @param {*} index inclusive
  * @returns 
@@ -1009,8 +1243,6 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string del
             if (j > delimiterLen) {
                 words.push_back(word);
 
-                word = "";
-
                 count++;
                 if (count == n) {
                     words.push_back(str.substr(0, i - delimiterLen));
@@ -1019,6 +1251,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string del
                 }
 
                 i -= delimiterLen + 1;
+                word = "";
             }
             else if (!indexSkip) {
                 j++;

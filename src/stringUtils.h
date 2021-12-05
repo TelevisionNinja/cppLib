@@ -41,6 +41,12 @@ namespace tvnj {
     //-------------------------------------------------
 
     std::vector<std::string> split(std::string str, char delimiter = ' '),
+        splitNTimesLeft(std::string str, char delimiter, int n, int index = 0),
+        splitNTimesRight(std::string str, char delimiter, int n, int index = -1),
+
+        split(std::string str, std::unordered_set<char> charSet),
+        splitNTimesLeft(std::string str, std::unordered_set<char> delimiter, int n, int index = 0),
+        splitNTimesRight(std::string str, std::unordered_set<char> delimiter, int n, int index = -1),
 
         split(std::string str, std::string delimiter),
         splitNTimesLeft(std::string str, std::string delimiter, int n, int index = 0),
