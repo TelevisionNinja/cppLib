@@ -29,7 +29,7 @@ std::string tvnj::trim(std::string str, char trimChar) {
         }
     }
 
-    if (!end) {
+    if (end == 0) {
         return "";
     }
 
@@ -97,7 +97,7 @@ std::string tvnj::trim(std::string str, std::string trimSubstr) {
     const int substrLen = trimSubstr.size();
     int end = str.size();
 
-    if (!substrLen || end < substrLen) {
+    if (substrLen == 0 || end < substrLen) {
         return str;
     }
 
@@ -111,13 +111,13 @@ std::string tvnj::trim(std::string str, std::string trimSubstr) {
             break;
         }
 
-        if (!substrIndex) {
+        if (substrIndex == 0) {
             end = strIndex;
             substrIndex = substrLen;
         }
     }
 
-    if (!end) {
+    if (end == 0) {
         return "";
     }
 
@@ -148,7 +148,7 @@ std::string tvnj::trimLeft(std::string str, std::string trimSubstr) {
     const int substrLen = trimSubstr.size(),
         len = str.size();
 
-    if (!substrLen || len < substrLen) {
+    if (substrLen == 0 || len < substrLen) {
         return str;
     }
 
@@ -183,7 +183,7 @@ std::string tvnj::trimRight(std::string str, std::string trimSubstr) {
     const int substrLen = trimSubstr.size();
     int end = str.size();
 
-    if (!substrLen || end < substrLen) {
+    if (substrLen == 0 || end < substrLen) {
         return str;
     }
 
@@ -197,7 +197,7 @@ std::string tvnj::trimRight(std::string str, std::string trimSubstr) {
             return str.substr(0, end);
         }
 
-        if (!substrIndex) {
+        if (substrIndex == 0) {
             end = strIndex;
             substrIndex = substrLen;
         }
@@ -427,7 +427,7 @@ bool tvnj::includesPhrase2(std::string str, std::string phrase, bool caseSensiti
 std::string tvnj::replaceAll1(std::string str, std::string substr, std::string replacement) {
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         return str;
     }
 
@@ -445,7 +445,7 @@ std::string tvnj::replaceAll1(std::string str, std::string substr, std::string r
             while (j < substrLen) {
                 const char compareChar = str[i + j];
 
-                if (!indexSkip && compareChar == firstChar) {
+                if (indexSkip == 0 && compareChar == firstChar) {
                     indexSkip = j;
                 }
 
@@ -453,7 +453,7 @@ std::string tvnj::replaceAll1(std::string str, std::string substr, std::string r
                     j++;
                 }
                 else {
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i += j + 1;
                     }
                     else {
@@ -489,7 +489,7 @@ std::string tvnj::replaceAll1(std::string str, std::string substr, std::string r
 std::string tvnj::replaceAll2(std::string str, std::string substr, std::string replacement) {
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         return str;
     }
 
@@ -518,7 +518,7 @@ std::string tvnj::replaceAll2(std::string str, std::string substr, std::string r
 std::string tvnj::replaceFirst(std::string str, std::string substr, std::string replacement, int index) {
     const int substrLen = substr.size();
 
-    if (!substrLen || index < 0) {
+    if (substrLen == 0 || index < 0) {
         return str;
     }
 
@@ -534,7 +534,7 @@ std::string tvnj::replaceFirst(std::string str, std::string substr, std::string 
             while (j < substrLen) {
                 const char compareChar = str[i + j];
 
-                if (!indexSkip && compareChar == firstChar) {
+                if (indexSkip == 0 && compareChar == firstChar) {
                     indexSkip = j;
                 }
 
@@ -542,7 +542,7 @@ std::string tvnj::replaceFirst(std::string str, std::string substr, std::string 
                     j++;
                 }
                 else {
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i += j + 1;
                     }
                     else {
@@ -578,7 +578,7 @@ std::string tvnj::replaceFirst(std::string str, std::string substr, std::string 
 std::string tvnj::replaceLast(std::string str, std::string substr, std::string replacement, int index) {
     int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         return str;
     }
 
@@ -599,7 +599,7 @@ std::string tvnj::replaceLast(std::string str, std::string substr, std::string r
             while (j <= substrLen) {
                 const char compareChar = str[i - j];
 
-                if (!indexSkip && compareChar == lastChar) {
+                if (indexSkip == 0 && compareChar == lastChar) {
                     indexSkip = j;
                 }
 
@@ -607,7 +607,7 @@ std::string tvnj::replaceLast(std::string str, std::string substr, std::string r
                     j++;
                 }
                 else {
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i -= j + 1;
                     }
                     else {
@@ -644,7 +644,7 @@ std::string tvnj::replaceLast(std::string str, std::string substr, std::string r
 std::string tvnj::replaceNTimesLeft(std::string str, std::string substr, std::string replacement, int n, int index) {
     const int substrLen = substr.size();
 
-    if (!substrLen || n <= 0 || index < 0) {
+    if (substrLen == 0 || n <= 0 || index < 0) {
         return str;
     }
 
@@ -663,7 +663,7 @@ std::string tvnj::replaceNTimesLeft(std::string str, std::string substr, std::st
             while (j < substrLen) {
                 const char compareChar = str[i + j];
 
-                if (!indexSkip && compareChar == firstChar) {
+                if (indexSkip == 0 && compareChar == firstChar) {
                     indexSkip = j;
                 }
 
@@ -671,7 +671,7 @@ std::string tvnj::replaceNTimesLeft(std::string str, std::string substr, std::st
                     j++;
                 }
                 else {
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i += j + 1;
                     }
                     else {
@@ -715,7 +715,7 @@ std::string tvnj::replaceNTimesLeft(std::string str, std::string substr, std::st
 std::string tvnj::replaceNTimesRight(std::string str, std::string substr, std::string replacement, int n, int index) {
     int substrLen = substr.size();
 
-    if (!substrLen || n <= 0) {
+    if (substrLen == 0 || n <= 0) {
         return str;
     }
 
@@ -737,7 +737,7 @@ std::string tvnj::replaceNTimesRight(std::string str, std::string substr, std::s
             while (j <= substrLen) {
                 const char compareChar = str[i - j];
 
-                if (!indexSkip && compareChar == lastChar) {
+                if (indexSkip == 0 && compareChar == lastChar) {
                     indexSkip = j;
                 }
 
@@ -745,7 +745,7 @@ std::string tvnj::replaceNTimesRight(std::string str, std::string substr, std::s
                     j++;
                 }
                 else {
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i -= j + 1;
                     }
                     else {
@@ -1053,7 +1053,7 @@ std::vector<std::string> tvnj::split(std::string str, std::string delimiter) {
     std::vector<std::string> words;
     const int delimiterLen = delimiter.size();
 
-    if (!delimiterLen) {
+    if (delimiterLen == 0) {
         words.push_back(str);
         return words;
     }
@@ -1073,7 +1073,7 @@ std::vector<std::string> tvnj::split(std::string str, std::string delimiter) {
             while (j < delimiterLen) {
                 const char compareChar = str[i + j];
 
-                if (!indexSkip && compareChar == firstChar) {
+                if (indexSkip == 0 && compareChar == firstChar) {
                     indexSkip = j;
                 }
 
@@ -1083,7 +1083,7 @@ std::vector<std::string> tvnj::split(std::string str, std::string delimiter) {
                 else {
                     word += str.substr(i, j);
 
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i += j + 1;
                     }
                     else {
@@ -1124,7 +1124,7 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
     std::vector<std::string> words;
     const int delimiterLen = delimiter.size();
 
-    if (!delimiterLen || n <= 0 || index < 0) {
+    if (delimiterLen == 0 || n <= 0 || index < 0) {
         words.push_back(str);
         return words;
     }
@@ -1145,7 +1145,7 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
             while (j < delimiterLen) {
                 const char compareChar = str[i + j];
 
-                if (!indexSkip && compareChar == firstChar) {
+                if (indexSkip == 0 && compareChar == firstChar) {
                     indexSkip = j;
                 }
 
@@ -1168,7 +1168,7 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::string deli
 
                 word = "";
             }
-            else if (!indexSkip) {
+            else if (indexSkip == 0) {
                 j++;
                 word += str.substr(i, j);
                 i += j;
@@ -1202,7 +1202,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string del
     std::vector<std::string> words;
     int delimiterLen = delimiter.size();
 
-    if (!delimiterLen || n <= 0) {
+    if (delimiterLen == 0 || n <= 0) {
         words.push_back(str);
         return words;
     }
@@ -1229,7 +1229,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string del
             while (j <= delimiterLen) {
                 const char compareChar = str[i - j];
 
-                if (!indexSkip && compareChar == lastChar) {
+                if (indexSkip == 0 && compareChar == lastChar) {
                     indexSkip = j;
                 }
 
@@ -1253,7 +1253,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string del
                 i -= delimiterLen + 1;
                 word = "";
             }
-            else if (!indexSkip) {
+            else if (indexSkip == 0) {
                 j++;
                 i -= j;
                 word = str.substr(i + 1, j) + word;
@@ -1345,7 +1345,7 @@ std::string tvnj::trim(std::string str, std::vector<char> charArr) {
         }
     }
 
-    if (!end) {
+    if (end == 0) {
         return "";
     }
 
@@ -1388,7 +1388,7 @@ std::string tvnj::trim(std::string str, std::unordered_set<char> charSet) {
         }
     }
 
-    if (!end) {
+    if (end == 0) {
         return "";
     }
 
@@ -1456,7 +1456,7 @@ std::string tvnj::trimRight(std::string str, std::unordered_set<char> charSet) {
 std::string tvnj::trim(std::string str, std::vector<std::string> substrArr) {
     const int substrsLen = substrArr.size();
 
-    if (!substrsLen || !substrArr[substrsLen - 1].size()) {
+    if (substrsLen == 0 || substrArr[substrsLen - 1].size() == 0) {
         return str;
     }
 
@@ -1480,7 +1480,7 @@ std::string tvnj::trim(std::string str, std::vector<std::string> substrArr) {
                 }
             }
 
-            if (!substrIndex) {
+            if (substrIndex == 0) {
                 end = strIndex;
                 i = 0;
             }
@@ -1493,7 +1493,7 @@ std::string tvnj::trim(std::string str, std::vector<std::string> substrArr) {
         }
     }
 
-    if (!end) {
+    if (end == 0) {
         return "";
     }
 
@@ -1539,7 +1539,7 @@ std::string tvnj::trim(std::string str, std::vector<std::string> substrArr) {
 std::string tvnj::trimLeft(std::string str, std::vector<std::string> substrArr) {
     const int substrsLen = substrArr.size();
 
-    if (!substrsLen || !substrArr[substrsLen - 1].size()) {
+    if (substrsLen == 0 || substrArr[substrsLen - 1].size() == 0) {
         return str;
     }
 
@@ -1585,7 +1585,7 @@ std::string tvnj::trimLeft(std::string str, std::vector<std::string> substrArr) 
 std::string tvnj::trimRight(std::string str, std::vector<std::string> substrArr) {
     const int substrsLen = substrArr.size();
 
-    if (!substrsLen || !substrArr[substrsLen - 1].size()) {
+    if (substrsLen == 0 || substrArr[substrsLen - 1].size() == 0) {
         return str;
     }
 
@@ -1609,7 +1609,7 @@ std::string tvnj::trimRight(std::string str, std::vector<std::string> substrArr)
                 }
             }
 
-            if (!substrIndex) {
+            if (substrIndex == 0) {
                 end = strIndex;
                 i = 0;
             }
@@ -1676,7 +1676,7 @@ int tvnj::indexOfNaiveSkip(std::string str, std::string substr, int index) {
 
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         return 0;
     }
 
@@ -1692,7 +1692,7 @@ int tvnj::indexOfNaiveSkip(std::string str, std::string substr, int index) {
             while (j < substrLen) {
                 const char compareChar = str[i + j];
 
-                if (!indexSkip && compareChar == firstChar) {
+                if (indexSkip == 0 && compareChar == firstChar) {
                     indexSkip = j;
                 }
 
@@ -1700,7 +1700,7 @@ int tvnj::indexOfNaiveSkip(std::string str, std::string substr, int index) {
                     j++;
                 }
                 else {
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i += j + 1;
                     }
                     else {
@@ -1737,7 +1737,7 @@ int tvnj::indexOfNaiveSkipLast(std::string str, std::string substr, int index) {
     int substrLen = substr.size(),
         i = str.size() - 1;
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         if (i == -1) {
             return 0;
         }
@@ -1761,7 +1761,7 @@ int tvnj::indexOfNaiveSkipLast(std::string str, std::string substr, int index) {
             while (j <= substrLen) {
                 const char compareChar = str[i - j];
 
-                if (!indexSkip && compareChar == lastChar) {
+                if (indexSkip == 0 && compareChar == lastChar) {
                     indexSkip = j;
                 }
 
@@ -1769,7 +1769,7 @@ int tvnj::indexOfNaiveSkipLast(std::string str, std::string substr, int index) {
                     j++;
                 }
                 else {
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i -= j + 1;
                     }
                     else {
@@ -1805,7 +1805,7 @@ int tvnj::indexOfNaiveSkipLast(std::string str, std::string substr, int index) {
 int tvnj::indexOf(std::string str, std::string substr, int index) {
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         return 0;
     }
 
@@ -1833,10 +1833,10 @@ int tvnj::indexOf(std::string str, std::string substr, int index) {
 int tvnj::indexOfLast(std::string str, std::string substr, int index) {
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         const int strLen = str.size();
 
-        if (!strLen) {
+        if (strLen == 0) {
             return 0;
         }
 
@@ -2092,7 +2092,7 @@ int tvnj::indexOfNaive(std::string str, std::string substr, int index) {
 
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         return 0;
     }
 
@@ -2133,7 +2133,7 @@ int tvnj::indexOfNaiveLast(std::string str, std::string substr, int index) {
     int substrLen = substr.size(),
         i = str.size() - 1;
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         if (i == -1) {
             return 0;
         }
@@ -2390,7 +2390,7 @@ bool tvnj::startsWith(std::string str, std::string substr, int index) {
         return false;
     }
 
-    if (!strLen) {
+    if (strLen == 0) {
         return true;
     }
 
@@ -2426,7 +2426,7 @@ bool tvnj::endsWith(std::string str, std::string substr, int length) {
         return false;
     }
 
-    if (!strLen) {
+    if (strLen == 0) {
         return true;
     }
 
@@ -2561,7 +2561,7 @@ std::vector<int> tvnj::indexOfAll(std::string str, std::string substr, int index
 
     const int substrLen = substr.size();
 
-    if (!substrLen) {
+    if (substrLen == 0) {
         finds.push_back(0);
         return finds;
     }
@@ -2578,7 +2578,7 @@ std::vector<int> tvnj::indexOfAll(std::string str, std::string substr, int index
             while (j < substrLen) {
                 const char compareChar = str[i + j];
 
-                if (!indexSkip && compareChar == firstChar) {
+                if (indexSkip == 0 && compareChar == firstChar) {
                     indexSkip = j;
                 }
 
@@ -2586,7 +2586,7 @@ std::vector<int> tvnj::indexOfAll(std::string str, std::string substr, int index
                     j++;
                 }
                 else {
-                    if (!indexSkip) {
+                    if (indexSkip == 0) {
                         i += j + 1;
                     }
                     else {
@@ -2632,7 +2632,7 @@ std::string tvnj::join(std::vector<std::string> vec, std::string separator, int 
         n = indexEnd;
     }
 
-    if (!n || indexStart < 0 || indexStart >= n) {
+    if (n == 0 || indexStart < 0 || indexStart >= n) {
         return "";
     }
 
