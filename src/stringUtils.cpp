@@ -21,10 +21,10 @@ const std::unordered_set<char> whitespaceChars = {
 std::string tvnj::trim(std::string str, char trimChar) {
     int end = str.size();
     while (end) {
-        --end;
+        end--;
 
         if (str[end] != trimChar) {
-            ++end;
+            end++;
             break;
         }
     }
@@ -35,7 +35,7 @@ std::string tvnj::trim(std::string str, char trimChar) {
 
     int start = 0;
     while (str[start] == trimChar) {
-        ++start;
+        start++;
     }
 
     return str.substr(start, end - start);
@@ -57,7 +57,7 @@ std::string tvnj::trimLeft(std::string str, char trimChar) {
             return str.substr(start);
         }
 
-        ++start;
+        start++;
     }
 
     return "";
@@ -74,7 +74,7 @@ std::string tvnj::trimRight(std::string str, char trimChar) {
     int end = str.size();
 
     while (end) {
-        --end;
+        end--;
 
         if (str[end] != trimChar) {
             return str.substr(0, end + 1);
@@ -104,8 +104,8 @@ std::string tvnj::trim(std::string str, std::string trimSubstr) {
     int strIndex = end,
         substrIndex = substrLen;
     while (strIndex) {
-        --strIndex;
-        --substrIndex;
+        strIndex--;
+        substrIndex--;
 
         if (str[strIndex] != trimSubstr[substrIndex]) {
             break;
@@ -125,8 +125,8 @@ std::string tvnj::trim(std::string str, std::string trimSubstr) {
     strIndex = 0;
     substrIndex = 0;
     while (str[strIndex] == trimSubstr[substrIndex]) {
-        ++strIndex;
-        ++substrIndex;
+        strIndex++;
+        substrIndex++;
 
         if (substrIndex == substrLen) {
             start = strIndex;
@@ -160,8 +160,8 @@ std::string tvnj::trimLeft(std::string str, std::string trimSubstr) {
             return str.substr(start);
         }
 
-        ++strIndex;
-        ++substrIndex;
+        strIndex++;
+        substrIndex++;
 
         if (substrIndex == substrLen) {
             start = strIndex;
@@ -190,8 +190,8 @@ std::string tvnj::trimRight(std::string str, std::string trimSubstr) {
     int strIndex = end,
         substrIndex = substrLen;
     while (strIndex) {
-        --strIndex;
-        --substrIndex;
+        strIndex--;
+        substrIndex--;
 
         if (str[strIndex] != trimSubstr[substrIndex]) {
             return str.substr(0, end);
@@ -371,13 +371,13 @@ bool tvnj::includesPhrase1(std::string str, std::string phrase, bool caseSensiti
     bool isWhitespace = true;
 
     for (int i = 0; i <= limit; i++) {
-        if (whitespaceChars.count(str[i])) {
+        if (whitespaceChars.contains(str[i])) {
             isWhitespace = true;
         }
         else if (isWhitespace) {
             isWhitespace = false;
 
-            if (i == limit || whitespaceChars.count(str[i + substrLen])) {
+            if (i == limit || whitespaceChars.contains(str[i + substrLen])) {
                 int j = 0;
 
                 while (j < substrLen && str[i + j] == phrase[j]) {
@@ -926,7 +926,7 @@ std::vector<std::string> tvnj::split(std::string str, std::unordered_set<char> d
     while (i < len) {
         const char current = str[i];
 
-        if (delimiters.count(current)) {
+        if (delimiters.contains(current)) {
             words.push_back(word);
             word = "";
         }
@@ -967,7 +967,7 @@ std::vector<std::string> tvnj::splitNTimesLeft(std::string str, std::unordered_s
     while (i < len) {
         const char current = str[i];
 
-        if (delimiters.count(current)) {
+        if (delimiters.contains(current)) {
             words.push_back(word);
 
             count++;
@@ -1018,7 +1018,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::unordered_
     while (i >= 0) {
         const char current = str[i];
 
-        if (delimiters.count(current)) {
+        if (delimiters.contains(current)) {
             words.push_back(word);
 
             count++;
@@ -1296,7 +1296,7 @@ std::vector<std::string> tvnj::splitWhitespace(std::string str) {
     while (i < n) {
         char c = str[i];
 
-        if (whitespaceChars.count(c)) {
+        if (whitespaceChars.contains(c)) {
             if (!isWhitespace) {
                 words.push_back(word);
                 word = "";
@@ -1331,7 +1331,7 @@ std::string tvnj::trim(std::string str, std::vector<char> charArr) {
     int end = str.size();
 
     while (end) {
-        --end;
+        end--;
         const char current = str[end];
         int i = 0;
 
@@ -1340,7 +1340,7 @@ std::string tvnj::trim(std::string str, std::vector<char> charArr) {
         }
 
         if (i == charsLen) {
-            ++end;
+            end++;
             break;
         }
     }
@@ -1363,7 +1363,7 @@ std::string tvnj::trim(std::string str, std::vector<char> charArr) {
             break;
         }
 
-        ++start;
+        start++;
     }
 
     return str.substr(start, end - start);
@@ -1380,10 +1380,10 @@ std::string tvnj::trim(std::string str, std::unordered_set<char> charSet) {
     int end = str.size();
 
     while (end) {
-        --end;
+        end--;
  
-        if (!charSet.count(str[end])) {
-            ++end;
+        if (!charSet.contains(str[end])) {
+            end++;
             break;
         }
     }
@@ -1394,8 +1394,8 @@ std::string tvnj::trim(std::string str, std::unordered_set<char> charSet) {
 
     int start = 0;
 
-    while (charSet.count(str[start])) {
-        ++start;
+    while (charSet.contains(str[start])) {
+        start++;
     }
 
     return str.substr(start, end - start);
@@ -1413,11 +1413,11 @@ std::string tvnj::trimLeft(std::string str, std::unordered_set<char> charSet) {
     const int len = str.size();
 
     while (start < len) {
-        if (!charSet.count(str[start])) {
+        if (!charSet.contains(str[start])) {
             return str.substr(start);
         }
 
-        ++start;
+        start++;
     }
 
     return "";
@@ -1434,9 +1434,9 @@ std::string tvnj::trimRight(std::string str, std::unordered_set<char> charSet) {
     int end = str.size();
 
     while (end) {
-        --end;
+        end--;
 
-        if (!charSet.count(str[end])) {
+        if (!charSet.contains(str[end])) {
             return str.substr(0, end + 1);
         }
     }
@@ -1471,11 +1471,11 @@ std::string tvnj::trim(std::string str, std::vector<std::string> substrArr) {
             int strIndex = end;
 
             while (substrIndex) {
-                --strIndex;
-                --substrIndex;
+                strIndex--;
+                substrIndex--;
 
                 if (str[strIndex] != substr[substrIndex]) {
-                    ++substrIndex;
+                    substrIndex++;
                     break;
                 }
             }
@@ -1513,8 +1513,8 @@ std::string tvnj::trim(std::string str, std::vector<std::string> substrArr) {
                 substrIndex = 0;
 
             while (str[strIndex] == substr[substrIndex]) {
-                ++strIndex;
-                ++substrIndex;
+                strIndex++;
+                substrIndex++;
 
                 if (substrIndex == substrLen) {
                     start = strIndex;
@@ -1559,8 +1559,8 @@ std::string tvnj::trimLeft(std::string str, std::vector<std::string> substrArr) 
                 substrIndex = 0;
 
             while (str[strIndex] == substr[substrIndex]) {
-                ++strIndex;
-                ++substrIndex;
+                strIndex++;
+                substrIndex++;
 
                 if (substrIndex == substrLen) {
                     start = strIndex;
@@ -1600,11 +1600,11 @@ std::string tvnj::trimRight(std::string str, std::vector<std::string> substrArr)
             int strIndex = end;
 
             while (substrIndex) {
-                --strIndex;
-                --substrIndex;
+                strIndex--;
+                substrIndex--;
 
                 if (str[strIndex] != substr[substrIndex]) {
-                    ++substrIndex;
+                    substrIndex++;
                     break;
                 }
             }
@@ -1874,12 +1874,12 @@ void maxSuffix(std::string substr, int len, int *maxSuffix, int *p) {
                 k = 1;
             }
             else {
-                ++k;
+                k++;
             }
         }
         else { // a > b
             *maxSuffix = j;
-            ++j;
+            j++;
             k = 1;
             *p = 1;
         }
@@ -1908,12 +1908,12 @@ void maxSuffixReverse(std::string substr, int len, int *maxSuffix, int *p) {
                 k = 1;
             }
             else {
-                ++k;
+                k++;
             }
         }
         else { // a < b
             *maxSuffix = j;
-            ++j;
+            j++;
             k = 1;
             *p = 1;
         }
@@ -1980,7 +1980,7 @@ int tvnj::indexOfTwoWay(std::string str, std::string substr, int index) {
 
     bool match = true;
 
-    for (int idx = 0; idx <= suffix; ++idx) {
+    for (int idx = 0; idx <= suffix; idx++) {
         if (substr[idx] != substr[idx + period]) {
             match = false;
             break;
@@ -2001,13 +2001,13 @@ int tvnj::indexOfTwoWay(std::string str, std::string substr, int index) {
                 i = memory;
             }
 
-            ++i;
+            i++;
 
             //-------------------
             // scan for matches in the right half
 
             while (i < substrLen && substr[i] == str[i + j]) {
-                ++i;
+                i++;
             }
 
             if (i >= substrLen) {
@@ -2016,7 +2016,7 @@ int tvnj::indexOfTwoWay(std::string str, std::string substr, int index) {
                 i = suffix;
 
                 while (i > memory && substr[i] == str[i + j]) {
-                    --i;
+                    i--;
                 }
 
                 if (i <= memory) {
@@ -2040,7 +2040,7 @@ int tvnj::indexOfTwoWay(std::string str, std::string substr, int index) {
             period = firstValue;
         }
 
-        ++period;
+        period++;
 
         //-------------------
 
@@ -2048,14 +2048,14 @@ int tvnj::indexOfTwoWay(std::string str, std::string substr, int index) {
             i = firstValue;
 
             while (i < substrLen && substr[i] == str[i + j]) {
-                ++i;
+                i++;
             }
 
             if (i >= substrLen) {
                 i = suffix;
 
                 while (i >= 0 && substr[i] == str[i + j]) {
-                    --i;
+                    i--;
                 }
 
                 if (i < 0) {
@@ -2319,7 +2319,7 @@ std::string tvnj::toProperCase(std::string str) {
     while (i < n) {
         char c = str[i];
 
-        if (whitespaceChars.count(c)) {
+        if (whitespaceChars.contains(c)) {
             isWhitespace = true;
         }
         else if (isWhitespace) {
