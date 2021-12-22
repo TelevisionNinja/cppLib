@@ -20,7 +20,7 @@ const std::unordered_set<char> whitespaceChars = {
  */
 std::string tvnj::trim(std::string str, char trimChar) {
     int end = str.size();
-    while (end) {
+    while (end != 0) {
         end--;
 
         if (str[end] != trimChar) {
@@ -73,7 +73,7 @@ std::string tvnj::trimLeft(std::string str, char trimChar) {
 std::string tvnj::trimRight(std::string str, char trimChar) {
     int end = str.size();
 
-    while (end) {
+    while (end != 0) {
         end--;
 
         if (str[end] != trimChar) {
@@ -103,7 +103,7 @@ std::string tvnj::trim(std::string str, std::string trimSubstr) {
 
     int strIndex = end,
         substrIndex = substrLen;
-    while (strIndex) {
+    while (strIndex != 0) {
         strIndex--;
         substrIndex--;
 
@@ -189,7 +189,7 @@ std::string tvnj::trimRight(std::string str, std::string trimSubstr) {
 
     int strIndex = end,
         substrIndex = substrLen;
-    while (strIndex) {
+    while (strIndex != 0) {
         strIndex--;
         substrIndex--;
 
@@ -1269,7 +1269,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string del
         }
     }
 
-    if (i > 0) {
+    if (i > 0) { // 'i' can be negative so 'i > 0' is used
         words.push_back(str.substr(0, i) + word);
     }
     else {
@@ -1330,7 +1330,7 @@ std::string tvnj::trim(std::string str, std::vector<char> charArr) {
     const int charsLen = charArr.size();
     int end = str.size();
 
-    while (end) {
+    while (end != 0) {
         end--;
         const char current = str[end];
         int i = 0;
@@ -1379,7 +1379,7 @@ std::string tvnj::trim(std::string str, std::vector<char> charArr) {
 std::string tvnj::trim(std::string str, std::unordered_set<char> charSet) {
     int end = str.size();
 
-    while (end) {
+    while (end != 0) {
         end--;
  
         if (!charSet.contains(str[end])) {
@@ -1433,7 +1433,7 @@ std::string tvnj::trimLeft(std::string str, std::unordered_set<char> charSet) {
 std::string tvnj::trimRight(std::string str, std::unordered_set<char> charSet) {
     int end = str.size();
 
-    while (end) {
+    while (end != 0) {
         end--;
 
         if (!charSet.contains(str[end])) {
@@ -1470,7 +1470,7 @@ std::string tvnj::trim(std::string str, std::vector<std::string> substrArr) {
         if (substrIndex <= end) {
             int strIndex = end;
 
-            while (substrIndex) {
+            while (substrIndex != 0) {
                 strIndex--;
                 substrIndex--;
 
@@ -1599,7 +1599,7 @@ std::string tvnj::trimRight(std::string str, std::vector<std::string> substrArr)
         if (substrIndex <= end) {
             int strIndex = end;
 
-            while (substrIndex) {
+            while (substrIndex != 0) {
                 strIndex--;
                 substrIndex--;
 
@@ -2019,6 +2019,7 @@ int tvnj::indexOfTwoWay(std::string str, std::string substr, int index) {
                     i--;
                 }
 
+                // since the decrement is by 1, 'i == memory' can be used instead of 'i <= memory'
                 if (i <= memory) {
                     return j;
                 }
@@ -2058,6 +2059,7 @@ int tvnj::indexOfTwoWay(std::string str, std::string substr, int index) {
                     i--;
                 }
 
+                // since the decrement is by 1, 'i == -1' can be used instead of 'i < 0'
                 if (i < 0) {
                     return j;
                 }
@@ -2296,7 +2298,7 @@ std::vector<std::string> tvnj::cmdLnToArgArr(std::string cmdLn, bool throwError)
         }
     }
     else {
-        if (len - startOfArg) {
+        if (len - startOfArg != 0) { // 'startOfArg' will never be greater than 'len'
             array.push_back(cmdLn.substr(startOfArg));
         }
     }
@@ -2430,7 +2432,7 @@ bool tvnj::endsWith(std::string str, std::string substr, int length) {
         return true;
     }
 
-    while (substrLen) {
+    while (substrLen != 0) {
         strLen--;
         substrLen--;
 

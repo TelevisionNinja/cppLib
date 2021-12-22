@@ -116,7 +116,7 @@ namespace tvnj {
             n = indexEnd;
         }
 
-        if (!n || indexStart < 0 || indexStart >= n) {
+        if (n == 0 || indexStart < 0 || indexStart >= n) {
             return "";
         }
 
