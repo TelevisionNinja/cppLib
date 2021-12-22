@@ -17,7 +17,7 @@ namespace tvnj {
         const int subArrLen = subArr.size();
 
         // empty set
-        if (!subArrLen) {
+        if (subArrLen == 0) {
             return true;
         }
 
@@ -33,7 +33,7 @@ namespace tvnj {
                 while (j < subArrLen) {
                     const type compareElement = arr[i + j];
 
-                    if (!indexSkip && compareElement == firstElement) {
+                    if (indexSkip == 0 && compareElement == firstElement) {
                         indexSkip = j;
                     }
 
@@ -41,7 +41,7 @@ namespace tvnj {
                         j++;
                     }
                     else {
-                        if (!indexSkip) {
+                        if (indexSkip == 0) {
                             i += j + 1;
                         }
                         else {
@@ -78,7 +78,7 @@ namespace tvnj {
         const int subArrLen = subArr.size();
 
         for (int i = 0; i < subArrLen; i++) {
-            if (!elementMap.count(subArr[i])) {
+            if (!elementMap.contains(subArr[i])) {
                 return false;
             }
         }
