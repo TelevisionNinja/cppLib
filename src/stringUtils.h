@@ -160,6 +160,10 @@ namespace tvnj {
 
     std::string padLeft(std::string str, int len, char c = ' '),
         padRight(std::string str, int len, char c = ' ');
+
+    char charAt(std::string str, int index);
+
+    std::string slice(std::string str, int start, int end, int step = 1, bool inclusive = false);
 }
 
 #endif

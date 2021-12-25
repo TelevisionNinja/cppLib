@@ -2648,3 +2648,95 @@ std::string tvnj::join(std::vector<std::string> vec, std::string separator, int 
 
     return s + vec[n];
 }
+
+/**
+ * get the char at positive and negative indices
+ * 
+ * @param str 
+ * @param index 
+ * @returns a character
+ */
+char tvnj::charAt(std::string str, int index) {
+    if (index < 0) {
+        index += str.size();
+    }
+
+    return str[index];
+}
+
+/**
+ * python like string slicing
+ * 
+ * @param str 
+ * @param start inclusive
+ * @param end exclusive by default
+ * @param step increment
+ * @param inclusive bool for making the parameter "end" inclusive
+ * @return a new string
+ */
+std::string tvnj::slice(std::string str, int start, int end, int step, bool inclusive) {
+    const int len = str.size();
+
+    if (start < 0) {
+        start += len;
+    }
+
+    if (end < 0) {
+        end += len;
+    }
+
+    if (step == 0) {
+        step = 1;
+        // return str.substr(start, end - start);
+    }
+
+    std::string newStr = "";
+
+    if (step > 0) {
+        if (start <= end) {
+            if (start < 0) {
+                start = 0;
+            }
+
+            if (end > len) {
+                end = len - 1;
+            }
+
+            int i = start;
+
+            while (i < end) {
+                newStr += str[i];
+                i += step;
+            }
+
+            if (inclusive && i == end) {
+                newStr += str[i];
+            }
+        }
+    }
+    else {
+        if (end <= start) {
+            if (start >= len) {
+                start = len - 1;
+            }
+
+            if (end < 0) {
+                end = 0;
+                inclusive = true;
+            }
+
+            int i = start;
+
+            while (i > end) {
+                newStr += str[i];
+                i += step;
+            }
+
+            if (inclusive && i == end) {
+                newStr += str[i];
+            }
+        }
+    }
+
+    return newStr;
+}
