@@ -2700,6 +2700,7 @@ std::string tvnj::slice(std::string str, int start, int end, int step, bool incl
 
             if (end > len) {
                 end = len - 1;
+                inclusive = true;
             }
 
             int i = start;
