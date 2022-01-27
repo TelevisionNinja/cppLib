@@ -6,7 +6,7 @@
 
 namespace tvnj {
     /**
-     * returns a boolean for whether the main array contains a subset that is in the same order as the sub array
+     * returns a boolean for whether the main vector contains a subset that is in the same order as the sub vector
      * 
      * @param {*} arr 
      * @param {*} subArr 
@@ -65,7 +65,7 @@ namespace tvnj {
     }
 
     /**
-     * returns a boolean for whether the sub array is a subset of the main array
+     * returns a boolean for whether the sub vector is a subset of the main vector
      * 
      * @param {*} arr 
      * @param {*} subArr 
@@ -87,7 +87,7 @@ namespace tvnj {
     }
 
     /**
-     * returns a boolean for whether the sub array is a subset of the main array
+     * returns a boolean for whether the sub vector is a subset of the main vector
      * 
      * @param {*} arr 
      * @param {*} subArr 

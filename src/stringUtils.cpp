@@ -2228,11 +2228,11 @@ int tvnj::indexOfCharLast(std::string str, char c, int index) {
 }
 
 /**
- * parses a command line string into an array w/o any space char elements
+ * parses a command line string into an vector w/o any space char elements
  * 
  * @param {*} cmdLn 
  * @param {*} throwError 
- * @returns string array
+ * @returns string vector
  */
 std::vector<std::string> tvnj::cmdLnToArgArr(std::string cmdLn, bool throwError) {
     int i = 0,
@@ -2552,7 +2552,7 @@ std::string tvnj::padRight(std::string str, int len, char c) {
  * @param {*} substr 
  * @param {*} index starting index
  * @param {*} includeOverlap 
- * @returns index of the substring, returns an empty vector if not found
+ * @returns vector of indices of the substring, returns an empty vector if not found
  */
 std::vector<int> tvnj::indexOfAll(std::string str, std::string substr, int index, bool includeOverlap) {
     std::vector<int> finds;
