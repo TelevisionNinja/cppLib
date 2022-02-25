@@ -90,8 +90,8 @@ namespace tvnj {
         indexOfNaiveSkip(std::string str, std::string substr, int index = 0),
         indexOfNaiveSkipLast(std::string str, std::string substr, int index = -1),
 
-        indexOfChar(std::string str, char substr, int index = 0),
-        indexOfCharLast(std::string str, char substr, int index = -1);
+        indexOfChar(std::string str, char c, int index = 0),
+        indexOfCharLast(std::string str, char c, int index = -1);
 
     //-------------------------------------------------
 
