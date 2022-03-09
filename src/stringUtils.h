@@ -24,33 +24,53 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    bool includesPhrase1(std::string str, std::string phrase, bool caseSensitive = true),
+    bool includesPhrase(std::string str, std::string phrase, bool caseSensitive = true),
         includesPhrase2(std::string str, std::string phrase, bool caseSensitive = true);
 
     //-------------------------------------------------
 
-    std::string replaceAll1(std::string str, std::string substr, std::string replacement),
+    std::string replaceAll(std::string str, std::string substr, std::string replacement),
         replaceAll2(std::string str, std::string substr, std::string replacement),
+        replaceAll(std::string str, char c, char replacement),
+        replaceAll(std::string str, std::unordered_set<char> charSet, char replacement),
 
         replaceFirst(std::string str, std::string substr, std::string replacement, int index = 0),
         replaceLast(std::string str, std::string substr, std::string replacement, int index = -1),
+        replaceFirst(std::string str, char c, char replacement, int index = 0),
+        replaceLast(std::string str, char c, char replacement, int index = -1),
+        replaceFirst(std::string str, std::unordered_set<char> charSet, char replacement, int index = 0),
+        replaceLast(std::string str, std::unordered_set<char> charSet, char replacement, int index = -1),
 
         replaceNTimesLeft(std::string str, std::string substr, std::string replacement, int n, int index = 0),
-        replaceNTimesRight(std::string str, std::string substr, std::string replacement, int n, int index = -1);
+        replaceNTimesRight(std::string str, std::string substr, std::string replacement, int n, int index = -1),
+        replaceNTimesLeft(std::string str, char c, char replacement, int n, int index = 0),
+        replaceNTimesRight(std::string str, char c, char replacement, int n, int index = -1),
+        replaceNTimesLeft(std::string str, std::unordered_set<char> charSet, char replacement, int n, int index = 0),
+        replaceNTimesRight(std::string str, std::unordered_set<char> charSet, char replacement, int n, int index = -1);
+
+        // replace vector of strings
 
     //-------------------------------------------------
 
     std::vector<std::string> split(std::string str, char delimiter = ' '),
+        splitLeft(std::string str, char delimiter, int index = 0),
+        splitRight(std::string str, char delimiter, int index = -1),
         splitNTimesLeft(std::string str, char delimiter, int n, int index = 0),
         splitNTimesRight(std::string str, char delimiter, int n, int index = -1),
 
         split(std::string str, std::unordered_set<char> charSet),
+        splitLeft(std::string str, std::unordered_set<char> delimiter, int index = 0),
+        splitRight(std::string str, std::unordered_set<char> delimiter, int index = -1),
         splitNTimesLeft(std::string str, std::unordered_set<char> delimiter, int n, int index = 0),
         splitNTimesRight(std::string str, std::unordered_set<char> delimiter, int n, int index = -1),
 
         split(std::string str, std::string delimiter),
+        splitLeft(std::string str, std::string delimiter, int index = 0),
+        splitRight(std::string str, std::string delimiter, int index = -1),
         splitNTimesLeft(std::string str, std::string delimiter, int n, int index = 0),
         splitNTimesRight(std::string str, std::string delimiter, int n, int index = -1),
+
+        // split vector of strings
 
         splitWhitespace(std::string str);
 
@@ -95,7 +115,13 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    std::vector<int> indexOfAll(std::string str, std::string substr, int index = 0, bool includeOverlap = true);
+    std::vector<int> indexOfAllLeft(std::string str, std::string substr, int index = -1, bool includeOverlap = true),
+        indexOfAllLeft(std::string str, char c, int index = -1),
+        indexOfAllLeft(std::string str, std::unordered_set<char> charSet, int index = -1),
+
+        indexOfAllRight(std::string str, std::string substr, int index = 0, bool includeOverlap = true),
+        indexOfAllRight(std::string str, char c, int index = 0),
+        indexOfAllRight(std::string str, std::unordered_set<char> charSet, int index = 0);
 
     //-------------------------------------------------
 
@@ -146,7 +172,9 @@ namespace tvnj {
     //-------------------------------------------------
 
     bool startsWith(std::string str, std::string substr, int index = 0),
-        endsWith(std::string str, std::string substr, int length = -1);
+        endsWith(std::string str, std::string substr, int length = -1),
+        startsWith(std::string str, char c, int index = 0),
+        endsWith(std::string str, char c, int length = -1);
 
     //-------------------------------------------------
 
@@ -160,6 +188,8 @@ namespace tvnj {
 
     std::string padLeft(std::string str, int len, char c = ' '),
         padRight(std::string str, int len, char c = ' ');
+
+    //-------------------------------------------------
 
     char charAt(std::string str, int index);
 
