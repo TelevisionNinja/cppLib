@@ -228,7 +228,7 @@ std::string tvnj::rotate(std::string str, int n) {
     add the difference to the length to get a new value to shift the characters by
     the reason for adding is that 'n' can be negative
     shift = difference + length
-    
+
     limit domain to [0, length) again because 'n' can be positive
     index = shift % length
 
@@ -2056,7 +2056,7 @@ std::string tvnj::trim(std::string str, std::unordered_set<char> charSet) {
 
     while (end != 0) { // end > 0
         end--;
- 
+
         if (!charSet.contains(str[end])) {
             end++;
             break;
@@ -2987,7 +2987,7 @@ std::vector<std::string> tvnj::cmdLnToArgArr(std::string cmdLn, bool throwError)
                 startOfArg = i + 1;
             }
         }
-        else {            
+        else {
             // skip whitespace between args
 
             // start of arg
