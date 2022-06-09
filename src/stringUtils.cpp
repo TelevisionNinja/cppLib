@@ -331,28 +331,41 @@ std::string tvnj::replaceHTMLEntitiesSorted(std::string str) {
 
     for (int i = 0, strLen = str.size(); i < strLen; i++) {
         if (str[i] == '&') {
+            int previousLen = 0;
+
             for (int j = 0; j < entityLen; j++) {
                 const std::string entity = htmlEntities[j];
-                const int len = entity.size(),
-                    lowerLen = len - 1;
+                const int len = entity.size();
 
                 if (i + len <= strLen) {
-                    if (str[i + lowerLen] == ';') {
-                        int k = 1;
+                    /*
+                    X = entities of length n
+                    if the substring of length n does not end with ';'
+                    skip all X entities
+                    */
+                    if (len > previousLen) {
+                        const int lowerLen = len - 1;
 
-                        while (k < lowerLen && str[i + k] == entity[k]) {
-                            k++;
+                        if (str[i + lowerLen] == ';') {
+                            int k = 1;
+
+                            while (k < lowerLen && str[i + k] == entity[k]) {
+                                k++;
+                            }
+
+                            if (k == lowerLen) { // k >= lowerLen
+                                str.replace(i, len, htmlEntityChars[j]);
+                                strLen -= lowerLen;
+                                break;
+                            }
                         }
-
-                        if (k == lowerLen) { // k >= lowerLen
-                            str.replace(i, len, htmlEntityChars[j]);
-                            strLen -= lowerLen;
-                            break;
+                        else {
+                            previousLen = len;
                         }
                     }
                 }
                 else {
-                    break;
+                    return str;
                 }
             }
         }
