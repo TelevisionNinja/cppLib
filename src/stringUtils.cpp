@@ -101,38 +101,35 @@ std::string tvnj::trim(std::string str, std::string trimSubstr) {
         return str;
     }
 
-    int strIndex = end,
-        substrIndex = substrLen;
-    while (strIndex != 0) { // strIndex > 0
-        strIndex--;
-        substrIndex--;
-
-        if (str[strIndex] != trimSubstr[substrIndex]) {
-            break;
-        }
-
+    int substrIndex = substrLen;
+    do {
         if (substrIndex == 0) { // substrIndex <= 0
-            end = strIndex;
             substrIndex = substrLen;
         }
-    }
 
-    if (end == 0) { // end <= 0
+        end--;
+        substrIndex--;
+    }
+    while (end >= 0 && str[end] == trimSubstr[substrIndex]);
+
+    if (end < 0) {
         return "";
     }
 
-    int start = 0;
-    strIndex = 0;
+    end += substrLen - substrIndex;
+
+    int strIndex = 0;
     substrIndex = 0;
     while (str[strIndex] == trimSubstr[substrIndex]) {
         strIndex++;
         substrIndex++;
 
         if (substrIndex == substrLen) { // substrIndex >= substrLen
-            start = strIndex;
             substrIndex = 0;
         }
     }
+
+    const int start = strIndex - substrIndex;
 
     return str.substr(start, end - start);
 }
@@ -152,24 +149,18 @@ std::string tvnj::trimLeft(std::string str, std::string trimSubstr) {
         return str;
     }
 
-    int start = 0,
-        strIndex = 0,
+    int strIndex = 0,
         substrIndex = 0;
-    while (start < len) {
-        if (str[strIndex] != trimSubstr[substrIndex]) {
-            return str.substr(start);
-        }
-
+    while (strIndex < len && str[strIndex] == trimSubstr[substrIndex]) {
         strIndex++;
         substrIndex++;
 
         if (substrIndex == substrLen) { // substrIndex >= substrLen
-            start = strIndex;
             substrIndex = 0;
         }
     }
 
-    return "";
+    return str.substr(strIndex - substrIndex);
 }
 
 /**
@@ -181,29 +172,24 @@ std::string tvnj::trimLeft(std::string str, std::string trimSubstr) {
  */
 std::string tvnj::trimRight(std::string str, std::string trimSubstr) {
     const int substrLen = trimSubstr.size();
-    int end = str.size();
+    int strIndex = str.size();
 
-    if (substrLen == 0 || end < substrLen) {
+    if (substrLen == 0 || strIndex < substrLen) {
         return str;
     }
 
-    int strIndex = end,
-        substrIndex = substrLen;
-    while (strIndex != 0) { // strIndex > 0
-        strIndex--;
-        substrIndex--;
-
-        if (str[strIndex] != trimSubstr[substrIndex]) {
-            return str.substr(0, end);
-        }
-
+    int substrIndex = substrLen;
+    do {
         if (substrIndex == 0) { // substrIndex <= 0
-            end = strIndex;
             substrIndex = substrLen;
         }
-    }
 
-    return "";
+        strIndex--;
+        substrIndex--;
+    }
+    while (strIndex >= 0 && str[strIndex] == trimSubstr[substrIndex]);
+
+    return str.substr(0, strIndex + substrLen - substrIndex);
 }
 
 //-------------------------------------------------
