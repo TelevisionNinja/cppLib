@@ -3,12 +3,12 @@
 #include <algorithm>
 
 const std::unordered_set<char> whitespaceChars = {
-    '\n',
-    '\r',
-    '\t',
-    ' ',
-    '\v',
-    '\f'
+    '\n', // 10, newline
+    '\r', // 13, carriage return
+    '\t', // 9, tab
+    ' ', // 32, space
+    '\v', // 11, vertical tab
+    '\f' // 12, form feed
 };
 
 /**
