@@ -3104,7 +3104,89 @@ std::string tvnj::toUpperCase(std::string str) {
  * 
  * @param {*} str 
  * @param {*} substr 
- * @param {*} index inclusive
+ * @returns 
+ */
+bool tvnj::startsWith(std::string str, std::string substr) {
+    const int substrLen = substr.size();
+
+    if (str.size() < substrLen) {
+        return false;
+    }
+
+    int i = 0;
+
+    while (i < substrLen) {
+        if (str[i] != substr[i]) {
+            return false;
+        }
+
+        i++;
+    }
+
+    return true;
+}
+
+/**
+ * 
+ * @param {*} str 
+ * @param {*} c 
+ * @returns 
+ */
+bool tvnj::startsWith(std::string str, char c) {
+    if (str.size() == 0 || str[0] != c) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * 
+ * @param {*} str 
+ * @param {*} substr 
+ * @returns 
+ */
+bool tvnj::endsWith(std::string str, std::string substr) {
+    int strLen = str.size(),
+        substrLen = substr.size();
+
+    if (strLen < substrLen) {
+        return false;
+    }
+
+    while (substrLen != 0) { // substrLen > 0
+        strLen--;
+        substrLen--;
+
+        if (str[strLen] != substr[substrLen]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * 
+ * @param {*} str 
+ * @param {*} c 
+ * @returns 
+ */
+bool tvnj::endsWith(std::string str, char c) {
+    const int strLen = str.size();
+
+    if (strLen == 0 || str[strLen - 1] != c) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * 
+ * @param {*} str 
+ * @param {*} substr 
+ * @param {*} index inclusive, set to 0 to behave like startsWith(str, substr)
  * @returns 
  */
 bool tvnj::startsWith(std::string str, std::string substr, int index) {
@@ -3113,10 +3195,6 @@ bool tvnj::startsWith(std::string str, std::string substr, int index) {
 
     if (strLen < substrLen || index < 0 || index > strLen - substrLen) {
         return false;
-    }
-
-    if (substrLen == 0) {
-        return true;
     }
 
     int i = 0;
@@ -3136,28 +3214,24 @@ bool tvnj::startsWith(std::string str, std::string substr, int index) {
  * 
  * @param {*} str 
  * @param {*} c 
- * @param {*} index inclusive
+ * @param {*} index inclusive, set to 0 to behave like startsWith(str, c)
  * @returns 
  */
 bool tvnj::startsWith(std::string str, char c, int index) {
     const int strLen = str.size();
 
-    if (strLen == 0 || index < 0 || index >= strLen) {
+    if (strLen == 0 || index < 0 || index >= strLen || str[index] != c) {
         return false;
     }
 
-    if (str[index] == c) {
-        return true;
-    }
-
-    return false;
+    return true;
 }
 
 /**
  * 
  * @param {*} str 
  * @param {*} substr 
- * @param {*} length length of the search area in the string (exclusive index)
+ * @param {*} length length of the search area in the string (exclusive index), set to -1 to behave like endsWith(str, substr)
  * @returns 
  */
 bool tvnj::endsWith(std::string str, std::string substr, int length) {
@@ -3170,10 +3244,6 @@ bool tvnj::endsWith(std::string str, std::string substr, int length) {
 
     if (strLen < substrLen) {
         return false;
-    }
-
-    if (substrLen == 0) {
-        return true;
     }
 
     while (substrLen != 0) { // substrLen > 0
@@ -3192,7 +3262,7 @@ bool tvnj::endsWith(std::string str, std::string substr, int length) {
  * 
  * @param {*} str 
  * @param {*} c 
- * @param {*} length length of the search area in the string (exclusive index)
+ * @param {*} length length of the search area in the string (exclusive index), set to -1 to behave like endsWith(str, c)
  * @returns 
  */
 bool tvnj::endsWith(std::string str, char c, int length) {
@@ -3202,15 +3272,11 @@ bool tvnj::endsWith(std::string str, char c, int length) {
         length = strLen;
     }
 
-    if (strLen == 0 || strLen < length) {
+    if (strLen == 0 || strLen < length || str[length - 1] != c) {
         return false;
     }
 
-    if (str[length - 1] == c) {
-        return true;
-    }
-
-    return false;
+    return true;
 }
 
 /**

@@ -171,10 +171,15 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    bool startsWith(std::string str, std::string substr, int index = 0),
-        endsWith(std::string str, std::string substr, int length = -1),
-        startsWith(std::string str, char c, int index = 0),
-        endsWith(std::string str, char c, int length = -1);
+    bool startsWith(std::string str, std::string substr),
+        endsWith(std::string str, std::string substr),
+        startsWith(std::string str, char c),
+        endsWith(std::string str, char c),
+
+        startsWith(std::string str, std::string substr, int index),
+        endsWith(std::string str, std::string substr, int length),
+        startsWith(std::string str, char c, int index),
+        endsWith(std::string str, char c, int length);
 
     //-------------------------------------------------
 
