@@ -3111,18 +3111,18 @@ bool tvnj::startsWith(std::string str, std::string substr, int index) {
     const int strLen = str.size(),
         substrLen = substr.size();
 
-    if (strLen < substrLen || index < 0) {
+    if (strLen < substrLen || index < 0 || index > strLen - substrLen) {
         return false;
     }
 
-    if (strLen == 0) {
+    if (substrLen == 0) {
         return true;
     }
 
-    int i = index;
+    int i = 0;
 
     while (i < substrLen) {
-        if (str[i] != substr[i]) {
+        if (str[i + index] != substr[i]) {
             return false;
         }
 
@@ -3142,11 +3142,11 @@ bool tvnj::startsWith(std::string str, std::string substr, int index) {
 bool tvnj::startsWith(std::string str, char c, int index) {
     const int strLen = str.size();
 
-    if (index < 0 || index >= strLen) {
+    if (strLen == 0 || index < 0 || index >= strLen) {
         return false;
     }
 
-    if (strLen == 0 || str[index] == c) {
+    if (str[index] == c) {
         return true;
     }
 
@@ -3157,22 +3157,22 @@ bool tvnj::startsWith(std::string str, char c, int index) {
  * 
  * @param {*} str 
  * @param {*} substr 
- * @param {*} length length of the substring search area in the string (exclusive index)
+ * @param {*} length length of the search area in the string (exclusive index)
  * @returns 
  */
 bool tvnj::endsWith(std::string str, std::string substr, int length) {
     int strLen = str.size(),
         substrLen = substr.size();
 
-    if (length >= 0 && length <= substrLen) {
-        substrLen = length;
+    if (length >= 0 && length <= strLen && length >= substrLen) {
+        strLen = length;
     }
 
     if (strLen < substrLen) {
         return false;
     }
 
-    if (strLen == 0) {
+    if (substrLen == 0) {
         return true;
     }
 
@@ -3192,7 +3192,7 @@ bool tvnj::endsWith(std::string str, std::string substr, int length) {
  * 
  * @param {*} str 
  * @param {*} c 
- * @param {*} length length of the substring search area in the string (exclusive index)
+ * @param {*} length length of the search area in the string (exclusive index)
  * @returns 
  */
 bool tvnj::endsWith(std::string str, char c, int length) {
@@ -3202,11 +3202,11 @@ bool tvnj::endsWith(std::string str, char c, int length) {
         length = strLen;
     }
 
-    if (strLen < length) {
+    if (strLen == 0 || strLen < length) {
         return false;
     }
 
-    if (strLen == 0 || str[length - 1] == c) {
+    if (str[length - 1] == c) {
         return true;
     }
 
