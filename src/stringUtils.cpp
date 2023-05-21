@@ -3329,6 +3329,7 @@ std::string tvnj::alternateStrings(std::string str1, std::string str2) {
 }
 
 /**
+ * exponentiation by squaring method
  * 
  * @param {*} str
  * @param {*} n
@@ -3336,15 +3337,22 @@ std::string tvnj::alternateStrings(std::string str1, std::string str2) {
  */
 std::string tvnj::repeat(std::string str, int n) {
     std::string repeated = "";
+    std::string exponentiation = str;
 
-    for (int i = 0; i < n; i++) {
-        repeated += str;
+    while (n > 0) {
+        if (n % 2 != 0) {
+            repeated += exponentiation;
+        }
+
+        exponentiation += exponentiation;
+        n >>= 1;
     }
 
     return repeated;
 }
 
 /**
+ * exponentiation by squaring method
  * 
  * @param {*} str 
  * @param {*} len 
@@ -3352,16 +3360,25 @@ std::string tvnj::repeat(std::string str, int n) {
  * @returns
  */
 std::string tvnj::padLeft(std::string str, int len, char c) {
-    const int n = len - str.size();
+    int n = len - str.size();
+    std::string pad = "";
+    std::string padExponentiation;
+    padExponentiation = c;
 
-    for (int i = 0; i < n; i++) {
-        str = c + str;
+    while (n > 0) {
+        if (n % 2 != 0) {
+            pad += padExponentiation;
+        }
+
+        padExponentiation += padExponentiation;
+        n >>= 1;
     }
 
-    return str;
+    return pad + str;
 }
 
 /**
+ * exponentiation by squaring method
  * 
  * @param {*} str 
  * @param {*} len 
@@ -3369,13 +3386,21 @@ std::string tvnj::padLeft(std::string str, int len, char c) {
  * @returns
  */
 std::string tvnj::padRight(std::string str, int len, char c) {
-    const int n = len - str.size();
+    int n = len - str.size();
+    std::string pad = "";
+    std::string padExponentiation;
+    padExponentiation = c;
 
-    for (int i = 0; i < n; i++) {
-        str += c;
+    while (n > 0) {
+        if (n % 2 != 0) {
+            pad += padExponentiation;
+        }
+
+        padExponentiation += padExponentiation;
+        n >>= 1;
     }
 
-    return str;
+    return str + pad;
 }
 
 /**
