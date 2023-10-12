@@ -1,5 +1,5 @@
-#ifndef STRINGUTILS_H
-#define STRINGUTILS_H
+#ifndef MATHUTILS_H
+#define MATHUTILS_H
 
 namespace tvnj {
     float exponentiationBySquaring(float base, unsigned int power);
