@@ -3835,9 +3835,9 @@ int tvnj::editDistanceFast(std::string word1, std::string word2) {
     i   w o r d 2
     | w
     v o
-        r
-        d
-        1
+      r
+      d
+      1
 
     left = delete
     corner = replace
