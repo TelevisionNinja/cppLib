@@ -199,6 +199,10 @@ namespace tvnj {
     char charAt(std::string str, int index);
 
     std::string slice(std::string str, int start, int end, int step = 1, bool inclusive = false);
+
+    //-------------------------------------------------
+
+    int tvnj::editDistanceFast(std::string word1, std::string word2);
 }
 
 #endif

@@ -3805,3 +3805,77 @@ std::string tvnj::slice(std::string str, int start, int end, int step, bool incl
 
     return newStr;
 }
+
+/**
+ * @brief 1 row levenshtein distance
+ * 
+ * @param word1 
+ * @param word2 
+ * @return int 
+ */
+int tvnj::editDistanceFast(std::string word1, std::string word2) {
+    const int word1Length = word1.size(),
+        word2Length = word2.size();
+
+    if (word1Length == 0) {
+        return word2Length;
+    }
+    else if (word2Length == 0) {
+        return word1Length;
+    }
+
+    std::vector<int> distance(word2Length);
+
+    for (int i = 0; i < word2Length; i++) {
+        distance[i] = i + 1;
+    }
+
+    /*
+        j ->
+    i   w o r d 2
+    | w
+    v o
+        r
+        d
+        1
+
+    left = delete
+    corner = replace
+    top = insert
+    */
+    for (int i = 0; i < word1Length; i++) {
+        const char currentChar = word1[i];
+        int j = 0,
+            replace = i,
+            insert = distance[j];
+
+        // compute the first element of the array
+        if (currentChar == word2[j]) {
+            distance[j] = replace;
+        }
+        else {
+            const int deleteChar = i + 1;
+            distance[j] = 1 + std::min(std::min(deleteChar, replace), insert);
+        }
+
+        j++;
+
+        // compute the rest of the array
+        while (j < word2Length) {
+            replace = insert;
+            insert = distance[j];
+
+            if (currentChar == word2[j]) {
+                distance[j] = replace;
+            }
+            else {
+                const int deleteChar = distance[j - 1];
+                distance[j] = 1 + std::min(std::min(deleteChar, replace), insert);
+            }
+
+            j++;
+        }
+    }
+
+    return distance[word2Length - 1];
+}
