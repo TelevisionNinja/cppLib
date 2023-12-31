@@ -193,6 +193,163 @@ namespace tvnj {
 
         return newVector;
     }
+
+    /**
+     * @brief in place
+     * time O(n / 2) = O(n)
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param start 
+     * @param end 
+     */
+    template<typename T>
+    void reverse(std::vector<T> &array, const int &start, const int &end) {
+        const int middle = (end - start) / 2;
+
+        for (int i = 0; i <= middle; i++) {
+            const int startIndex = start + i,
+                lastIndex = end - i;
+            T temp = array[startIndex];
+            array[startIndex] = array[lastIndex];
+            array[lastIndex] = temp;
+        }
+    }
+
+    /**
+     * @brief in place
+     * blocks must be equal length
+     * time O(n / 2) = O(n)
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param start 
+     * @param end 
+     */
+    template<typename T>
+    void blockSwap(std::vector<T> &array, const int &start, const int &end) {
+        const int middle = (end - start) / 2;
+
+        for (int i = 0; i <= middle; i++) {
+            const int start1Index = start + i,
+                start2Index = start1Index + middle + 1;
+            T temp = array[start1Index];
+            array[start1Index] = array[start2Index];
+            array[start2Index] = temp;
+        }
+    }
+
+    /**
+     * @brief in place
+     * time O(p * n + (1 - p) * n + n) = O(n)
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param start1 start of subarray 1
+     * @param start2 start of subarray 2
+     * @param end end of subarray 2
+     */
+    template<typename T>
+    void rotateUsingReverse(std::vector<T> &array, const int &start1, const int &start2, const int &end) {
+        const int partition = end - start2;
+
+        reverse(array, start1, end);
+        reverse(array, start1, partition);
+        reverse(array, partition + 1, end);
+    }
+
+    /**
+     * @brief in place
+     * time O(p * n + (1 - p) * n + n) = O(2n) = O(n)
+     *      Omega(n / 2) = Omega(n)
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param start1 start of subarray 1
+     * @param start2 start of subarray 2
+     * @param end end of subarray 2
+     */
+    template<typename T>
+    void rotate(std::vector<T> &array, const int &start1, const int &start2, const int &end) {
+        if (end - start2 + 1 == start2 - start1) {
+            blockSwap(array, start1, end);
+        }
+        else {
+            rotateUsingReverse(array, start1, start2, end);
+        }
+    }
+
+    /**
+     * @brief returns the index of where the first occurrence of value is. it will always return a position in the array even if the value if not found
+     * time O(log_2(n))
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param value 
+     * @param left 
+     * @param right 
+     * @return const int 
+     */
+    template<typename T>
+    const int binarySearchFirst(std::vector<T> &array, const T &value, int left, int right) {
+        while (left < right) {
+            const int m = left + (right - left) / 2; // no overflow formula
+            T currentValue = array[m];
+
+            // go to the left of the same values for stability
+            if (currentValue == value) {
+                right = m;
+            }
+            else if (currentValue < value) {
+                left = m + 1;
+            }
+            else {
+                right = m - 1;
+            }
+        }
+
+        return left;
+    }
+
+    /**
+     * @brief returns the index of where the last occurrence of value is. it will always return a position in the array even if the value if not found
+     * time O(log_2(n))
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param value 
+     * @param left 
+     * @param right 
+     * @return const int 
+     */
+    template<typename T>
+    const int binarySearchLast(std::vector<T> &array, const T &value, int left, int right) {
+        right++;
+
+        while (left < right) {
+            const int m = left + (right - left) / 2; // no overflow formula
+
+            // go to the right of the same values for stability
+            if (array[m] > value) {
+                right = m;
+            }
+            else {
+                left = m + 1;
+            }
+        }
+
+        if (left == 0) {
+            return left;
+        }
+
+        return left - 1;
+    }
 }
 
 #endif
