@@ -220,7 +220,9 @@ namespace tvnj {
     /**
      * @brief in place
      * blocks must be equal length
+     * blocks must be right next to each other or only separated by 1 element
      * time O(n / 2) = O(n)
+     *      n / 2 = the block size
      * space O(1)
      * 
      * @tparam T 
@@ -235,6 +237,32 @@ namespace tvnj {
         for (int i = 0; i <= middle; i++) {
             const int start1Index = start + i,
                 start2Index = start1Index + middle + 1;
+            T temp = array[start1Index];
+            array[start1Index] = array[start2Index];
+            array[start2Index] = temp;
+        }
+    }
+
+    /**
+     * @brief in place
+     * blocks must be equal length
+     * time O(n)
+     *      n = the block size
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param start1 
+     * @param end1 
+     * @param start2 
+     */
+    template<typename T>
+    void blockSwap(std::vector<T> &array, const int &start1, const int &end1, const int &start2) {
+        const int size = end1 - start1 + 1;
+
+        for (int i = 0; i < size; i++) {
+            const int start1Index = start1 + i,
+                start2Index = start2 + i;
             T temp = array[start1Index];
             array[start1Index] = array[start2Index];
             array[start2Index] = temp;
