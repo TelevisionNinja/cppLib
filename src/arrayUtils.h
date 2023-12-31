@@ -296,7 +296,7 @@ namespace tvnj {
      * @return const int 
      */
     template<typename T>
-    const int binarySearchFirst(std::vector<T> &array, const T &value, int left, int right) {
+    int binarySearchFirst(const std::vector<T> &array, const T &value, int left, int right) {
         while (left < right) {
             const int m = left + (right - left) / 2; // no overflow formula
             T currentValue = array[m];
@@ -329,7 +329,7 @@ namespace tvnj {
      * @return const int 
      */
     template<typename T>
-    const int binarySearchLast(std::vector<T> &array, const T &value, int left, int right) {
+    int binarySearchLast(const std::vector<T> &array, const T &value, int left, int right) {
         right++;
 
         while (left < right) {
