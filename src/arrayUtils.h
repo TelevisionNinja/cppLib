@@ -312,7 +312,7 @@ namespace tvnj {
     }
 
     /**
-     * @brief returns the index of where the first occurrence of value is. it will always return a position in the array even if the value if not found
+     * @brief returns the index of where the first occurrence of value is. it will always return a position in the array even if the value if not found. the position is where the value can be placed / swapped with
      * time O(log_2(n))
      * space O(1)
      * 
@@ -324,10 +324,10 @@ namespace tvnj {
      * @return const int 
      */
     template<typename T>
-    int binarySearchFirst(const std::vector<T> &array, const T &value, int left, int right) {
+    int binarySearchFirstSwappablePosition(const std::vector<T> &array, const T &value, int left, int right) {
         while (left < right) {
             const int m = left + (right - left) / 2; // no overflow formula
-            T currentValue = array[m];
+            const T currentValue = array[m];
 
             // go to the left of the same values for stability
             if (currentValue == value) {
@@ -345,7 +345,7 @@ namespace tvnj {
     }
 
     /**
-     * @brief returns the index of where the last occurrence of value is. it will always return a position in the array even if the value if not found
+     * @brief returns the index of where the last occurrence of value is. it will always return a position in the array even if the value if not found. the position is where the value can be placed / swapped with
      * time O(log_2(n))
      * space O(1)
      * 
@@ -357,7 +357,7 @@ namespace tvnj {
      * @return const int 
      */
     template<typename T>
-    int binarySearchLast(const std::vector<T> &array, const T &value, int left, int right) {
+    int binarySearchLastSwappablePosition(const std::vector<T> &array, const T &value, int left, int right) {
         right++;
 
         while (left < right) {
@@ -377,6 +377,76 @@ namespace tvnj {
         }
 
         return left - 1;
+    }
+
+    /**
+     * @brief returns the index of where the first occurrence of value is. -1 if not found
+     * time O(log_2(n))
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param value 
+     * @param left 
+     * @param right 
+     * @return const int 
+     */
+    template<typename T>
+    int binarySearchFirst(const std::vector<T> &array, const T &value, int left, int right) {
+        int i = -1;
+
+        while (left <= right) {
+            const int m = left + (right - left) / 2; // no overflow formula
+            const T currentValue = array[m];
+
+            if (currentValue < value) {
+                left = m + 1;
+            }
+            else {
+                right = m - 1;
+
+                if (currentValue == value) {
+                    i = m;
+                }
+            }
+        }
+
+        return i;
+    }
+
+    /**
+     * @brief returns the index of where the last occurrence of value is. -1 if not found
+     * time O(log_2(n))
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     * @param value 
+     * @param left 
+     * @param right 
+     * @return const int 
+     */
+    template<typename T>
+    int binarySearchLast(const std::vector<T> &array, const T &value, int left, int right) {
+        int i = -1;
+
+        while (left <= right) {
+            const int m = left + (right - left) / 2; // no overflow formula
+            const T currentValue = array[m];
+
+            if (currentValue > value) {
+                right = m - 1;
+            }
+            else {
+                left = m + 1;
+
+                if (currentValue == value) {
+                    i = m;
+                }
+            }
+        }
+
+        return i;
     }
 }
 
