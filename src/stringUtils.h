@@ -202,7 +202,7 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    int tvnj::editDistanceFast(std::string word1, std::string word2);
+    int editDistanceFast(std::string word1, std::string word2);
 }
 
 #endif
