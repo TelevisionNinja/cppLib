@@ -549,7 +549,7 @@ std::string tvnj::replaceAll(std::string str, std::unordered_set<char> charSet, 
 }
 
 /**
- * replaces all instances of the substring
+ * replaces all instances of the substring using c++ functions
  * 
  * @param {*} str 
  * @param {*} substr 
