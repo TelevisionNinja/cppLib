@@ -134,7 +134,7 @@ namespace tvnj {
      * @param {*} indexEnd exclusive
      * @returns 
      */
-    template <typename type>
+    template<typename type>
     std::string join(std::vector<type> vec, std::string separator = " ", int indexStart = 0, int indexEnd = -1) {
         int n = vec.size();
 
