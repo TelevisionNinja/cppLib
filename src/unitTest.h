@@ -2,6 +2,6 @@
 
 #include <iostream>
 
-#define UNIT_TEST(x) { if (!(x)) { std::cout << __FUNCTION__ << " failed. Line: " << __LINE__ << "\n"; } }
+#define UNIT_TEST(value, expected) { if (!(value == expected)) { std::cout << __FUNCTION__ << "() failed at line: " << __LINE__ << "\nValue:\n" << value << "\n\nExpected:\n" << expected << "\n\n"; } }
 
 #endif
