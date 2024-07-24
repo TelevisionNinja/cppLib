@@ -241,7 +241,7 @@ std::string tvnj::rotate(std::string str, int n) {
  * @param {*} charLimit 
  * @returns 
  */
-std::string tvnj::cutOff(std::string str, int charLimit) {
+std::string tvnj::cutOff(std::string str, size_t charLimit) {
     if (str.size() > charLimit) {
         return str.substr(0, charLimit - 3) + "...";
     }
@@ -3107,13 +3107,13 @@ std::string tvnj::toUpperCase(std::string str) {
  * @returns 
  */
 bool tvnj::startsWith(std::string str, std::string substr) {
-    const int substrLen = substr.size();
+    const size_t substrLen = substr.size();
 
     if (str.size() < substrLen) {
         return false;
     }
 
-    int i = 0;
+    size_t i = 0;
 
     while (i < substrLen) {
         if (str[i] != substr[i]) {

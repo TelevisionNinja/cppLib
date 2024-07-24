@@ -11,7 +11,7 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    std::string cutOff(std::string str, int charLimit);
+    std::string cutOff(std::string str, size_t charLimit);
 
     //-------------------------------------------------
 
