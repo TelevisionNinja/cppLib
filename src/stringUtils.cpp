@@ -3416,25 +3416,21 @@ std::string tvnj::padRight(std::string str, int len, char c) {
  */
 std::vector<int> tvnj::indexOfAllRight(std::string str, std::string substr, int index, bool includeOverlap) {
     std::vector<int> finds;
+    const int substrLen = substr.size();
+
+    if (substrLen == 0) {
+        finds.push_back(0);
+
+        return finds;
+    }
 
     if (index < 0) {
         index = 0;
     }
 
-    const int substrLen = substr.size();
-    int strLen = str.size();
-
-    if (substrLen == 0) {
-        if (index < strLen || index == 0) { // '(index = 0) < (strLen = 0)' = false so 'index == 0' or 'strLen == 0' need to be checked and '0' needs to be added to 'finds'
-            finds.push_back(index);
-        }
-
-        return finds;
-    }
-
+    const int strLen = str.size() - substrLen;
     const char firstChar = substr[0];
     int i = index;
-    strLen -= substrLen;
 
     while (i <= strLen) {
         if (str[i] == firstChar) {
@@ -3495,19 +3491,18 @@ std::vector<int> tvnj::indexOfAllRight(std::string str, std::string substr, int 
  */
 std::vector<int> tvnj::indexOfAllLeft(std::string str, std::string substr, int index, bool includeOverlap) {
     std::vector<int> finds;
-    const int substrLen = substr.size(),
-        strLen = str.size();
+    const int substrLen = substr.size();
+
+    if (substrLen == 0) {
+        finds.push_back(0);
+
+        return finds;
+    }
+
+    const int strLen = str.size();
 
     if (index < 0 || index > strLen) {
         index = strLen;
-    }
-
-    if (substrLen == 0) {
-        if (index < strLen || index == 0) { // '(index = 0) < (strLen = 0)' = false so 'index == 0' or 'strLen == 0' need to be checked and '0' needs to be added to 'finds'
-            finds.push_back(index);
-        }
-
-        return finds;
     }
 
     const char firstChar = substr[0];
@@ -3563,7 +3558,7 @@ std::vector<int> tvnj::indexOfAllLeft(std::string str, std::string substr, int i
 /**
  * finds all of the instances of the char on the right side of the index
  * 
- * linear search
+ * linear search O(n) where n = the length of the string
  * 
  * @param {*} str 
  * @param {*} c 
@@ -3594,7 +3589,7 @@ std::vector<int> tvnj::indexOfAllRight(std::string str, char c, int index) {
 /**
  * finds all of the instances of the char on the left side of the index
  * 
- * linear search
+ * linear search O(n) where n = the length of the string
  * 
  * @param {*} str 
  * @param {*} c 
@@ -3624,7 +3619,7 @@ std::vector<int> tvnj::indexOfAllLeft(std::string str, char c, int index) {
 /**
  * finds all of the instances of the set of chars on the right side of the index
  * 
- * linear search
+ * linear search O(n) where n = the length of the string
  * 
  * @param {*} str 
  * @param {*} charSet 
@@ -3655,7 +3650,7 @@ std::vector<int> tvnj::indexOfAllRight(std::string str, std::unordered_set<char>
 /**
  * finds all of the instances of the set of chars on the left side of the index
  * 
- * linear search
+ * linear search O(n) where n = the length of the string
  * 
  * @param {*} str 
  * @param {*} charSet 
