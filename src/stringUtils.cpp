@@ -112,11 +112,11 @@ std::string tvnj::trim(std::string str, std::string trimSubstr) {
     }
     while (end >= 0 && str[end] == trimSubstr[substrIndex]);
 
-    if (end < 0) {
+    end += substrLen - substrIndex;
+
+    if (end <= 0) {
         return "";
     }
-
-    end += substrLen - substrIndex;
 
     int strIndex = 0;
     substrIndex = 0;
