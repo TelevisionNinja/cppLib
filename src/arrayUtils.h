@@ -6,38 +6,49 @@
 
 namespace tvnj {
     /**
-     * returns a boolean for whether the main vector contains a subset that is in the same order as the sub vector
+     * finds the first instance of the subset
      * 
-     * @param {*} arr 
-     * @param {*} subArr 
-     * @returns 
+     * this implementation jumps to the second occurance of the subset's first element when a comparison failed in the subset comparison loop
+     * 
+     * @param {*} array 
+     * @param {*} subArray 
+     * @param {*} index starting index (inclusive)
+     * @returns index of the subset, returns -1 if not found
      */
     template <typename type>
-    bool hasSubArrInOrder(std::vector<type> arr, std::vector<type> subArr) {
-        const int subArrLen = subArr.size();
-
-        // empty set
-        if (subArrLen == 0) {
-            return true;
+    int indexOfNaiveSkip(std::vector<type> array, std::vector<type> subArray, int index = 0) {
+        if (index < 0) {
+            index = 0;
         }
 
-        const type firstElement = subArr[0];
-        int i = 0;
-        const int arrLen = arr.size() - subArrLen;
+        const int substrLen = subArray.size();
+        int strLen = array.size();
 
-        while (i <= arrLen) {
-            if (arr[i] == firstElement) {
+        if (substrLen == 0) {
+            if (index < strLen) {
+                return index;
+            }
+
+            return 0;
+        }
+
+        const type firstChar = subArray[0];
+        int i = index;
+        strLen -= substrLen;
+
+        while (i <= strLen) {
+            if (array[i] == firstChar) {
                 int j = 1,
                     indexSkip = 0;
 
-                while (j < subArrLen) {
-                    const type compareElement = arr[i + j];
+                while (j < substrLen) {
+                    const type compareChar = array[i + j];
 
-                    if (indexSkip == 0 && compareElement == firstElement) {
+                    if (indexSkip == 0 && compareChar == firstChar) {
                         indexSkip = j;
                     }
 
-                    if (compareElement == subArr[j]) {
+                    if (compareChar == subArray[j]) {
                         j++;
                     }
                     else {
@@ -52,8 +63,8 @@ namespace tvnj {
                     }
                 }
 
-                if (j == subArrLen) {
-                    return true;
+                if (j == substrLen) { // j >= substrLen
+                    return i;
                 }
             }
             else {
@@ -61,7 +72,82 @@ namespace tvnj {
             }
         }
 
-        return false;
+        return -1;
+    }
+
+    /**
+     * finds the last instance of the subset
+     * 
+     * this implementation jumps to the second occurance of the subset's first element when a comparison failed in the subset comparison loop
+     * 
+     * @param {*} array 
+     * @param {*} subArray 
+     * @param {*} index starting index from the right (inclusive)
+     * @returns index of the subset, returns -1 if not found
+     */
+    template <typename type>
+    int indexOfNaiveSkipLast(std::vector<type> array, std::vector<type> subArray, int index = -1) {
+        int substrLen = subArray.size(),
+            i = array.size();
+
+        if (substrLen == 0) {
+            if (i == 0) {
+                return 0;
+            }
+
+            if (index >= 0 && index < i) {
+                return index;
+            }
+
+            return i - 1;
+        }
+
+        substrLen--;
+        i--;
+
+        const type lastChar = subArray[substrLen];
+
+        if (index >= 0 && index <= i) {
+            i = index;
+        }
+
+        while (i >= substrLen) {
+            if (array[i] == lastChar) {
+                int j = 1,
+                    indexSkip = 0;
+
+                while (j <= substrLen) {
+                    const type compareChar = array[i - j];
+
+                    if (indexSkip == 0 && compareChar == lastChar) {
+                        indexSkip = j;
+                    }
+
+                    if (compareChar == subArray[substrLen - j]) {
+                        j++;
+                    }
+                    else {
+                        if (indexSkip == 0) {
+                            i -= j + 1;
+                        }
+                        else {
+                            i -= indexSkip;
+                        }
+
+                        break;
+                    }
+                }
+
+                if (j > substrLen) { // 'j == substrLen + 1' bc of the above 'substrLen--;'
+                    return i - substrLen;
+                }
+            }
+            else {
+                i--;
+            }
+        }
+
+        return -1;
     }
 
     /**
@@ -73,7 +159,7 @@ namespace tvnj {
      * @returns 
      */
     template <typename type>
-    bool hasSubArr1(std::vector<type> arr, std::vector<type> subArr) {
+    bool containsSubset1(std::vector<type> arr, std::vector<type> subArr) {
         std::unordered_set<type> elementMap(std::make_move_iterator(arr.begin()), std::make_move_iterator(arr.end()));
 
         const int subArrLen = subArr.size();
@@ -96,7 +182,7 @@ namespace tvnj {
      * @returns 
      */
     template <typename type>
-    bool hasSubArr2(std::vector<type> arr, std::vector<type> subArr) {
+    bool containsSubset2(std::vector<type> arr, std::vector<type> subArr) {
         const int arrLen = arr.size(),
             subArrLen = subArr.size();
 
@@ -119,7 +205,7 @@ namespace tvnj {
     /**
      * python like array slicing
      * 
-     * @param str 
+     * @param vector 
      * @param start inclusive
      * @param end exclusive by default
      * @param step increment
