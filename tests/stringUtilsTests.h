@@ -367,4 +367,91 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(vectorToString(tvnj::indexOfAllLeft("aaaaa", "aa", 10)), "0, 1, 2, 3");
     UNIT_TEST_EQ(vectorToString(tvnj::indexOfAllLeft("aaaaa", "aa", -1)), "0, 1, 2, 3");
     UNIT_TEST_EQ(vectorToString(tvnj::indexOfAllLeft("aaaaa", "aa", 0, true)), "");
+
+    UNIT_TEST_EQ(tvnj::trim("aaaa", "bbbb"), "aaaa");
+    UNIT_TEST_EQ(tvnj::trim("", "bbbb"), "");
+    UNIT_TEST_EQ(tvnj::trim("aaaa", ""), "aaaa");
+    UNIT_TEST_EQ(tvnj::trim("aaaa", "aa"), "");
+    UNIT_TEST_EQ(tvnj::trim("aaaa", "a"), "");
+    UNIT_TEST_EQ(tvnj::trim("aaaaa", "aa"), "a");
+    UNIT_TEST_EQ(tvnj::trim("aaaabbb", "aa"), "bbb");
+    UNIT_TEST_EQ(tvnj::trim("aaaaabbb", "aa"), "abbb");
+    UNIT_TEST_EQ(tvnj::trim("aaaab", "aa"), "b");
+    UNIT_TEST_EQ(tvnj::trim("aaaab", "a"), "b");
+    UNIT_TEST_EQ(tvnj::trim("aaaa", "b"), "aaaa");
+
+    UNIT_TEST_EQ(tvnj::trim("bbbaaaa", "aa"), "bbb");
+    UNIT_TEST_EQ(tvnj::trim("bbbaaaaa", "aa"), "bbba");
+    UNIT_TEST_EQ(tvnj::trim("baaaa", "aa"), "b");
+    UNIT_TEST_EQ(tvnj::trim("baaaa", "a"), "b");
+    
+    UNIT_TEST_EQ(tvnj::trim("aaaabaaaa", "aa"), "b");
+    UNIT_TEST_EQ(tvnj::trim("aaaabaaaa", "a"), "b");
+    UNIT_TEST_EQ(tvnj::trim("aaaaabaaaaa", "aa"), "aba");
+    UNIT_TEST_EQ(tvnj::trim("aaaaabaaaaa", "a"), "b");
+    UNIT_TEST_EQ(tvnj::trim("aaaabaaaaa", "aa"), "ba");
+    UNIT_TEST_EQ(tvnj::trim("aaaaabaaaa", "aa"), "ab");
+
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaa", "bbbb"), "aaaa");
+    UNIT_TEST_EQ(tvnj::trimLeft("", "bbbb"), "");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaa", ""), "aaaa");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaa", "aa"), "");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaa", "a"), "");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaaa", "aa"), "a");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaabbb", "aa"), "bbb");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaaabbb", "aa"), "abbb");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaab", "aa"), "b");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaab", "a"), "b");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaa", "b"), "aaaa");
+
+    UNIT_TEST_EQ(tvnj::trimRight("aaaa", "bbbb"), "aaaa");
+    UNIT_TEST_EQ(tvnj::trimRight("", "bbbb"), "");
+    UNIT_TEST_EQ(tvnj::trimRight("aaaa", ""), "aaaa");
+    UNIT_TEST_EQ(tvnj::trimRight("aaaa", "aa"), "");
+    UNIT_TEST_EQ(tvnj::trimRight("aaaa", "a"), "");
+    UNIT_TEST_EQ(tvnj::trimRight("aaaaa", "aa"), "a");
+    UNIT_TEST_EQ(tvnj::trimRight("bbbaaaa", "aa"), "bbb");
+    UNIT_TEST_EQ(tvnj::trimRight("bbbaaaaa", "aa"), "bbba");
+    UNIT_TEST_EQ(tvnj::trimRight("baaaa", "aa"), "b");
+    UNIT_TEST_EQ(tvnj::trimRight("baaaa", "a"), "b");
+    UNIT_TEST_EQ(tvnj::trimRight("aaaa", "b"), "aaaa");
+
+    std::vector<std::string> right = {"aae", "aa", "b", "c"},
+        left = {"aae", "aa", "b", "c"},
+        other = {"aae", "eaa", "aa", "b", "c"},
+        emptyVec = {};
+
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaa", left), "");
+    UNIT_TEST_EQ(tvnj::trimLeft("", left), "");
+    UNIT_TEST_EQ(tvnj::trimLeft("aabc", left), "");
+    UNIT_TEST_EQ(tvnj::trimLeft("bcaa", left), "");
+    UNIT_TEST_EQ(tvnj::trimLeft("aasb", left), "sb");
+    UNIT_TEST_EQ(tvnj::trimLeft("saab", left), "saab");
+    UNIT_TEST_EQ(tvnj::trimLeft("aabs", left), "s");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaeaa", left), "");
+    UNIT_TEST_EQ(tvnj::trimLeft("aaaa", emptyVec), "aaaa");
+
+    UNIT_TEST_EQ(tvnj::trimRight("aaaa", right), "");
+    UNIT_TEST_EQ(tvnj::trimRight("", right), "");
+    UNIT_TEST_EQ(tvnj::trimRight("aabc", right), "");
+    UNIT_TEST_EQ(tvnj::trimRight("bcaa", right), "");
+    UNIT_TEST_EQ(tvnj::trimRight("aasb", right), "aas");
+    UNIT_TEST_EQ(tvnj::trimRight("saab", right), "s");
+    UNIT_TEST_EQ(tvnj::trimRight("aabs", right), "aabs");
+    UNIT_TEST_EQ(tvnj::trimRight("aaeaa", right), "");
+    UNIT_TEST_EQ(tvnj::trimRight("aaaa", emptyVec), "aaaa");
+
+    UNIT_TEST_EQ(tvnj::trim("aaaa", left), "");
+    UNIT_TEST_EQ(tvnj::trim("", left), "");
+    UNIT_TEST_EQ(tvnj::trim("aabc", left), "");
+    UNIT_TEST_EQ(tvnj::trim("bcaa", left), "");
+    UNIT_TEST_EQ(tvnj::trim("aasb", left), "s");
+    UNIT_TEST_EQ(tvnj::trim("saab", left), "s");
+    UNIT_TEST_EQ(tvnj::trim("aabs", left), "s");
+    UNIT_TEST_EQ(tvnj::trim("aaeaa", left), "");
+    UNIT_TEST_EQ(tvnj::trim("aaseaa", left), "se");
+    UNIT_TEST_EQ(tvnj::trim("aaseaa", other), "s");
+    UNIT_TEST_EQ(tvnj::trim("aaesaa", left), "s");
+    UNIT_TEST_EQ(tvnj::trim("aasesaa", left), "ses");
+    UNIT_TEST_EQ(tvnj::trim("aaaa", emptyVec), "aaaa");
 }
