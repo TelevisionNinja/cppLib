@@ -9,16 +9,16 @@ void arrayUtilsTests() {
         testfour = {"b","c","a","a"},
         testfive = {"a"},
         testsix = {"d"};
-    UNIT_TEST(tvnj::indexOfNaiveSkip(testone, testtwo), 1);
-    UNIT_TEST(tvnj::indexOfNaiveSkipLast(testone, testtwo), 1);
-    UNIT_TEST(tvnj::indexOfNaiveSkip(testone, testsix), -1);
-    UNIT_TEST(tvnj::indexOfNaiveSkipLast(testone, testsix), -1);
-    UNIT_TEST(tvnj::indexOfNaiveSkip(testone, testfive), 0);
-    UNIT_TEST(tvnj::indexOfNaiveSkipLast(testone, testfive), 0);
-    UNIT_TEST(tvnj::indexOfNaiveSkip(testone, testone), 0);
-    UNIT_TEST(tvnj::indexOfNaiveSkipLast(testone, testone), 0);
-    UNIT_TEST(tvnj::indexOfNaiveSkip(testthree, testfive), 0);
-    UNIT_TEST(tvnj::indexOfNaiveSkipLast(testthree, testfive), 1);
-    UNIT_TEST(tvnj::indexOfNaiveSkip(testfour, testfive), 2);
-    UNIT_TEST(tvnj::indexOfNaiveSkipLast(testfour, testfive), 3);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkip(testone, testtwo), 1);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkipLast(testone, testtwo), 1);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkip(testone, testsix), -1);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkipLast(testone, testsix), -1);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkip(testone, testfive), 0);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkipLast(testone, testfive), 0);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkip(testone, testone), 0);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkipLast(testone, testone), 0);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkip(testthree, testfive), 0);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkipLast(testthree, testfive), 1);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkip(testfour, testfive), 2);
+    UNIT_TEST_EQ(tvnj::indexOfNaiveSkipLast(testfour, testfive), 3);
 }
