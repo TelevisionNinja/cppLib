@@ -16,3 +16,14 @@ Math:
 Strings:
 - utilities to manipulate strings
 - search
+
+Data Structures:
+- binary heap
+- doubly linked list
+
+# Build and Run Tests
+```bash
+cd ./tests
+g++ -std=c++23 -Wall ./*.cpp ../src/*.cpp -o test.exe
+./test.exe
+```
