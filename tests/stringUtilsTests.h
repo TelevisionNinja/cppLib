@@ -454,4 +454,142 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(tvnj::trim("aaesaa", left), "s");
     UNIT_TEST_EQ(tvnj::trim("aasesaa", left), "ses");
     UNIT_TEST_EQ(tvnj::trim("aaaa", emptyVec), "aaaa");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::split("", "")), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("x", "x")), ", ");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::split("axa", "x")), "a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("xa", "x")), ", a");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("ax", "x")), "a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("axaxa", "x")), "a, a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("xaxaxa", "x")), ", a, a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("axaxax", "x")), "a, a, a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("xaxaxax", "x")), ", a, a, a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("axxa", "x")), "a, , a");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::split("axxa", "xx")), "a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("axxaxxa", "xx")), "a, a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("axxaxx", "xx")), "a, a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("xxaxxa", "xx")), ", a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("xxaxxaxx", "xx")), ", a, a, ");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::split("abcxxabc", "xx")), "abc, abc");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("abcxxabcxxabc", "xx")), "abc, abc, abc");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("abcxxabcxx", "xx")), "abc, abc, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("xxabcxxabc", "xx")), ", abc, abc");
+    UNIT_TEST_EQ(vectorToString(tvnj::split("xxabcxxabcxx", "xx")), ", abc, abc, ");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("", "", 0)), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("", "", -1)), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("", "", 1)), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("x", "x", 1)), ", ");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axa", "x", 1)), "a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xa", "x", 1)), ", a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("ax", "x", 1)), "a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axaxa", "x", 1)), "a, axa");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xaxaxa", "x", 1)), ", axaxa");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axaxax", "x", 1)), "a, axax");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xaxaxax", "x", 1)), ", axaxax");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axxa", "x", 1)), "a, xa");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axyza", "xyz", 1)), "a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axyzaxyza", "xyz", 1)), "a, axyza");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axyzaxyz", "xyz", 1)), "a, axyz");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xyzaxyza", "xyz", 1)), ", axyza");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xyzaxyzaxyz", "xyz", 1)), ", axyzaxyz");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("abcxyzabc", "xyz", 1)), "abc, abc");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("abcxyzabcxyzabc", "xyz", 1)), "abc, abcxyzabc");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("abcxyzabcxyz", "xyz", 1)), "abc, abcxyz");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xyzabcxyzabc", "xyz", 1)), ", abcxyzabc");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xyzabcxyzabcxyz", "xyz", 1)), ", abcxyzabcxyz");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xyzabcxyzabcxyz", "xyz", 1, 3)), "xyzabc, abcxyz");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xyzabcxyzabcxyz", "xyz", 10)), ", abc, abc, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xabd1234xabexabe", "xabd", 2)), ", 1234xabexabe");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xabxd1234xabxexabxe", "xabxd", 2)), ", 1234xabxexabxe");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("", "", 0)), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("", "", -1)), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("", "", 1)), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("x", "x", 1)), ", ");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axa", "x", 1)), "a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xa", "x", 1)), ", a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("ax", "x", 1)), "a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axaxa", "x", 1)), "axa, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xaxaxa", "x", 1)), "xaxa, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axaxax", "x", 1)), "axaxa, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xaxaxax", "x", 1)), "xaxaxa, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axxa", "x", 1)), "ax, a");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axyza", "xyz", 1)), "a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axyzaxyza", "xyz", 1)), "axyza, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axyzaxyz", "xyz", 1)), "axyza, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xyzaxyza", "xyz", 1)), "xyza, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xyzaxyzaxyz", "xyz", 1)), "xyzaxyza, ");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("abcxyzabc", "xyz", 1)), "abc, abc");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("abcxyzabcxyzabc", "xyz", 1)), "abcxyzabc, abc");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("abcxyzabcxyz", "xyz", 1)), "abcxyzabc, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xyzabcxyzabc", "xyz", 1)), "xyzabc, abc");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xyzabcxyzabcxyz", "xyz", 1)), "xyzabcxyzabc, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xyzabcxyzabcxyz", "xyz", 1, 3)), ", abcxyzabcxyz");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xyzabcxyzabcxyz", "xyz", 10)), ", abc, abc, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("dabx1234eabxeabx", "dabx", 2)), ", 1234eabxeabx");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("dxabx1234exabxexabx", "dxabx", 2)), ", 1234exabxexabx");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("", 'x', 1)), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("x", 'x', -1)), "x");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("x", 'x', 0)), "x");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("x", 'x', 1)), ", ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("x", 'x', 10)), ", ");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axa", 'x', 1)), "a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xa", 'x', 1)), ", a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("ax", 'x', 1)), "a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axaxa", 'x', 1)), "a, axa");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xaxaxa", 'x', 1)), ", axaxa");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axaxax", 'x', 1)), "a, axax");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xaxaxax", 'x', 1)), ", axaxax");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axxa", 'x', 1)), "a, xa");
+
+    UNIT_TEST_NEQ(vectorToString(tvnj::splitNTimesLeft("axxa", 'x', 1, 1)), ", xa");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axxa", 'x', 1, 1)), "a, xa");
+
+    UNIT_TEST_NEQ(vectorToString(tvnj::splitNTimesLeft("axxa", 'x', 2, 1)), ", , a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axxa", 'x', 2, 1)), "a, , a");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axaxa", 'x', 2)), "a, a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xaxaxa", 'x', 2)), ", a, axa");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axaxax", 'x', 2)), "a, a, ax");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("xaxaxax", 'x', 2)), ", a, axax");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesLeft("axxa", 'x', 2)), "a, , a");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("", 'x', 1)), "");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("x", 'x', -1)), "x");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("x", 'x', 0)), "x");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("x", 'x', 1)), ", ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("x", 'x', 10)), ", ");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axa", 'x', 1)), "a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xa", 'x', 1)), ", a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("ax", 'x', 1)), "a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axaxa", 'x', 1)), "axa, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xaxaxa", 'x', 1)), "xaxa, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axaxax", 'x', 1)), "axaxa, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xaxaxax", 'x', 1)), "xaxaxa, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axxa", 'x', 1)), "ax, a");
+
+    UNIT_TEST_NEQ(vectorToString(tvnj::splitNTimesRight("axxa", 'x', 1, 2)), "ax, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axxa", 'x', 1, 2)), "ax, a");
+
+    UNIT_TEST_NEQ(vectorToString(tvnj::splitNTimesRight("axxa", 'x', 2, 2)), "a, , ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axxa", 'x', 2, 2)), "a, , a");
+
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axaxa", 'x', 2)), "a, a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xaxaxa", 'x', 2)), "xa, a, a");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axaxax", 'x', 2)), "axa, a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xaxaxax", 'x', 2)), "xaxa, a, ");
+    UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axxa", 'x', 2)), "a, , a");
 }
