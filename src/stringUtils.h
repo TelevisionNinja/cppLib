@@ -158,6 +158,7 @@ namespace tvnj {
     }
 
     std::string join(std::vector<std::string> vec, std::string separator = " ", int indexStart = 0, int indexEnd = -1);
+    std::string join(std::vector<char> vec, std::string separator = " ", int indexStart = 0, int indexEnd = -1);
 
     //-------------------------------------------------
 

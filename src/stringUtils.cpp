@@ -3709,6 +3709,37 @@ std::string tvnj::join(std::vector<std::string> vec, std::string separator, int 
 }
 
 /**
+ * joins the elements of a vector and returns a string
+ * 
+ * @param {*} vec 
+ * @param {*} separator 
+ * @param {*} indexStart inclusive
+ * @param {*} indexEnd exclusive
+ * @returns 
+ */
+std::string tvnj::join(std::vector<char> vec, std::string separator, int indexStart, int indexEnd) {
+    int n = vec.size();
+
+    if (indexEnd >= 0 && indexEnd <= n) {
+        n = indexEnd;
+    }
+
+    if (n == 0 || indexStart < 0 || indexStart >= n) {
+        return "";
+    }
+
+    n--;
+
+    std::string s = "";
+
+    for (int i = indexStart; i < n; i++) {
+        s += vec[i] + separator;
+    }
+
+    return s + vec[n];
+}
+
+/**
  * get the char at positive and negative indices
  * 
  * @param str 
