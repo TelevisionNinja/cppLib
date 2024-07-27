@@ -592,4 +592,38 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axaxax", 'x', 2)), "axa, a, ");
     UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("xaxaxax", 'x', 2)), "xaxa, a, ");
     UNIT_TEST_EQ(vectorToString(tvnj::splitNTimesRight("axxa", 'x', 2)), "a, , a");
+
+    std::vector<int> join1 = {};
+    UNIT_TEST_EQ(tvnj::join(join1), "");
+    join1 = {1};
+    UNIT_TEST_EQ(tvnj::join(join1), "1");
+    join1 = {1,2};
+    UNIT_TEST_EQ(tvnj::join(join1), "1 2");
+
+    std::vector<char> join2 = {};
+    UNIT_TEST_EQ(tvnj::join(join2), "");
+    join2 = {'a'};
+    UNIT_TEST_EQ(tvnj::join(join2), "a");
+    join2 = {'a','b'};
+    UNIT_TEST_EQ(tvnj::join(join2), "a b");
+
+    std::vector<std::string> join3 = {};
+    UNIT_TEST_EQ(tvnj::join(join3), "");
+    join3 = {"a"};
+    UNIT_TEST_EQ(tvnj::join(join3), "a");
+    join3 = {"a","b"};
+    UNIT_TEST_EQ(tvnj::join(join3), "a b");
+
+    std::vector<std::string> join4 = {};
+    UNIT_TEST_EQ(tvnj::join(join4), "");
+    join4 = {"aa"};
+    UNIT_TEST_EQ(tvnj::join(join4), "aa");
+    join4 = {"a","bb"};
+    UNIT_TEST_EQ(tvnj::join(join4), "a bb");
+    join4 = {"a","bb",""};
+    UNIT_TEST_EQ(tvnj::join(join4), "a bb ");
+    join4 = {"","a","bb"};
+    UNIT_TEST_EQ(tvnj::join(join4), " a bb");
+    join4 = {"a","","bb"};
+    UNIT_TEST_EQ(tvnj::join(join4), "a  bb");
 }
