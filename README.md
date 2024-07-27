@@ -1,17 +1,18 @@
 # cppLib
-A collection of some c++ functions
+A collection of c++ functions and data structures. The minimum C++ version is C++20
 
 Subjects that this library covers:
 - arrays & vectors
 - math
 - strings
+- data structures
 
 Arrays & Vectors:
-- utilities to manipulate arrays & array lists
+- utilities to manipulate arrays & vectors
 - search
 
 Math:
-- general math funcitons
+- general math functions
 
 Strings:
 - utilities to manipulate strings
