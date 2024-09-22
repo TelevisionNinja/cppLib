@@ -1,3 +1,6 @@
+#ifndef ARRAYUTILSTESTS_H
+#define ARRAYUTILSTESTS_H
+
 #include "../src/unitTest.h"
 #include "../src/arrayUtils.h"
 #include "../src/stringUtils.h"
@@ -135,3 +138,5 @@ void arrayUtilsTests() {
     tvnj::blockSwap(array, start1, end1, start2);
     UNIT_TEST_EQ(tvnj::join(array, ","), "5,6,7,8,1,2,3,4,9");
 }
+
+#endif

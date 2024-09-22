@@ -1,3 +1,6 @@
+#ifndef STRINGUTILSTESTS_H
+#define STRINGUTILSTESTS_H
+
 #include "../src/unitTest.h"
 #include "../src/stringUtils.h"
 #include <vector>
@@ -627,3 +630,5 @@ void stringUtilsTests() {
     join4 = {"a","","bb"};
     UNIT_TEST_EQ(tvnj::join(join4), "a  bb");
 }
+
+#endif

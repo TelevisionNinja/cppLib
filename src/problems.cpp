@@ -1,4 +1,5 @@
 #include "problems.h"
+#include <unordered_map>
 
 std::vector<int> tvnj::minimumCoins(const int &price, const std::vector<int> &coinsTypes) {
     if (price == 0) {

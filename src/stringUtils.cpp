@@ -1,6 +1,7 @@
 #include "stringUtils.h"
 #include <stdexcept>
 #include <algorithm>
+#include <regex>
 
 const std::unordered_set<char> whitespaceChars = {
     '\n', // 10, newline

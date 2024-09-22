@@ -2,7 +2,6 @@
 #define STRINGUTILS_H
 
 #include <string>
-#include <regex>
 #include <vector>
 #include <unordered_set>
 

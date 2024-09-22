@@ -1,3 +1,6 @@
+#ifndef HEAPTESTS_H
+#define HEAPTESTS_H
+
 #include "../src/unitTest.h"
 #include "../src/data structures/MaxBinaryHeap.h"
 #include "../src/data structures/MinBinaryHeap.h"
@@ -33,3 +36,5 @@ void maxHeapTests() {
     UNIT_TEST_EQ(popped, 13);
     UNIT_TEST_EQ(heapBmin.toString(), "[16, 41, 31, 100, 51]");
 }
+
+#endif

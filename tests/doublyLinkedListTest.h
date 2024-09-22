@@ -1,3 +1,6 @@
+#ifndef DOUBLYLINKEDLISTTESTS_H
+#define DOUBLYLINKEDLISTTESTS_H
+
 #include "../src/unitTest.h"
 #include "../src/data structures/DoublyLinkedList.h"
 
@@ -32,3 +35,5 @@ void doublyLinkedListTests() {
     list.clear();
     UNIT_TEST_EQ(list2.toString(), "5 10 15 20");
 }
+
+#endif
