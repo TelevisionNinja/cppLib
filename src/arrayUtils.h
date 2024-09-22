@@ -534,6 +534,80 @@ namespace tvnj {
 
         return i;
     }
+
+    template<typename T>
+    T max(const std::vector<T> &array) {
+        if (array.size() < 1) {
+            return NULL;
+        }
+
+        T maxElement = array[0];
+
+        for (size_t i = 1; i < array.size(); i++) {
+            T currentElement = array[i];
+            if (maxElement < currentElement) {
+                maxElement = currentElement;
+            }
+        }
+
+        return maxElement;
+    }
+
+    template<typename T>
+    T min(const std::vector<T> &array) {
+        if (array.size() < 1) {
+            return NULL;
+        }
+
+        T minElement = array[0];
+
+        for (size_t i = 1; i < array.size(); i++) {
+            T currentElement = array[i];
+            if (minElement > currentElement) {
+                minElement = currentElement;
+            }
+        }
+
+        return minElement;
+    }
+
+    /**
+     * @brief returns an array of zeros with the provided length
+     * 
+     * @param length 
+     * @return std::vector<T> 
+     */
+    template<typename T>
+    std::vector<T> zeros(size_t length) {
+        std::vector<T> array;
+        size_t i = 0;
+
+        while (i < length) {
+            array.push_back(0);
+            i++;
+        }
+
+        return array;
+    }
+
+    /**
+     * @brief returns an array of ones with the provided length
+     * 
+     * @param length 
+     * @return std::vector<T> 
+     */
+    template<typename T>
+    std::vector<T> ones(size_t length) {
+        std::vector<T> array;
+        size_t i = 0;
+
+        while (i < length) {
+            array.push_back(1);
+            i++;
+        }
+
+        return array;
+    }
 }
 
 #endif
