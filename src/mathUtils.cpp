@@ -279,7 +279,7 @@ std::vector<double> tvnj::vector_division(std::vector<double> array1, std::vecto
     y_n: initial y
     t: time step
     dt: time step size
-    function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+    function: function(t:double, y: std::vector<double>) -> std::vector<double>
 
     returns: y_{n+1}
     * 
@@ -287,18 +287,13 @@ std::vector<double> tvnj::vector_division(std::vector<double> array1, std::vecto
     * @param t 
     * @param dt 
     * @param function 
-    * @param args 
-    * @param kwargs 
     * @return std::vector<double> 
     */
 std::vector<double> tvnj::runge_kutta_order_4_explicit_step(std::vector<double> y_n, double t, double dt, std::function<std::vector<double>(double, std::vector<double>)> function) {
-    // any args, any kwargs
-    // , *args, **kwargs
-
-    std::vector<double> k1 = function(t, y_n);// , *args, **kwargs
-    std::vector<double> k2 = function(t + dt / 2, tvnj::vector_addition(y_n, tvnj::scalar_multiplication(dt / 2, k1)));// , *args, **kwargs
-    std::vector<double> k3 = function(t + dt / 2, tvnj::vector_addition(y_n, tvnj::scalar_multiplication(dt / 2, k2)));// , *args, **kwargs
-    std::vector<double> k4 = function(t + dt, tvnj::vector_addition(y_n, tvnj::scalar_multiplication(dt, k3)));// , *args, **kwargs
+    std::vector<double> k1 = function(t, y_n);
+    std::vector<double> k2 = function(t + dt / 2, tvnj::vector_addition(y_n, tvnj::scalar_multiplication(dt / 2, k1)));
+    std::vector<double> k3 = function(t + dt / 2, tvnj::vector_addition(y_n, tvnj::scalar_multiplication(dt / 2, k2)));
+    std::vector<double> k4 = function(t + dt, tvnj::vector_addition(y_n, tvnj::scalar_multiplication(dt, k3)));
 
     k2 = tvnj::vector_addition(k2, k3);
     k2 = tvnj::scalar_multiplication(2, k2);
@@ -321,7 +316,7 @@ std::vector<double> tvnj::runge_kutta_order_4_explicit_step(std::vector<double> 
     dt_max: max time step size
     initial_step_size: starting step size
     time_span: time bounds
-    function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+    function: function(t:double, y: std::vector<double>) -> std::vector<double>
 
     returns: [time_points, y]
     * 
@@ -347,12 +342,12 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::runge_kutta_order_4_explicit(std:
         std::vector<double> y_integrated_new = tvnj::runge_kutta_order_4_explicit_step(y_integrated, t, dt, function);
 
         // predicted next y
-        std::vector<double> slope_current = function(t, y_integrated);// , *args, **kwargs
+        std::vector<double> slope_current = function(t, y_integrated);
         std::vector<double> y_next = tvnj::vector_addition(y_integrated, tvnj::scalar_multiplication(dt, slope_current));
         std::vector<double> y_difference_1 = tvnj::vector_abs(tvnj::vector_subtraction(y_next, y_integrated_new));
 
         // predicted current y
-        std::vector<double> slope_next = function(t + dt, y_next);// , *args, **kwargs
+        std::vector<double> slope_next = function(t + dt, y_next);
         std::vector<double> y_previous = tvnj::vector_subtraction(y_integrated_new, tvnj::scalar_multiplication(dt, slope_next));
         std::vector<double> y_difference_2 = tvnj::vector_abs(tvnj::vector_subtraction(y_integrated, y_previous));
 
@@ -594,7 +589,7 @@ bool tvnj::contains_nan_or_infinity(std::vector<double> array) {
     t: time step
     dt: time step size
     y_previous: the addition of all previous y's. ex: y_{n} + y_{n-1} + ...
-    function: function(t:double, x: std::vector<double>, args, kwargs) -> std::vector<double>
+    function: function(t:double, x: std::vector<double>) -> std::vector<double>
     tolerance: accuracy of the result
     max_iterations: max iterations allowed to find the fixed point
 
@@ -610,12 +605,10 @@ bool tvnj::contains_nan_or_infinity(std::vector<double> array) {
     * @return std::vector<double> 
     */
 std::vector<double> tvnj::backward_differentiation_formula_implicit_fixed_point_iteration(std::function<std::vector<double>(double, std::vector<double>)> function, double t, double dt, std::vector<double> x, std::vector<double> y_previous, double tolerance, size_t max_iterations) {
-    //args:any = (), kwargs:any = {}
-
     size_t i = 0;
 
     while (i < max_iterations) {
-        std::vector<double> y = tvnj::vector_addition(tvnj::scalar_multiplication(dt, function(t, x)), y_previous);// , *args, **kwargs
+        std::vector<double> y = tvnj::vector_addition(tvnj::scalar_multiplication(dt, function(t, x)), y_previous);
 
         if (tvnj::contains_nan_or_infinity(y)) {
             return x;
@@ -641,7 +634,7 @@ std::vector<double> tvnj::backward_differentiation_formula_implicit_fixed_point_
     y_n: initial y
     t: time step
     dt: time step size
-    function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+    function: function(t:double, y: std::vector<double>) -> std::vector<double>
     tolerance: accuracy of the result
     max_iterations: max iterations allowed to find the root
 
@@ -656,8 +649,6 @@ std::vector<double> tvnj::backward_differentiation_formula_implicit_fixed_point_
     * @return std::vector<double> 
     */
 std::vector<double> tvnj::backward_differentiation_formula_order_6_implicit_step(std::vector<double> y_n, double t, double dt, std::function<std::vector<double>(double, std::vector<double>)> function, double tolerance, size_t max_iterations) {
-    // args:any = (), kwargs:any = {}
-
     dt /= 6;
 
     std::vector<double> y_1 = tvnj::backward_differentiation_formula_implicit_fixed_point_iteration(function, t + dt, dt, y_n, y_n, tolerance, max_iterations);
@@ -731,7 +722,7 @@ std::vector<double> tvnj::scalar_addition(double scalar, std::vector<double> arr
     dt_max: max time step size
     initial_step_size: starting step size
     time_span: time bounds
-    function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+    function: function(t:double, y: std::vector<double>) -> std::vector<double>
     root_finding_tolerance: accuracy of the step result
     root_finding_max_iterations: max iterations allowed to find the root in a step
 
@@ -749,8 +740,6 @@ std::vector<double> tvnj::scalar_addition(double scalar, std::vector<double> arr
     * @return OrdinaryDifferentialEquationResult
     */
 tvnj::OrdinaryDifferentialEquationResult tvnj::backward_differentiation_formula_order_6_implicit(std::function<std::vector<double>(double, std::vector<double>)> function, std::vector<double> time_span, std::vector<double> y_i, double dt_max, double initial_step_size, double dy_max, double dy_min, double root_finding_tolerance, size_t root_finding_max_iterations) {
-    // args:any = (), kwargs:any = {}
-
     double dt = initial_step_size;
     double t_i = time_span[0];
     double t_f = time_span[1];
@@ -763,12 +752,12 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::backward_differentiation_formula_
         std::vector<double> y_integrated_new = tvnj::backward_differentiation_formula_order_6_implicit_step(y_integrated, t, dt, function, root_finding_tolerance, root_finding_max_iterations);
 
         // predicted next y
-        std::vector<double> slope_current = function(t, y_integrated);// , *args, **kwargs
+        std::vector<double> slope_current = function(t, y_integrated);
         std::vector<double> y_next = tvnj::vector_addition(y_integrated, tvnj::scalar_multiplication(dt, slope_current));
         std::vector<double> y_difference_1 = tvnj::vector_abs(tvnj::vector_subtraction(y_next, y_integrated_new));
 
         // predicted current y
-        std::vector<double> slope_next = function(t + dt, y_next);// , *args, **kwargs
+        std::vector<double> slope_next = function(t + dt, y_next);
         std::vector<double> y_previous = tvnj::vector_subtraction(y_integrated_new, tvnj::scalar_multiplication(dt, slope_next));
         std::vector<double> y_difference_2 = tvnj::vector_abs(tvnj::vector_subtraction(y_integrated, y_previous));
 
