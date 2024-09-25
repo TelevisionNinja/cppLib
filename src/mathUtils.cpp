@@ -991,7 +991,7 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::backward_differentiation_formula_
                     dt *= 2;
                 }
                 else {
-                    dt *= safety_factor * std::pow(dy_max / maximum, 1.0 / order);
+                    dt *= safety_factor * std::pow(dy_min / minimum, 1.0 / order);
                 }
 
                 if (dt > dt_max) {
