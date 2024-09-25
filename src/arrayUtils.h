@@ -608,6 +608,16 @@ namespace tvnj {
 
         return array;
     }
+
+    template<typename T>
+    bool contains(std::vector<T> array, T element) {
+        for (size_t i = 0; i < array.size(); i++) {
+            if (element == array[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 #endif
