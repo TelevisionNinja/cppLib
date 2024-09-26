@@ -85,7 +85,7 @@ namespace tvnj {
 
    /**
     * @brief explicit
-       for non-stiff problems
+      for non-stiff problems
       any order differential equation
 
       y_n: initial y
@@ -112,7 +112,7 @@ namespace tvnj {
 
    /**
     * @brief explicit
-       for non-stiff problems
+      for non-stiff problems
       adaptive step size
       any order differential equation
 
@@ -212,7 +212,7 @@ namespace tvnj {
 
    /**
     * @brief x: initial x guess
-       t: time step
+      t: time step
       dt: time step size
       y_previous: the addition of all previous y"s. ex: y_{n} + y_{n-1} + ...
       function: function(t:double, x: std::vector<double>, args, kwargs) -> std::vector<double>
@@ -234,7 +234,7 @@ namespace tvnj {
 
    /**
     * @brief implicit
-       for stiff problems
+      for stiff problems
       any order differential equation
       https://en.wikipedia.org/wiki/Backward_differentiation_formula
 
@@ -261,7 +261,7 @@ namespace tvnj {
 
    /**
     * @brief implicit
-       for stiff problems
+      for stiff problems
       adaptive step size
       any order differential equation
 
@@ -291,7 +291,7 @@ namespace tvnj {
 
    /**
     * @brief x: initial x guess
-       t: time step
+      t: time step
       dt: time step size
       y_previous: the addition of all previous y"s. ex: y_{n} + y_{n-1} + ...
       function: function(t:double, x: std::vector<double>, args, kwargs) -> std::vector<double>
@@ -313,7 +313,7 @@ namespace tvnj {
 
    /**
     * @brief implicit
-       for stiff problems
+      for stiff problems
       any order differential equation
       https://en.wikipedia.org/wiki/Backward_differentiation_formula
 
