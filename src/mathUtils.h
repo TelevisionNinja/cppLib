@@ -91,18 +91,16 @@ namespace tvnj {
       y_n: initial y
       t: time step
       dt: time step size
-      function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+      function: function(t:double, y: std::vector<double>) -> std::vector<double>
 
       returns: y_{n+1}
-   * 
-   * @param y_n 
-   * @param t 
-   * @param dt 
-   * @param function 
-   * @param args 
-   * @param kwargs 
-   * @return std::vector<double> 
-   */
+    * 
+    * @param y_n 
+    * @param t 
+    * @param dt 
+    * @param function 
+    * @return std::vector<double> 
+    */
    std::vector<double> runge_kutta_order_4_explicit_step(std::vector<double> y_n, double t, double dt, std::function<std::vector<double>(double, std::vector<double>)> function);
 
    struct OrdinaryDifferentialEquationResult {
@@ -121,19 +119,19 @@ namespace tvnj {
       dt_max: max time step size
       initial_step_size: starting step size
       time_span: time bounds
-      function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+      function: function(t:double, y: std::vector<double>) -> std::vector<double>
 
       returns: [time_points, y]
-   * 
-   * @param function 
-   * @param time_span 
-   * @param y_i 
-   * @param dt_max 
-   * @param initial_step_size 
-   * @param dy_max 
-   * @param dy_min 
-   * @return OrdinaryDifferentialEquationResult
-   */
+    * 
+    * @param function 
+    * @param time_span 
+    * @param y_i 
+    * @param dt_max 
+    * @param initial_step_size 
+    * @param dy_max 
+    * @param dy_min 
+    * @return OrdinaryDifferentialEquationResult
+    */
    OrdinaryDifferentialEquationResult runge_kutta_order_4_explicit(std::function<std::vector<double>(double, std::vector<double>)> function, std::vector<double> time_span, std::vector<double> y_i, double dt_max = std::numeric_limits<double>::infinity(), double initial_step_size = 0.01, double dy_max = 0.1, double dy_min = 0.001);
 
    /**
@@ -161,13 +159,13 @@ namespace tvnj {
       b: end of interval
 
       returns NULL if fails
-   * 
-   * @param function 
-   * @param a 
-   * @param b 
-   * @param max_iterations 
-   * @return double 
-   */
+    * 
+    * @param function 
+    * @param a 
+    * @param b 
+    * @param max_iterations 
+    * @return double 
+    */
    double bisection(std::function<double(double)> function, double a, double b, size_t max_iterations = 1024);
 
    /**
@@ -177,13 +175,13 @@ namespace tvnj {
       b: end of interval
 
       returns NULL if fails
-   * 
-   * @param function 
-   * @param a 
-   * @param b 
-   * @param max_iterations 
-   * @return double 
-   */
+    * 
+    * @param function 
+    * @param a 
+    * @param b 
+    * @param max_iterations 
+    * @return double 
+    */
    double secant(std::function<double(double)> function, double a, double b, size_t max_iterations = 1024);
 
    /**
@@ -196,14 +194,14 @@ namespace tvnj {
       max_iterations: max iterations allowed to find the root
 
       returns NULL if fails
-   * 
-   * @param function 
-   * @param x 
-   * @param derivative 
-   * @param tolerance 
-   * @param max_iterations 
-   * @return double 
-   */
+    * 
+    * @param function 
+    * @param x 
+    * @param derivative 
+    * @param tolerance 
+    * @param max_iterations 
+    * @return double 
+    */
    double newtons_method(std::function<double(double)> function, double x, std::function<double(double)> derivative = NULL, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
    std::vector<double> vector_abs(std::vector<double> array);
@@ -215,21 +213,21 @@ namespace tvnj {
       t: time step
       dt: time step size
       y_previous: the addition of all previous y"s. ex: y_{n} + y_{n-1} + ...
-      function: function(t:double, x: std::vector<double>, args, kwargs) -> std::vector<double>
+      function: function(t:double, x: std::vector<double>) -> std::vector<double>
       tolerance: accuracy of the result
       max_iterations: max iterations allowed to find the fixed point
 
       returns: the fixed point y_{n+1}
-   * 
-   * @param function 
-   * @param t 
-   * @param dt 
-   * @param x 
-   * @param y_previous 
-   * @param tolerance 
-   * @param max_iterations 
-   * @return std::vector<double> 
-   */
+    * 
+    * @param function 
+    * @param t 
+    * @param dt 
+    * @param x 
+    * @param y_previous 
+    * @param tolerance 
+    * @param max_iterations 
+    * @return std::vector<double> 
+    */
    std::vector<double> backward_differentiation_formula_implicit_fixed_point_iteration(std::function<std::vector<double>(double, std::vector<double>)> function, double t, double dt, std::vector<double> x, std::vector<double> y_previous, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
    /**
@@ -241,20 +239,20 @@ namespace tvnj {
       y_n: initial y
       t: time step
       dt: time step size
-      function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+      function: function(t:double, y: std::vector<double>) -> std::vector<double>
       tolerance: accuracy of the result
-      max_iterations: max iterations allowed to find the root
+      max_iterations: max iterations allowed to find the fixed point
 
       returns: y_{n+1}
-   * 
-   * @param y_n 
-   * @param t 
-   * @param dt 
-   * @param function 
-   * @param tolerance 
-   * @param max_iterations 
-   * @return std::vector<double> 
-   */
+    * 
+    * @param y_n 
+    * @param t 
+    * @param dt 
+    * @param function 
+    * @param tolerance 
+    * @param max_iterations 
+    * @return std::vector<double> 
+    */
    std::vector<double> backward_differentiation_formula_order_6_implicit_fixed_point_iteration_step(std::vector<double> y_n, double t, double dt, std::function<std::vector<double>(double, std::vector<double>)> function, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
    std::vector<double> scalar_addition(double scalar, std::vector<double> array);
@@ -270,23 +268,23 @@ namespace tvnj {
       dt_max: max time step size
       initial_step_size: starting step size
       time_span: time bounds
-      function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+      function: function(t:double, y: std::vector<double>) -> std::vector<double>
       root_finding_tolerance: accuracy of the step result
-      root_finding_max_iterations: max iterations allowed to find the root in a step
+      root_finding_max_iterations: max iterations allowed to find the fixed point in a step
 
       returns: [time_points, y]
-   * 
-   * @param function 
-   * @param time_span 
-   * @param y_i 
-   * @param dt_max: 
-   * @param initial_step_size 
-   * @param dy_max 
-   * @param dy_min 
-   * @param root_finding_tolerance 
-   * @param root_finding_max_iterations 
-   * @return OrdinaryDifferentialEquationResult
-   */
+    * 
+    * @param function 
+    * @param time_span 
+    * @param y_i 
+    * @param dt_max: 
+    * @param initial_step_size 
+    * @param dy_max 
+    * @param dy_min 
+    * @param root_finding_tolerance 
+    * @param root_finding_max_iterations 
+    * @return OrdinaryDifferentialEquationResult
+    */
    OrdinaryDifferentialEquationResult backward_differentiation_formula_order_6_implicit_fixed_point_iteration(std::function<std::vector<double>(double, std::vector<double>)> function, std::vector<double> time_span, std::vector<double> y_i, double dt_max = std::numeric_limits<double>::infinity(), double initial_step_size = 0.01, double dy_max = 0.1, double dy_min = 0.001, double root_finding_tolerance = 0.0000001, size_t root_finding_max_iterations = 1024);
 
    /**
@@ -294,21 +292,21 @@ namespace tvnj {
       t: time step
       dt: time step size
       y_previous: the addition of all previous y"s. ex: y_{n} + y_{n-1} + ...
-      function: function(t:double, x: std::vector<double>, args, kwargs) -> std::vector<double>
+      function: function(t:double, x: std::vector<double>) -> std::vector<double>
       tolerance: accuracy of the result
-      max_iterations: max iterations allowed to find the fixed point
+      max_iterations: max iterations allowed to find the root
 
-      returns: the fixed point y_{n+1}
-   * 
-   * @param function 
-   * @param t 
-   * @param dt 
-   * @param x 
-   * @param y_previous 
-   * @param tolerance 
-   * @param max_iterations 
-   * @return std::vector<double> 
-   */
+      returns: the root y_{n+1}
+    * 
+    * @param function 
+    * @param t 
+    * @param dt 
+    * @param x 
+    * @param y_previous 
+    * @param tolerance 
+    * @param max_iterations 
+    * @return std::vector<double> 
+    */
    std::vector<double> backward_differentiation_formula_implicit_newtons_method(std::function<std::vector<double>(double, std::vector<double>)> function, double t, double dt, std::vector<double> x, std::vector<double> y_previous, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
    /**
@@ -320,24 +318,24 @@ namespace tvnj {
       y_n: initial y
       t: time step
       dt: time step size
-      function: function(t:double, y: std::vector<double>, args, kwargs) -> std::vector<double>
+      function: function(t:double, y: std::vector<double>) -> std::vector<double>
       tolerance: accuracy of the result
       max_iterations: max iterations allowed to find the root
 
       returns: y_{n+1}
-   * 
-   * @param y_n 
-   * @param t 
-   * @param dt 
-   * @param function 
-   * @param tolerance 
-   * @param max_iterations 
-   * @return std::vector<double> 
-   */
+    * 
+    * @param y_n 
+    * @param t 
+    * @param dt 
+    * @param function 
+    * @param tolerance 
+    * @param max_iterations 
+    * @return std::vector<double> 
+    */
    std::vector<double> backward_differentiation_formula_order_6_implicit_newtons_method_step(std::vector<double> y_n, double t, double dt, std::function<std::vector<double>(double, std::vector<double>)> function, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
    /**
-   * @brief implicit
+    * @brief implicit
       for stiff problems
       adaptive step size
       any order differential equation
@@ -347,25 +345,25 @@ namespace tvnj {
       dt_max: max time step size
       initial_step_size: starting step size
       time_span: time bounds
-      function: function(t:float, y: list, args, kwargs) -> list
+      function: function(float t, std::vector<double> y) -> std::vector<double>
       root_finding_tolerance: accuracy of the step result
       root_finding_max_iterations: max iterations allowed to find the root in a step
 
       https://www.uni-muenster.de/imperia/md/content/physik_tp/lectures/ss2017/numerische_Methoden_fuer_komplexe_Systeme_II/rkm-1.pdf
 
       returns: [time_points, y]
-   * 
-   * @param function 
-   * @param time_span 
-   * @param y_i 
-   * @param dt_max: 
-   * @param initial_step_size 
-   * @param dy_max 
-   * @param dy_min 
-   * @param root_finding_tolerance 
-   * @param root_finding_max_iterations 
-   * @return OrdinaryDifferentialEquationResult
-   */
+    * 
+    * @param function 
+    * @param time_span 
+    * @param y_i 
+    * @param dt_max: 
+    * @param initial_step_size 
+    * @param dy_max 
+    * @param dy_min 
+    * @param root_finding_tolerance 
+    * @param root_finding_max_iterations 
+    * @return OrdinaryDifferentialEquationResult
+    */
    OrdinaryDifferentialEquationResult backward_differentiation_formula_order_6_implicit_newtons_method(std::function<std::vector<double>(double, std::vector<double>)> function, std::vector<double> time_span, std::vector<double> y_i, double dt_max = std::numeric_limits<double>::infinity(), double initial_step_size = 0.01, double dy_max = 0.1, double dy_min = 0.001, double root_finding_tolerance = 0.0000001, size_t root_finding_max_iterations = 1024);
 }
 
