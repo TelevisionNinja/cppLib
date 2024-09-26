@@ -13,6 +13,9 @@ Arrays & Vectors:
 
 Math:
 - general math functions
+- integration methods
+- root finding methods
+- vector operations
 
 Strings:
 - utilities to manipulate strings
