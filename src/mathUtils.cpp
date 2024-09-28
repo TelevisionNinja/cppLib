@@ -171,7 +171,7 @@ std::vector<double> tvnj::linear_interpolation(std::vector<double> interpolated_
 std::vector<double> tvnj::linear_space(double min, double max, int samples) {
     std::vector<double> arr;
     double sum = min;
-    double interval_size = (max - min) / samples;
+    double interval_size = (max - min) / (samples - 1);
 
     while (sum <= max) {
         arr.push_back(sum);
