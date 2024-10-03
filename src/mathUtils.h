@@ -371,6 +371,10 @@ namespace tvnj {
     * @return OrdinaryDifferentialEquationResult
     */
    OrdinaryDifferentialEquationResult backward_differentiation_formula_order_6_implicit_newtons_method(std::function<std::vector<double>(double, std::vector<double>)> function, std::vector<double> time_span, std::vector<double> y_i, double dt_max = std::numeric_limits<double>::infinity(), double initial_step_size = 0.01, double dy_max = 0.1, double dy_min = 0.001, std::function<std::vector<double>(double, std::vector<double>)> jacobian = NULL, double root_finding_tolerance = 0.0000001, size_t root_finding_max_iterations = 1024);
+
+   std::vector<double> vector_power(std::vector<double> array, double power = 2);
+
+   std::vector<double> power_space(double start, double end, int samples, double power);
 }
 
 #endif

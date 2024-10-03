@@ -305,6 +305,25 @@ namespace tvnj {
 
     /**
      * @brief in place
+     * time O(n / 2) = O(n)
+     * space O(1)
+     * 
+     * @tparam T 
+     * @param array 
+     */
+    template<typename T>
+    void reverse(std::vector<T> &array) {
+        size_t size = array.size();
+
+        if (size < 2) {
+            return;
+        }
+
+        tvnj::reverse(array, 0, size - 1);
+    }
+
+    /**
+     * @brief in place
      * blocks must be equal length
      * blocks must be right next to each other or only separated by 1 element
      * time O(n / 2) = O(n)
