@@ -1065,6 +1065,13 @@ std::vector<double> tvnj::vector_power(std::vector<double> array, double power) 
 
 std::vector<double> tvnj::power_space(double start, double end, int samples, double power) {
     std::vector<double> space = tvnj::linear_space(0, 1, samples);
+    space = tvnj::vector_subtraction(tvnj::ones<double>(samples), tvnj::vector_power(space, power));
+    // scale normalized sequence to range [start, end]
+    return tvnj::scalar_addition(start, tvnj::scalar_multiplication(end - start, space));
+}
+
+std::vector<double> tvnj::reverse_power_space(double start, double end, int samples, double power) {
+    std::vector<double> space = tvnj::linear_space(0, 1, samples);
     tvnj::reverse<double>(space);
     space = tvnj::vector_subtraction(tvnj::ones<double>(samples), tvnj::vector_power(space, power));
     // scale normalized sequence to range [start, end]

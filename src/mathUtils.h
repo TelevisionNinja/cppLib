@@ -375,6 +375,7 @@ namespace tvnj {
    std::vector<double> vector_power(std::vector<double> array, double power = 2);
 
    std::vector<double> power_space(double start, double end, int samples, double power);
+   std::vector<double> reverse_power_space(double start, double end, int samples, double power);
 }
 
 #endif
