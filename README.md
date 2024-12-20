@@ -26,8 +26,22 @@ Data Structures:
 - doubly linked list
 
 # Build and Run Tests
+## Native
 ```bash
 cd ./tests
 g++ -std=c++23 -Wall ./*.cpp ../src/*.cpp -o test.exe
 ./test.exe
+```
+
+## Docker or Podman
+### Docker
+```bash
+docker build -t cpplib_image .
+docker run --name cpplib_container cpplib_image
+```
+
+### Podman
+```bash
+podman build -t cpplib_image .
+podman run --name cpplib_container cpplib_image
 ```
