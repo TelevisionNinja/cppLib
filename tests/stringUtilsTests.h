@@ -619,16 +619,21 @@ void stringUtilsTests() {
 
     std::vector<std::string> join4 = {};
     UNIT_TEST_EQ(tvnj::join(join4), "");
+    UNIT_TEST_NEQ(tvnj::join(join4), " ");
     join4 = {"aa"};
     UNIT_TEST_EQ(tvnj::join(join4), "aa");
     join4 = {"a","bb"};
     UNIT_TEST_EQ(tvnj::join(join4), "a bb");
+    UNIT_TEST_NEQ(tvnj::join(join4), "abb");
     join4 = {"a","bb",""};
     UNIT_TEST_EQ(tvnj::join(join4), "a bb ");
+    UNIT_TEST_NEQ(tvnj::join(join4), "a bb");
     join4 = {"","a","bb"};
     UNIT_TEST_EQ(tvnj::join(join4), " a bb");
+    UNIT_TEST_NEQ(tvnj::join(join4), "a bb");
     join4 = {"a","","bb"};
     UNIT_TEST_EQ(tvnj::join(join4), "a  bb");
+    UNIT_TEST_NEQ(tvnj::join(join4), "a bb");
 }
 
 #endif
