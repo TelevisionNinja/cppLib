@@ -37,11 +37,11 @@ g++ -std=c++23 -Wall ./*.cpp ../src/*.cpp -o test.exe
 ### Docker
 ```bash
 docker build -t cpplib_image .
-docker run --name cpplib_container cpplib_image
+docker run --replace --name cpplib_container cpplib_image
 ```
 
 ### Podman
 ```bash
 podman build -t cpplib_image .
-podman run --name cpplib_container cpplib_image
+podman run --replace --name cpplib_container cpplib_image
 ```
