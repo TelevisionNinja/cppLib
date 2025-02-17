@@ -376,6 +376,41 @@ namespace tvnj {
 
     std::vector<double> power_space(double start, double end, int samples, double power);
     std::vector<double> reverse_power_space(double start, double end, int samples, double power);
+
+    class ComplexNumber {
+        public:
+            double real;
+            double imaginary;
+            double frequency;
+
+            ComplexNumber(double real = 0, double imaginary = 0, double frequency = 0);
+
+            ComplexNumber* multiply(ComplexNumber &complexNum);
+            ComplexNumber* multiply(double scalar);
+
+            ComplexNumber* add(ComplexNumber &complexNum);
+            ComplexNumber* subtract(ComplexNumber &complexNum);
+
+            double amplitude();
+
+            double phase();
+    };
+
+    /**
+     * time complexity: O(n^2)
+     */
+    std::vector<ComplexNumber*> discreteFourierTransform(std::vector<ComplexNumber*> &x);
+
+    /**
+     * time complexity: O(n * log(n))
+     */
+    std::vector<ComplexNumber*> fastFourierTransformRecursive(std::vector<ComplexNumber*> &x);
+    
+    /**
+     * time complexity: O(n * log(n))
+     * space complexity: O(1)
+     */
+    std::vector<ComplexNumber*> fastFourierTransformIterative(std::vector<ComplexNumber*> &x);
 }
 
 #endif
