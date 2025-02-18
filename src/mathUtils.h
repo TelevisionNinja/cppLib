@@ -387,6 +387,7 @@ namespace tvnj {
 
             ComplexNumber* multiply(ComplexNumber &complexNum);
             ComplexNumber* multiply(double scalar);
+            ComplexNumber* divide(double scalar);
 
             ComplexNumber* add(ComplexNumber &complexNum);
             ComplexNumber* subtract(ComplexNumber &complexNum);
@@ -405,12 +406,28 @@ namespace tvnj {
      * time complexity: O(n * log(n))
      */
     std::vector<ComplexNumber*> fastFourierTransformRecursive(std::vector<ComplexNumber*> &x);
-    
+
     /**
      * time complexity: O(n * log(n))
      * space complexity: O(1)
      */
     std::vector<ComplexNumber*> fastFourierTransformIterative(std::vector<ComplexNumber*> &x);
+
+    /**
+     * time complexity: O(n^2)
+     */
+    std::vector<ComplexNumber*> inverseDiscreteFourierTransform(std::vector<ComplexNumber*> &x);
+
+    /**
+     * time complexity: O(n * log(n))
+     */
+    std::vector<ComplexNumber*> inverseFastFourierTransformRecursive(std::vector<ComplexNumber*> &x);
+
+    /**
+     * time complexity: O(n * log(n))
+     * space complexity: O(1)
+     */
+    std::vector<ComplexNumber*> inverseFastFourierTransformIterative(std::vector<ComplexNumber*> &x);
 }
 
 #endif

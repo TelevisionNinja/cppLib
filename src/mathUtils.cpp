@@ -1097,6 +1097,12 @@ tvnj::ComplexNumber* tvnj::ComplexNumber::multiply(double scalar) {
     return new tvnj::ComplexNumber(real, imaginary);
 };
 
+tvnj::ComplexNumber* tvnj::ComplexNumber::divide(double scalar) {
+    double real = this->real / scalar;
+    double imaginary = this->imaginary / scalar;
+    return new tvnj::ComplexNumber(real, imaginary);
+};
+
 tvnj::ComplexNumber* tvnj::ComplexNumber::add(tvnj::ComplexNumber &complexNum) {
     return new tvnj::ComplexNumber(this->real + complexNum.real, this->imaginary + complexNum.imaginary);
 };
@@ -1117,15 +1123,15 @@ std::vector<tvnj::ComplexNumber*> tvnj::discreteFourierTransform(std::vector<tvn
     const size_t N = x.size();
     std::vector<tvnj::ComplexNumber*> frequencies;
 
-    const double constant = 2 * std::numbers::pi / N;
+    const double constant = -2.0 * std::numbers::pi / N;
 
     for (size_t k = 0; k < N; k++) {
         const double currentConstantK = constant * k;
         tvnj::ComplexNumber* sum = new tvnj::ComplexNumber();
 
         for (size_t n = 0; n < N; n++) {
-            double currentConstantn = currentConstantK * n;
-            tvnj::ComplexNumber* value = new tvnj::ComplexNumber(std::cos(currentConstantn), -std::sin(currentConstantn));
+            const double currentConstantn = currentConstantK * n;
+            tvnj::ComplexNumber* value = new tvnj::ComplexNumber(std::cos(currentConstantn), std::sin(currentConstantn));
             value = x[n]->multiply(*value);
             sum = sum->add(*value);
         }
@@ -1157,8 +1163,10 @@ void fastFourierTransformRecursiveImplementation(std::vector<tvnj::ComplexNumber
     fastFourierTransformRecursiveImplementation(even);
     fastFourierTransformRecursiveImplementation(odd);
 
+    const double constant = -2.0 * std::numbers::pi / n;
+
     for (size_t i = 0; i < nHalf; i++) {
-        const double theta = -2 * std::numbers::pi * i / n;
+        const double theta = constant * i;
         tvnj::ComplexNumber* t = new tvnj::ComplexNumber(std::cos(theta), std::sin(theta));
         t = odd[i]->multiply(*t);
         x[i] = even[i]->add(*t);
@@ -1166,7 +1174,7 @@ void fastFourierTransformRecursiveImplementation(std::vector<tvnj::ComplexNumber
     }
 }
 
-std::vector<tvnj::ComplexNumber*> tvnj::fastFourierTransformRecursive(std::vector<tvnj::ComplexNumber*> &x) {    
+std::vector<tvnj::ComplexNumber*> tvnj::fastFourierTransformRecursive(std::vector<tvnj::ComplexNumber*> &x) {
     std::vector<tvnj::ComplexNumber*> temp(x);
 
     fastFourierTransformRecursiveImplementation(temp);
@@ -1202,13 +1210,15 @@ std::vector<tvnj::ComplexNumber*> tvnj::fastFourierTransformIterative(std::vecto
         }
     }
 
+    const double constant = -2.0 * std::numbers::pi;
+
     for (size_t m = 2; m <= N; m *= 2) { // iterate through powers of 2
-        const double theta = -2 * std::numbers::pi / m;
+        const double theta = constant / m;
         tvnj::ComplexNumber* w_m = new tvnj::ComplexNumber(std::cos(theta), std::sin(theta));
+        size_t mHalf = m / 2;
 
         for (size_t i = 0; i < N; i += m) {
             tvnj::ComplexNumber* w = new tvnj::ComplexNumber(1);
-            size_t mHalf = m / 2;
 
             for (size_t j = 0; j < mHalf; j++) {
                 size_t index1 = i + j;
@@ -1221,6 +1231,122 @@ std::vector<tvnj::ComplexNumber*> tvnj::fastFourierTransformIterative(std::vecto
                 w = w->multiply(*w_m);
             }
         }
+    }
+
+    return frequencies;
+}
+
+std::vector<tvnj::ComplexNumber*> tvnj::inverseDiscreteFourierTransform(std::vector<tvnj::ComplexNumber*> &x) {
+    const size_t N = x.size();
+    std::vector<tvnj::ComplexNumber*> frequencies;
+
+    const double constant = 2.0 * std::numbers::pi / N;
+
+    for (size_t k = 0; k < N; k++) {
+        const double currentConstantK = constant * k;
+        tvnj::ComplexNumber* sum = new tvnj::ComplexNumber();
+
+        for (size_t n = 0; n < N; n++) {
+            const double currentConstantn = currentConstantK * n;
+            tvnj::ComplexNumber* value = new tvnj::ComplexNumber(std::cos(currentConstantn), std::sin(currentConstantn));
+            value = x[n]->multiply(*value);
+            sum = sum->add(*value);
+        }
+
+        sum = sum->divide(N);
+        sum->frequency = k;
+
+        frequencies.push_back(sum);
+    }
+
+    return frequencies;
+}
+
+void inverseFastFourierTransformRecursiveImplementation(std::vector<tvnj::ComplexNumber*> &x) {
+    const size_t n = x.size();
+    if (n == 1) {
+        return;
+    }
+
+    const size_t nHalf = n / 2;
+
+    std::vector<tvnj::ComplexNumber*> even;
+    std::vector<tvnj::ComplexNumber*> odd;
+
+    for (size_t i = 0; i < nHalf; i++) {
+        even.push_back(x[i * 2]);
+        odd.push_back(x[i * 2 + 1]);
+    }
+
+    inverseFastFourierTransformRecursiveImplementation(even);
+    inverseFastFourierTransformRecursiveImplementation(odd);
+
+    const double constant = 2.0 * std::numbers::pi / n;
+
+    for (size_t i = 0; i < nHalf; i++) {
+        const double theta = constant * i;
+        tvnj::ComplexNumber* t = new tvnj::ComplexNumber(std::cos(theta), std::sin(theta));
+        t = odd[i]->multiply(*t);
+        x[i] = even[i]->add(*t);
+        x[i + nHalf] = even[i]->subtract(*t);
+    }
+}
+
+std::vector<tvnj::ComplexNumber*> tvnj::inverseFastFourierTransformRecursive(std::vector<tvnj::ComplexNumber*> &x) {
+    std::vector<tvnj::ComplexNumber*> temp(x);
+
+    inverseFastFourierTransformRecursiveImplementation(temp);
+
+    const size_t n = temp.size();
+    for (size_t i = 0; i < n; i++) {
+        temp[i] = temp[i]->divide(n);
+    }
+
+    return temp;
+}
+
+std::vector<tvnj::ComplexNumber*> tvnj::inverseFastFourierTransformIterative(std::vector<tvnj::ComplexNumber*> &x) {
+    std::vector<tvnj::ComplexNumber*> frequencies(x);
+    const size_t N = frequencies.size();
+
+    // bit reversal permutation
+    size_t k = 0;
+
+    for (size_t i = 1; i < N; i++) {
+        k = bit_reversal(k, N);
+
+        if (i < k) {
+            tvnj::ComplexNumber* temp = frequencies[i];
+            frequencies[i] = frequencies[k];
+            frequencies[k] = temp;
+        }
+    }
+
+    const double constant = 2.0 * std::numbers::pi;
+
+    for (size_t m = 2; m <= N; m *= 2) { // iterate through powers of 2
+        const double theta = constant / m;
+        tvnj::ComplexNumber* w_m = new tvnj::ComplexNumber(std::cos(theta), std::sin(theta));
+        size_t mHalf = m / 2;
+
+        for (size_t i = 0; i < N; i += m) {
+            tvnj::ComplexNumber* w = new tvnj::ComplexNumber(1);
+
+            for (size_t j = 0; j < mHalf; j++) {
+                size_t index1 = i + j;
+                size_t index2 = index1 + mHalf;
+
+                tvnj::ComplexNumber* u = frequencies[index1];
+                tvnj::ComplexNumber* t = frequencies[index2]->multiply(*w);
+                frequencies[index1] = u->add(*t);
+                frequencies[index2] = u->subtract(*t);
+                w = w->multiply(*w_m);
+            }
+        }
+    }
+
+    for (size_t i = 0; i < N; i++) {
+        frequencies[i] = frequencies[i]->divide(N);
     }
 
     return frequencies;

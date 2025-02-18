@@ -154,6 +154,77 @@ void mathUtilsTests() {
 
     UNIT_TEST_EQ(tvnj::join(FFTResultReal,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
     UNIT_TEST_EQ(tvnj::join(FFTResultImaginary,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
+
+    //------------------------
+
+    std::vector<tvnj::ComplexNumber*> inverseFourierTransformInput(DFTResult);
+    DFTResult = tvnj::inverseDiscreteFourierTransform(inverseFourierTransformInput);
+    DFTResultReal.clear();
+    DFTResultImaginary.clear();
+
+    for (size_t i = 0; i < DFTResult.size(); i++) {
+        DFTResultReal.push_back(DFTResult[i]->real);
+        DFTResultImaginary.push_back(DFTResult[i]->imaginary);
+    }
+
+    FFTResult = tvnj::inverseFastFourierTransformRecursive(inverseFourierTransformInput);
+    FFTResultReal.clear();
+    FFTResultImaginary.clear();
+
+    for (size_t i = 0; i < FFTResult.size(); i++) {
+        FFTResultReal.push_back(FFTResult[i]->real - DFTResultReal[i]);
+        FFTResultImaginary.push_back(FFTResult[i]->imaginary - DFTResultImaginary[i]);
+
+        // deal with -0.0
+        if (FFTResultReal[i] < 0) {
+            FFTResultReal[i] *= -1;
+        }
+        if (FFTResultImaginary[i] < 0) {
+            FFTResultImaginary[i] *= -1;
+        }
+    }
+
+    UNIT_TEST_EQ(tvnj::join(FFTResultReal,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
+    UNIT_TEST_EQ(tvnj::join(FFTResultImaginary,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
+
+    FFTResult = tvnj::inverseFastFourierTransformIterative(inverseFourierTransformInput);
+    FFTResultReal.clear();
+    FFTResultImaginary.clear();
+
+    for (size_t i = 0; i < FFTResult.size(); i++) {
+        FFTResultReal.push_back(FFTResult[i]->real - DFTResultReal[i]);
+        FFTResultImaginary.push_back(FFTResult[i]->imaginary - DFTResultImaginary[i]);
+
+        // deal with -0.0
+        if (FFTResultReal[i] < 0) {
+            FFTResultReal[i] *= -1;
+        }
+        if (FFTResultImaginary[i] < 0) {
+            FFTResultImaginary[i] *= -1;
+        }
+    }
+
+    UNIT_TEST_EQ(tvnj::join(FFTResultReal,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
+    UNIT_TEST_EQ(tvnj::join(FFTResultImaginary,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
+
+    FFTResultReal.clear();
+    FFTResultImaginary.clear();
+
+    for (size_t i = 0; i < FFTResult.size(); i++) {
+        FFTResultReal.push_back(FFTResult[i]->real - signal[i]->real);
+        FFTResultImaginary.push_back(FFTResult[i]->imaginary - signal[i]->imaginary);
+
+        // deal with -0.0
+        if (FFTResultReal[i] < 0) {
+            FFTResultReal[i] *= -1;
+        }
+        if (FFTResultImaginary[i] < 0) {
+            FFTResultImaginary[i] *= -1;
+        }
+    }
+
+    UNIT_TEST_EQ(tvnj::join(FFTResultReal,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
+    UNIT_TEST_EQ(tvnj::join(FFTResultImaginary,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
 }
 
 #endif
