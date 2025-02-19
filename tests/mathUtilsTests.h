@@ -16,6 +16,10 @@ std::vector<double> stiff(double t, std::vector<double> y) {
     return {mlambda1 * y[0], mlambda2 * y[1]};
 }
 
+tvnj::DualNumber f(tvnj::DualNumber x, tvnj::DualNumber y) {
+    return x.multiply(x.add(y)).add(y.multiply(y));
+}
+
 void mathUtilsTests() {
     UNIT_TEST_EQ(tvnj::exponentiationBySquaring(-1, -2), 1);
     UNIT_TEST_EQ(tvnj::exponentiationBySquaring(-1, -1), -1);
@@ -58,6 +62,8 @@ void mathUtilsTests() {
     UNIT_TEST_EQ(tvnj::exponentiationBySquaring(2, 1), std::pow(2, 1));
     UNIT_TEST_EQ(tvnj::exponentiationBySquaring(2, 2), std::pow(2, 2));
     UNIT_TEST_EQ(tvnj::exponentiationBySquaring(2, 3), std::pow(2, 3));
+
+    //------------------------
 
     std::vector<double> t = {0,5000};
     std::vector<double> y0 = {0.00001};
@@ -225,6 +231,14 @@ void mathUtilsTests() {
 
     UNIT_TEST_EQ(tvnj::join(FFTResultReal,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
     UNIT_TEST_EQ(tvnj::join(FFTResultImaginary,", "), tvnj::repeat("0.000000, ", DFTResult.size() - 1) +  + "0.000000");
+
+    //------------------------
+
+    tvnj::DualNumber x(2);
+    tvnj::DualNumber y(3);
+    tvnj::DualNumber e(0, 1);
+    UNIT_TEST_EQ(f(x.add(e), y).infinitesimal, 7);
+    UNIT_TEST_EQ(f(x, y.add(e)).infinitesimal, 8);
 }
 
 #endif

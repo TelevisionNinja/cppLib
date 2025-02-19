@@ -1097,6 +1097,13 @@ tvnj::ComplexNumber* tvnj::ComplexNumber::multiply(double scalar) {
     return new tvnj::ComplexNumber(real, imaginary);
 };
 
+tvnj::ComplexNumber* tvnj::ComplexNumber::divide(tvnj::ComplexNumber &complexNum) {
+    const double denominator = complexNum.real * complexNum.real + complexNum.imaginary * complexNum.imaginary;
+    double real = (this->real * complexNum.real + this->imaginary * complexNum.imaginary) / denominator;
+    double imaginary = (this->imaginary * complexNum.real - this->real * complexNum.imaginary) / denominator;
+    return new tvnj::ComplexNumber(real, imaginary);
+};
+
 tvnj::ComplexNumber* tvnj::ComplexNumber::divide(double scalar) {
     double real = this->real / scalar;
     double imaginary = this->imaginary / scalar;
@@ -1351,3 +1358,40 @@ std::vector<tvnj::ComplexNumber*> tvnj::inverseFastFourierTransformIterative(std
 
     return frequencies;
 }
+
+tvnj::DualNumber::DualNumber(double real, double infinitesimal) {
+    this->real = real;
+    this->infinitesimal = infinitesimal;
+};
+
+tvnj::DualNumber tvnj::DualNumber::multiply(tvnj::DualNumber dualNum) {
+    double real = this->real * dualNum.real;
+    double infinitesimal = this->real * dualNum.infinitesimal + this->infinitesimal * dualNum.real;
+    return tvnj::DualNumber(real, infinitesimal);
+};
+
+tvnj::DualNumber tvnj::DualNumber::multiply(double scalar) {
+    double real = this->real * scalar;
+    double infinitesimal = this->infinitesimal * scalar;
+    return tvnj::DualNumber(real, infinitesimal);
+};
+
+tvnj::DualNumber tvnj::DualNumber::divide(tvnj::DualNumber dualNum) {
+    double real = this->real / dualNum.real;
+    double infinitesimal = (this->infinitesimal * dualNum.real - this->real * dualNum.infinitesimal) / (dualNum.real * dualNum.real);
+    return tvnj::DualNumber(real, infinitesimal);
+};
+
+tvnj::DualNumber tvnj::DualNumber::divide(double scalar) {
+    double real = this->real / scalar;
+    double infinitesimal = this->infinitesimal / scalar;
+    return tvnj::DualNumber(real, infinitesimal);
+};
+
+tvnj::DualNumber tvnj::DualNumber::add(tvnj::DualNumber dualNum) {
+    return tvnj::DualNumber(this->real + dualNum.real, this->infinitesimal + dualNum.infinitesimal);
+};
+
+tvnj::DualNumber tvnj::DualNumber::subtract(tvnj::DualNumber dualNum) {
+    return tvnj::DualNumber(this->real - dualNum.real, this->infinitesimal - dualNum.infinitesimal);
+};

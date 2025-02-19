@@ -387,6 +387,8 @@ namespace tvnj {
 
             ComplexNumber* multiply(ComplexNumber &complexNum);
             ComplexNumber* multiply(double scalar);
+
+            ComplexNumber* divide(ComplexNumber &complexNum);
             ComplexNumber* divide(double scalar);
 
             ComplexNumber* add(ComplexNumber &complexNum);
@@ -428,6 +430,23 @@ namespace tvnj {
      * space complexity: O(1)
      */
     std::vector<ComplexNumber*> inverseFastFourierTransformIterative(std::vector<ComplexNumber*> &x);
+
+    class DualNumber {
+        public:
+            double real;
+            double infinitesimal;
+
+            DualNumber(double real = 0, double infinitesimal = 0);
+
+            DualNumber multiply(DualNumber complexNum);
+            DualNumber multiply(double scalar);
+
+            DualNumber divide(DualNumber complexNum);
+            DualNumber divide(double scalar);
+
+            DualNumber add(DualNumber complexNum);
+            DualNumber subtract(DualNumber complexNum);
+    };
 }
 
 #endif
