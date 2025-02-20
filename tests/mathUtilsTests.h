@@ -106,28 +106,28 @@ void mathUtilsTests() {
     //------------------------
 
     const size_t N = 8;
-    std::vector<tvnj::ComplexNumber*> signal;
+    std::vector<tvnj::ComplexNumber> signal;
 
     for (size_t i = 0; i < N; i++) {
-        signal.push_back(new tvnj::ComplexNumber(i, -((double) (i))));
+        signal.push_back(tvnj::ComplexNumber(i, -((double) (i))));
     }
 
-    std::vector<tvnj::ComplexNumber*> DFTResult = tvnj::discreteFourierTransform(signal);
+    std::vector<tvnj::ComplexNumber> DFTResult = tvnj::discreteFourierTransform(signal);
     std::vector<double> DFTResultReal;
     std::vector<double> DFTResultImaginary;
 
     for (size_t i = 0; i < DFTResult.size(); i++) {
-        DFTResultReal.push_back(DFTResult[i]->real);
-        DFTResultImaginary.push_back(DFTResult[i]->imaginary);
+        DFTResultReal.push_back(DFTResult[i].real);
+        DFTResultImaginary.push_back(DFTResult[i].imaginary);
     }
 
-    std::vector<tvnj::ComplexNumber*> FFTResult = tvnj::fastFourierTransformRecursive(signal);
+    std::vector<tvnj::ComplexNumber> FFTResult = tvnj::fastFourierTransformRecursive(signal);
     std::vector<double> FFTResultReal;
     std::vector<double> FFTResultImaginary;
 
     for (size_t i = 0; i < FFTResult.size(); i++) {
-        FFTResultReal.push_back(FFTResult[i]->real - DFTResultReal[i]);
-        FFTResultImaginary.push_back(FFTResult[i]->imaginary - DFTResultImaginary[i]);
+        FFTResultReal.push_back(FFTResult[i].real - DFTResultReal[i]);
+        FFTResultImaginary.push_back(FFTResult[i].imaginary - DFTResultImaginary[i]);
 
         // deal with -0.0
         if (FFTResultReal[i] < 0) {
@@ -146,8 +146,8 @@ void mathUtilsTests() {
     FFTResultImaginary.clear();
 
     for (size_t i = 0; i < FFTResult.size(); i++) {
-        FFTResultReal.push_back(FFTResult[i]->real - DFTResultReal[i]);
-        FFTResultImaginary.push_back(FFTResult[i]->imaginary - DFTResultImaginary[i]);
+        FFTResultReal.push_back(FFTResult[i].real - DFTResultReal[i]);
+        FFTResultImaginary.push_back(FFTResult[i].imaginary - DFTResultImaginary[i]);
 
         // deal with -0.0
         if (FFTResultReal[i] < 0) {
@@ -163,14 +163,14 @@ void mathUtilsTests() {
 
     //------------------------
 
-    std::vector<tvnj::ComplexNumber*> inverseFourierTransformInput(DFTResult);
+    std::vector<tvnj::ComplexNumber> inverseFourierTransformInput(DFTResult);
     DFTResult = tvnj::inverseDiscreteFourierTransform(inverseFourierTransformInput);
     DFTResultReal.clear();
     DFTResultImaginary.clear();
 
     for (size_t i = 0; i < DFTResult.size(); i++) {
-        DFTResultReal.push_back(DFTResult[i]->real);
-        DFTResultImaginary.push_back(DFTResult[i]->imaginary);
+        DFTResultReal.push_back(DFTResult[i].real);
+        DFTResultImaginary.push_back(DFTResult[i].imaginary);
     }
 
     FFTResult = tvnj::inverseFastFourierTransformRecursive(inverseFourierTransformInput);
@@ -178,8 +178,8 @@ void mathUtilsTests() {
     FFTResultImaginary.clear();
 
     for (size_t i = 0; i < FFTResult.size(); i++) {
-        FFTResultReal.push_back(FFTResult[i]->real - DFTResultReal[i]);
-        FFTResultImaginary.push_back(FFTResult[i]->imaginary - DFTResultImaginary[i]);
+        FFTResultReal.push_back(FFTResult[i].real - DFTResultReal[i]);
+        FFTResultImaginary.push_back(FFTResult[i].imaginary - DFTResultImaginary[i]);
 
         // deal with -0.0
         if (FFTResultReal[i] < 0) {
@@ -198,8 +198,8 @@ void mathUtilsTests() {
     FFTResultImaginary.clear();
 
     for (size_t i = 0; i < FFTResult.size(); i++) {
-        FFTResultReal.push_back(FFTResult[i]->real - DFTResultReal[i]);
-        FFTResultImaginary.push_back(FFTResult[i]->imaginary - DFTResultImaginary[i]);
+        FFTResultReal.push_back(FFTResult[i].real - DFTResultReal[i]);
+        FFTResultImaginary.push_back(FFTResult[i].imaginary - DFTResultImaginary[i]);
 
         // deal with -0.0
         if (FFTResultReal[i] < 0) {
@@ -217,8 +217,8 @@ void mathUtilsTests() {
     FFTResultImaginary.clear();
 
     for (size_t i = 0; i < FFTResult.size(); i++) {
-        FFTResultReal.push_back(FFTResult[i]->real - signal[i]->real);
-        FFTResultImaginary.push_back(FFTResult[i]->imaginary - signal[i]->imaginary);
+        FFTResultReal.push_back(FFTResult[i].real - signal[i].real);
+        FFTResultImaginary.push_back(FFTResult[i].imaginary - signal[i].imaginary);
 
         // deal with -0.0
         if (FFTResultReal[i] < 0) {
@@ -239,6 +239,20 @@ void mathUtilsTests() {
     tvnj::DualNumber e(0, 1);
     UNIT_TEST_EQ(f(x.add(e), y).infinitesimal, 7);
     UNIT_TEST_EQ(f(x, y.add(e)).infinitesimal, 8);
+
+    //------------------------
+
+    tvnj::DualNumber dual1(1, 2);
+    tvnj::DualNumber dual2(dual1);
+    UNIT_TEST_EQ(dual1.real, dual2.real);
+    UNIT_TEST_EQ(dual1.infinitesimal, dual2.infinitesimal);
+
+    //------------------------
+
+    tvnj::ComplexNumber complex1(1, 2);
+    tvnj::ComplexNumber complex2(complex1);
+    UNIT_TEST_EQ(complex1.real, complex2.real);
+    UNIT_TEST_EQ(complex1.imaginary, complex2.imaginary);
 }
 
 #endif

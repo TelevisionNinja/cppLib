@@ -384,15 +384,17 @@ namespace tvnj {
             double frequency;
 
             ComplexNumber(double real = 0, double imaginary = 0, double frequency = 0);
+            ComplexNumber(const ComplexNumber &complexNum);
+            ~ComplexNumber() {};
 
-            ComplexNumber* multiply(ComplexNumber &complexNum);
-            ComplexNumber* multiply(double scalar);
+            ComplexNumber multiply(ComplexNumber complexNum);
+            ComplexNumber multiply(double scalar);
 
-            ComplexNumber* divide(ComplexNumber &complexNum);
-            ComplexNumber* divide(double scalar);
+            ComplexNumber divide(ComplexNumber complexNum);
+            ComplexNumber divide(double scalar);
 
-            ComplexNumber* add(ComplexNumber &complexNum);
-            ComplexNumber* subtract(ComplexNumber &complexNum);
+            ComplexNumber add(ComplexNumber complexNum);
+            ComplexNumber subtract(ComplexNumber complexNum);
 
             double amplitude();
 
@@ -402,34 +404,34 @@ namespace tvnj {
     /**
      * time complexity: O(n^2)
      */
-    std::vector<ComplexNumber*> discreteFourierTransform(std::vector<ComplexNumber*> &x);
+    std::vector<ComplexNumber> discreteFourierTransform(std::vector<ComplexNumber> &x);
 
     /**
      * time complexity: O(n * log(n))
      */
-    std::vector<ComplexNumber*> fastFourierTransformRecursive(std::vector<ComplexNumber*> &x);
+    std::vector<ComplexNumber> fastFourierTransformRecursive(std::vector<ComplexNumber> &x);
 
     /**
      * time complexity: O(n * log(n))
      * space complexity: O(1)
      */
-    std::vector<ComplexNumber*> fastFourierTransformIterative(std::vector<ComplexNumber*> &x);
+    std::vector<ComplexNumber> fastFourierTransformIterative(std::vector<ComplexNumber> &x);
 
     /**
      * time complexity: O(n^2)
      */
-    std::vector<ComplexNumber*> inverseDiscreteFourierTransform(std::vector<ComplexNumber*> &x);
+    std::vector<ComplexNumber> inverseDiscreteFourierTransform(std::vector<ComplexNumber> &x);
 
     /**
      * time complexity: O(n * log(n))
      */
-    std::vector<ComplexNumber*> inverseFastFourierTransformRecursive(std::vector<ComplexNumber*> &x);
+    std::vector<ComplexNumber> inverseFastFourierTransformRecursive(std::vector<ComplexNumber> &x);
 
     /**
      * time complexity: O(n * log(n))
      * space complexity: O(1)
      */
-    std::vector<ComplexNumber*> inverseFastFourierTransformIterative(std::vector<ComplexNumber*> &x);
+    std::vector<ComplexNumber> inverseFastFourierTransformIterative(std::vector<ComplexNumber> &x);
 
     class DualNumber {
         public:
@@ -437,15 +439,17 @@ namespace tvnj {
             double infinitesimal;
 
             DualNumber(double real = 0, double infinitesimal = 0);
+            DualNumber(const DualNumber &dualNum);
+            ~DualNumber() {};
 
-            DualNumber multiply(DualNumber complexNum);
+            DualNumber multiply(DualNumber dualNum);
             DualNumber multiply(double scalar);
 
-            DualNumber divide(DualNumber complexNum);
+            DualNumber divide(DualNumber dualNum);
             DualNumber divide(double scalar);
 
-            DualNumber add(DualNumber complexNum);
-            DualNumber subtract(DualNumber complexNum);
+            DualNumber add(DualNumber dualNum);
+            DualNumber subtract(DualNumber dualNum);
     };
 }
 
