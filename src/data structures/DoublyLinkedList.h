@@ -35,7 +35,9 @@ namespace tvnj {
                     this->length = list.length;
                 }
             };
-            ~DoublyLinkedList() {};
+            ~DoublyLinkedList() {
+                this->clear();
+            };
 
             size_t size() const {
                 return this->length;
