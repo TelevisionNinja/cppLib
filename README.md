@@ -16,10 +16,14 @@ Math:
 - integration methods
 - root finding methods
 - vector operations
+- fast fourier transform
+- complex numbers
+- dual numbers
 
 Strings:
 - utilities to manipulate strings
 - search
+- edit distance
 
 Data Structures:
 - binary heap
