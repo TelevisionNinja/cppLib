@@ -1,7 +1,7 @@
 #include "stringUtils.h"
-#include <stdexcept>
-#include <algorithm>
+#include <stdexcept> // throw exceptions
 #include <regex>
+#include "arrayUtils.h"
 
 const std::unordered_set<char> whitespaceChars = {
     '\n', // 10, newline
@@ -1292,7 +1292,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, char delimiter,
             count++;
             if (count == n) { // count >= n
                 words.push_back(str.substr(0, i));
-                std::reverse(words.begin(), words.end());
+                tvnj::reverse(words);
                 return words;
             }
 
@@ -1306,7 +1306,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, char delimiter,
     }
 
     words.push_back(word);
-    std::reverse(words.begin(), words.end());
+    tvnj::reverse(words);
     return words;
 }
 
@@ -1343,7 +1343,7 @@ std::vector<std::string> tvnj::splitRight(std::string str, char delimiter, int i
     }
 
     words.push_back(word);
-    std::reverse(words.begin(), words.end());
+    tvnj::reverse(words);
     return words;
 }
 
@@ -1504,7 +1504,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::unordered_
             count++;
             if (count == n) { // count >= n
                 words.push_back(str.substr(0, i));
-                std::reverse(words.begin(), words.end());
+                tvnj::reverse(words);
                 return words;
             }
 
@@ -1518,7 +1518,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::unordered_
     }
 
     words.push_back(word);
-    std::reverse(words.begin(), words.end());
+    tvnj::reverse(words);
     return words;
 }
 
@@ -1555,7 +1555,7 @@ std::vector<std::string> tvnj::splitRight(std::string str, std::unordered_set<ch
     }
 
     words.push_back(word);
-    std::reverse(words.begin(), words.end());
+    tvnj::reverse(words);
     return words;
 }
 
@@ -1840,7 +1840,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string del
                 count++;
                 if (count == n) { // count >= n
                     words.push_back(str.substr(0, i - delimiterLen));
-                    std::reverse(words.begin(), words.end());
+                    tvnj::reverse(words);
                     return words;
                 }
 
@@ -1870,7 +1870,7 @@ std::vector<std::string> tvnj::splitNTimesRight(std::string str, std::string del
         words.push_back(word);
     }
 
-    std::reverse(words.begin(), words.end());
+    tvnj::reverse(words);
     return words;
 }
 
@@ -1951,7 +1951,7 @@ std::vector<std::string> tvnj::splitRight(std::string str, std::string delimiter
         words.push_back(word);
     }
 
-    std::reverse(words.begin(), words.end());
+    tvnj::reverse(words);
     return words;
 }
 
