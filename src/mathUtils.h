@@ -2,8 +2,8 @@
 #define MATHUTILS_H
 
 #include <vector>
-#include <functional>
-#include <limits>
+#include <functional> // callbacks
+#include <limits> // infinity
 
 namespace tvnj {
     double exponentiationBySquaring(double base, unsigned int power);
@@ -15,7 +15,7 @@ namespace tvnj {
      * @param std::vector<double> 
      * @param std::vector<double> 
      * @return double 
-    */
+     */
     double integrate_trapezoid(std::vector<double> y, std::vector<double> x);
 
     /**
@@ -26,7 +26,7 @@ namespace tvnj {
      * @param x_two 
      * @param y_two 
      * @return double 
-    */
+     */
     double slope(double x_one, double y_one, double x_two, double y_two);
 
     /**
@@ -36,7 +36,7 @@ namespace tvnj {
      * @param x 
      * @param y 
      * @return std::vector<double> 
-    */
+     */
     std::vector<double> linear_interpolation(std::vector<double> interpolated_x, std::vector<double> x, std::vector<double> y);
 
     /**
@@ -48,8 +48,8 @@ namespace tvnj {
      * @param max 
      * @param samples 
      * @return std::vector<double> 
-    */
-    std::vector<double> linear_space(double min, double max, int samples);
+     */
+    std::vector<double> linear_space(double min, double max, size_t samples);
 
     /**
      * @brief 
@@ -60,7 +60,7 @@ namespace tvnj {
      * @param x_two 
      * @param y_two 
      * @return double 
-    */
+     */
     double linear_interpolation_single_point(double x, double x_one, double y_one, double x_two, double y_two);
 
     /**
@@ -70,7 +70,7 @@ namespace tvnj {
      * @param x 
      * @param initial 
      * @return std::vector<double> 
-    */
+     */
     std::vector<double> integrate_cumulative_trapezoid(std::vector<double> y, std::vector<double> x, double initial = NULL);
 
     std::vector<double> scalar_multiplication(double scalar, std::vector<double> array);
@@ -100,7 +100,7 @@ namespace tvnj {
      * @param dt 
      * @param function 
      * @return std::vector<double> 
-    */
+     */
     std::vector<double> runge_kutta_order_4_explicit_step(std::vector<double> y_n, double t, double dt, std::function<std::vector<double>(double, std::vector<double>)> function);
 
     struct OrdinaryDifferentialEquationResult {
@@ -131,7 +131,7 @@ namespace tvnj {
      * @param dy_max 
      * @param dy_min 
      * @return OrdinaryDifferentialEquationResult
-    */
+     */
     OrdinaryDifferentialEquationResult runge_kutta_order_4_explicit(std::function<std::vector<double>(double, std::vector<double>)> function, std::vector<double> time_span, std::vector<double> y_i, double dt_max = std::numeric_limits<double>::infinity(), double initial_step_size = 0.01, double dy_max = 0.1, double dy_min = 0.001);
 
     /**
@@ -140,7 +140,7 @@ namespace tvnj {
      * @param low 
      * @param high 
      * @return double 
-    */
+     */
     double midpoint_no_overflow(double low, double high);
 
     /**
@@ -149,7 +149,7 @@ namespace tvnj {
      * @param a 
      * @param b 
      * @return double 
-    */
+     */
     double midpoint(double a, double b);
 
     /**
@@ -165,7 +165,7 @@ namespace tvnj {
      * @param b 
      * @param max_iterations 
      * @return double 
-    */
+     */
     double bisection(std::function<double(double)> function, double a, double b, size_t max_iterations = 1024);
 
     /**
@@ -181,7 +181,7 @@ namespace tvnj {
      * @param b 
      * @param max_iterations 
      * @return double 
-    */
+     */
     double secant(std::function<double(double)> function, double a, double b, size_t max_iterations = 1024);
 
     /**
@@ -201,7 +201,7 @@ namespace tvnj {
      * @param tolerance 
      * @param max_iterations 
      * @return double 
-    */
+     */
     double newtons_method(std::function<double(double)> function, double x, std::function<double(double)> derivative = NULL, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
     std::vector<double> vector_abs(std::vector<double> array);
@@ -227,7 +227,7 @@ namespace tvnj {
      * @param tolerance 
      * @param max_iterations 
      * @return std::vector<double> 
-    */
+     */
     std::vector<double> backward_differentiation_formula_implicit_fixed_point_iteration(std::function<std::vector<double>(double, std::vector<double>)> function, double t, double dt, std::vector<double> x, std::vector<double> y_previous, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
     /**
@@ -252,7 +252,7 @@ namespace tvnj {
      * @param tolerance 
      * @param max_iterations 
      * @return std::vector<double> 
-    */
+     */
     std::vector<double> backward_differentiation_formula_order_6_implicit_fixed_point_iteration_step(std::vector<double> y_n, double t, double dt, std::function<std::vector<double>(double, std::vector<double>)> function, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
     std::vector<double> scalar_addition(double scalar, std::vector<double> array);
@@ -284,7 +284,7 @@ namespace tvnj {
      * @param root_finding_tolerance 
      * @param root_finding_max_iterations 
      * @return OrdinaryDifferentialEquationResult
-    */
+     */
     OrdinaryDifferentialEquationResult backward_differentiation_formula_order_6_implicit_fixed_point_iteration(std::function<std::vector<double>(double, std::vector<double>)> function, std::vector<double> time_span, std::vector<double> y_i, double dt_max = std::numeric_limits<double>::infinity(), double initial_step_size = 0.01, double dy_max = 0.1, double dy_min = 0.001, double root_finding_tolerance = 0.0000001, size_t root_finding_max_iterations = 1024);
 
     /**
@@ -308,7 +308,7 @@ namespace tvnj {
      * @param tolerance 
      * @param max_iterations 
      * @return std::vector<double> 
-    */
+     */
     std::vector<double> backward_differentiation_formula_implicit_newtons_method(std::function<std::vector<double>(double, std::vector<double>)> function, double t, double dt, std::vector<double> x, std::vector<double> y_previous, std::function<std::vector<double>(double, std::vector<double>)> jacobian = NULL, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
     /**
@@ -335,7 +335,7 @@ namespace tvnj {
      * @param tolerance 
      * @param max_iterations 
      * @return std::vector<double> 
-    */
+     */
     std::vector<double> backward_differentiation_formula_order_6_implicit_newtons_method_step(std::vector<double> y_n, double t, double dt, std::function<std::vector<double>(double, std::vector<double>)> function, std::function<std::vector<double>(double, std::vector<double>)> jacobian = NULL, double tolerance = 0.0000001, size_t max_iterations = 1024);
 
     /**
@@ -369,7 +369,7 @@ namespace tvnj {
      * @param root_finding_tolerance 
      * @param root_finding_max_iterations 
      * @return OrdinaryDifferentialEquationResult
-    */
+     */
     OrdinaryDifferentialEquationResult backward_differentiation_formula_order_6_implicit_newtons_method(std::function<std::vector<double>(double, std::vector<double>)> function, std::vector<double> time_span, std::vector<double> y_i, double dt_max = std::numeric_limits<double>::infinity(), double initial_step_size = 0.01, double dy_max = 0.1, double dy_min = 0.001, std::function<std::vector<double>(double, std::vector<double>)> jacobian = NULL, double root_finding_tolerance = 0.0000001, size_t root_finding_max_iterations = 1024);
 
     std::vector<double> vector_power(std::vector<double> array, double power = 2);

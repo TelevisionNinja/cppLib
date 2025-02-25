@@ -1,7 +1,7 @@
 #include "mathUtils.h"
 #include "arrayUtils.h"
 #include <cmath>
-#include <numbers>
+#include <numbers> // pi
 
 /**
  * 
@@ -169,11 +169,11 @@ std::vector<double> tvnj::linear_interpolation(std::vector<double> interpolated_
  * @param samples 
  * @return std::vector<double> 
  */
-std::vector<double> tvnj::linear_space(double min, double max, int samples) {
+std::vector<double> tvnj::linear_space(double min, double max, size_t samples) {
     std::vector<double> arr;
     double sum = min;
     samples--;
-    double interval_size = (max - min) / (samples);
+    double interval_size = (max - min) / samples;
     size_t i = 0;
 
     while (i < samples) {
@@ -357,7 +357,7 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::runge_kutta_order_4_explicit(std:
         std::vector<double> y_previous = tvnj::vector_subtraction(y_integrated_new, tvnj::scalar_multiplication(dt, slope_next));
         std::vector<double> y_difference_2 = tvnj::vector_abs(tvnj::vector_subtraction(y_integrated, y_previous));
 
-        if (tvnj::max<double>(y_difference_1) > dy_max || tvnj::max<double>(y_difference_2) > dy_max) { // predicted y max
+        if (tvnj::max(y_difference_1) > dy_max || tvnj::max(y_difference_2) > dy_max) { // predicted y max
             dt /= 2;
         }
         else {
@@ -366,7 +366,7 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::runge_kutta_order_4_explicit(std:
             t += dt;
             time_points.push_back(t);
 
-            if (tvnj::min<double>(y_difference_1) <= dy_min || tvnj::min<double>(y_difference_2) <= dy_min) { // predicted y min
+            if (tvnj::min(y_difference_1) <= dy_min || tvnj::min(y_difference_2) <= dy_min) { // predicted y min
                 dt *= 2;
 
                 if (dt > dt_max) {
@@ -620,7 +620,7 @@ std::vector<double> tvnj::backward_differentiation_formula_implicit_fixed_point_
             return x;
         }
 
-        if (tvnj::max<double>(tvnj::vector_abs(tvnj::vector_subtraction(x, y))) < tolerance) {
+        if (tvnj::max(tvnj::vector_abs(tvnj::vector_subtraction(x, y))) < tolerance) {
             return y;
         }
 
@@ -768,7 +768,7 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::backward_differentiation_formula_
         std::vector<double> y_previous = tvnj::vector_subtraction(y_integrated_new, tvnj::scalar_multiplication(dt, slope_next));
         std::vector<double> y_difference_2 = tvnj::vector_abs(tvnj::vector_subtraction(y_integrated, y_previous));
 
-        if (tvnj::max<double>(y_difference_1) > dy_max || tvnj::max<double>(y_difference_2) > dy_max) { // predicted y max
+        if (tvnj::max(y_difference_1) > dy_max || tvnj::max(y_difference_2) > dy_max) { // predicted y max
             dt /= 2;
         }
         else {
@@ -777,7 +777,7 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::backward_differentiation_formula_
             t += dt;
             time_points.push_back(t);
 
-            if (tvnj::min<double>(y_difference_1) <= dy_min || tvnj::min<double>(y_difference_2) <= dy_min) { // predicted y min
+            if (tvnj::min(y_difference_1) <= dy_min || tvnj::min(y_difference_2) <= dy_min) { // predicted y min
                 dt *= 2;
 
                 if (dt > dt_max) {
@@ -1007,7 +1007,7 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::backward_differentiation_formula_
         std::vector<double> y_previous = tvnj::vector_subtraction(y_integrated_new, tvnj::scalar_multiplication(dt, slope_next));
         std::vector<double> y_difference_2 = tvnj::vector_abs(tvnj::vector_subtraction(y_integrated, y_previous));
 
-        double maximum = std::max(tvnj::max<double>(y_difference_1), tvnj::max<double>(y_difference_2));
+        double maximum = std::max(tvnj::max(y_difference_1), tvnj::max(y_difference_2));
         if (maximum > dy_max) { // predicted y max
             if (std::isnan(maximum) || std::isinf(maximum)) {
                 dt /= 2;
@@ -1022,7 +1022,7 @@ tvnj::OrdinaryDifferentialEquationResult tvnj::backward_differentiation_formula_
             t += dt;
             time_points.push_back(t);
 
-            double minimum = std::min(tvnj::min<double>(y_difference_1), tvnj::min<double>(y_difference_2));
+            double minimum = std::min(tvnj::min(y_difference_1), tvnj::min(y_difference_2));
             if (minimum <= dy_min) { // predicted y min
                 if (minimum == 0) {
                     dt *= 2;
