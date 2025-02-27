@@ -32,8 +32,13 @@ Data Structures:
 # Build and Run Tests
 ## Native
 ```bash
-cd ./tests
-g++ -std=c++23 -Wall ./*.cpp ../src/*.cpp -o test.exe
+g++ -std=c++23 -Wall ./tests/*.cpp ./src/*.cpp -o ./test.exe
+./test.exe
+```
+
+## Make
+```bash
+make
 ./test.exe
 ```
 
