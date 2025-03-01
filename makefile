@@ -15,4 +15,4 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm $(OBJS) ./test.exe
+	rm $(OBJS) $(BUILD_DIR)/$(TARGET_EXEC)
