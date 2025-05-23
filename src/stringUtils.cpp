@@ -3906,3 +3906,17 @@ int tvnj::editDistanceFast(std::string word1, std::string word2) {
 
     return distance[word2Length - 1];
 }
+
+std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::string> tags) {
+    std::string result = document;
+
+    for (size_t i = 0; i < tags.size(); i++) {
+        std::string tag = tags[i];
+        tag = tvnj::escapeRegex(tag);
+
+        std::regex tagRegex("(<" + tag + "(\\s+[\\s\\S]*)?>[\\s\\S]*<\\/" + tag + ">)|(<" + tag + "\\s*(\\w+=\".*\"\\s*)*\\/>)", std::regex_constants::icase);
+        result = std::regex_replace(result, tagRegex, "");
+    }
+
+    return result;
+}

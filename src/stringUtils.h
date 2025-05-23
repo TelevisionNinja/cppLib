@@ -203,6 +203,10 @@ namespace tvnj {
     //-------------------------------------------------
 
     int editDistanceFast(std::string word1, std::string word2);
+
+    //-------------------------------------------------
+
+    std::string sanitizeMarkupLanguage(std::string document, std::vector<std::string> tags);
 }
 
 #endif

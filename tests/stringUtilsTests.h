@@ -634,6 +634,102 @@ void stringUtilsTests() {
     join4 = {"a","","bb"};
     UNIT_TEST_EQ(tvnj::join(join4), "a  bb");
     UNIT_TEST_NEQ(tvnj::join(join4), "a bb");
+
+    UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
+        "<script> </script>"
+        "<script></script>"
+        "<scripta>"
+        " asdasd"
+        "</scripta>"
+        "\n"
+        "<scriptb ></scriptb>"
+        "<scriptb a=\"\"></scriptb>"
+        "<scriptc a=\"\"b=\"\"></scriptc>"
+        "<scriptd a=\"\" b=\"\"></scriptd>"
+        "<scriptg a=\">\" b=\"\"></scriptg>"
+        "<scripth a=\">\" b=\""
+        "\"></scripth>"
+        "<scripti a=\"\" b=\""
+        "\"></scripti>"
+        "\n"
+        "<scripte>"
+        "    // </scripte>"
+        "</scripte>"
+        "\n"
+        "<scriptf>"
+        "    /*"
+        "    </scriptf>"
+        "    */"
+        "</scriptf>"
+        "\n"
+        "<br/>"
+        "<br />"
+        "<img src=\"image.jpg\" alt=\"An image>\" />"
+        "<img src=\"image.jpg\" alt=\"An image/>\" />"
+        "<img src=\"image.jpg\"alt=\"An image/>\" />"
+        "\n"
+        "<!-- comment -->", {
+            "script",
+            "scripta",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }), "\n\n\n\n\n<!-- comment -->");
+    
+    UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
+        "<script> </script>"
+        "<script></script>"
+        "<scripta>"
+        " asdasd"
+        "</scripta>"
+        "\n"
+        "<scriptb ></scriptb>"
+        "<scriptb a=\"\"></scriptb>"
+        "<scriptc a=\"\"b=\"\"></scriptc>"
+        "<scriptd a=\"\" b=\"\"></scriptd>"
+        "<scriptg a=\">\" b=\"\"></scriptg>"
+        "<scripth a=\">\" b=\""
+        "\"></scripth>"
+        "<scripti a=\"\" b=\""
+        "\"></scripti>"
+        "\n"
+        "<scripte>"
+        "    // </scripte>"
+        "</scripte>"
+        "\n"
+        "<scriptf>"
+        "    /*"
+        "    </scriptf>"
+        "    */"
+        "</scriptf>"
+        "\n"
+        "<br/>"
+        "<br />"
+        "<img src=\"image.jpg\" alt=\"An image>\" />"
+        "<img src=\"image.jpg\" alt=\"An image/>\" />"
+        "<img src=\"image.jpg\"alt=\"An image/>\" />"
+        "\n"
+        "<!-- comment -->", {
+            "script",
+            "scriptA",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }), "\n\n\n\n\n<!-- comment -->");
 }
 
 #endif
