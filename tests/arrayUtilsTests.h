@@ -97,7 +97,14 @@ void arrayUtilsTests() {
     tvnj::blockSwap(array, left, right);
     UNIT_TEST_EQ(tvnj::join(array, ","), "6,7,8,9,10,1,2,3,4,5");
 
+    array = {1,2,3,4,5,6,7,8,9,10}; // length = 10
+    left = 3;
+    right = array.size() - 1;
+    tvnj::blockSwap(array, left, right);
+    UNIT_TEST_EQ(tvnj::join(array, ","), "1,2,3,8,9,10,7,4,5,6");
+
     array = {1,2,3,4,5,6,7,8,9};
+    left = 0;
     right = array.size() - 1;
     tvnj::blockSwap(array, left, right);
     UNIT_TEST_EQ(tvnj::join(array, ","), "6,7,8,9,5,1,2,3,4");
@@ -137,6 +144,13 @@ void arrayUtilsTests() {
     end1 = 3;
     tvnj::blockSwap(array, start1, end1, start2);
     UNIT_TEST_EQ(tvnj::join(array, ","), "5,6,7,8,1,2,3,4,9");
+
+    array = {1,2,3,4,5,6,7,8,9,10}; // length = 10
+    start1 = 3;
+    end1 = 5;
+    start2 = 7;
+    tvnj::blockSwap(array, start1, end1, start2);
+    UNIT_TEST_EQ(tvnj::join(array, ","), "1,2,3,8,9,10,7,4,5,6");
 }
 
 #endif
