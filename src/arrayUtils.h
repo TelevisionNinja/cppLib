@@ -337,11 +337,13 @@ namespace tvnj {
      */
     template<typename T>
     void blockSwap(std::vector<T> &array, const int &start, const int &end) {
-        const int middle = (end - start) / 2;
+        const int total = end - start + 1;
+        const int size = total / 2;
+        const int accountForOdd = total & 1;
 
-        for (int i = 0; i <= middle; i++) {
+        for (int i = 0; i < size; i++) {
             const int start1Index = start + i,
-                start2Index = start1Index + middle + 1;
+                start2Index = start1Index + size + accountForOdd;
             T temp = array[start1Index];
             array[start1Index] = array[start2Index];
             array[start2Index] = temp;
