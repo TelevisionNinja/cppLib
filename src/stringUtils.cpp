@@ -3907,16 +3907,264 @@ int tvnj::editDistanceFast(std::string word1, std::string word2) {
     return distance[word2Length - 1];
 }
 
-std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::string> tags) {
+std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags) {
     std::string result = document;
 
-    for (size_t i = 0; i < tags.size(); i++) {
-        std::string tag = tags[i];
+    // removed forbidden tags
+
+    for (size_t i = 0; i < notAllowedTags.size(); i++) {
+        std::string tag = notAllowedTags[i];
         tag = tvnj::escapeRegex(tag);
 
-        std::regex tagRegex("(<" + tag + "(\\s+[\\s\\S]*)?>[\\s\\S]*<\\/" + tag + ">)|(<" + tag + "\\s*(\\w+=\".*\"\\s*)*\\/>)", std::regex_constants::icase);
+        std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+        result = std::regex_replace(result, tagRegex, "");
+    }
+
+    // remove tags not in the language
+
+    size_t n = allowedTags.size();
+
+    if (n > 0) {
+        n--;
+        std::string allowedGroup = "((?!("; // need negative lookbehind
+
+        for (size_t i = 0; i < n; i++) {
+            std::string tag = allowedTags[i];
+            tag = tvnj::escapeRegex(tag);
+            allowedGroup += tag + "|";
+        }
+
+        std::string tag = allowedTags[n];
+        tag = tvnj::escapeRegex(tag);
+        allowedGroup += tag + ")";
+
+        std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+|\\s*\\/\\s*>)(\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\14\\s*)*\\s*\\/\\s*>)?)", std::regex_constants::icase);
         result = std::regex_replace(result, tagRegex, "");
     }
 
     return result;
+}
+
+bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags) {
+    // detect forbidden tags
+
+    for (size_t i = 0; i < notAllowedTags.size(); i++) {
+        std::string tag = notAllowedTags[i];
+        tag = tvnj::escapeRegex(tag);
+
+        std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+        if (std::regex_search(document, tagRegex)) {
+            return false;
+        }
+    }
+
+    // detect tags not in the language
+
+    size_t n = allowedTags.size();
+
+    if (n > 0) {
+        n--;
+        std::string allowedGroup = "((?!(";
+
+        for (size_t i = 0; i < n; i++) {
+            std::string tag = allowedTags[i];
+            tag = tvnj::escapeRegex(tag);
+            allowedGroup += tag + "|";
+        }
+
+        std::string tag = allowedTags[n];
+        tag = tvnj::escapeRegex(tag);
+        allowedGroup += tag + ")[\\s>])[a-z0-9!]+)[\\s>]";
+
+        std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+|\\s*\\/\\s*>)(\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\14\\s*)*\\s*\\/\\s*>)?)", std::regex_constants::icase);
+        if (std::regex_search(document, tagRegex)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::string tvnj::sanitizeSVG(std::string document) {
+    return tvnj::sanitizeMarkupLanguage(document, {
+        "animate",
+        "color-profile",
+        "cursor",
+        "discard",
+        "font-face",
+        "font-face-format",
+        "font-face-name",
+        "font-face-src",
+        "font-face-uri",
+        "foreignobject",
+        "hatch",
+        "hatchpath",
+        "mesh",
+        "meshgradient",
+        "meshpatch",
+        "meshrow",
+        "missing-glyph",
+        "script",
+        "set",
+        "solidcolor",
+        "unknown",
+        "use"
+    }, {
+        "a",
+        "animate",
+        "animateMotion",
+        "animateTransform",
+        "circle",
+        "clipPath",
+        "defs",
+        "desc",
+        "discard",
+        "ellipse",
+        "feBlend",
+        "feColorMatrix",
+        "feComponentTransfer",
+        "feComposite",
+        "feConvolveMatrix",
+        "feDiffuseLighting",
+        "feDisplacementMap",
+        "feDistantLight",
+        "feDropShadow",
+        "feFlood",
+        "feFuncA",
+        "feFuncB",
+        "feFuncG",
+        "feFuncR",
+        "feGaussianBlur",
+        "feImage",
+        "feMerge",
+        "feMergeNode",
+        "feMorphology",
+        "feOffset",
+        "fePointLight",
+        "feSpecularLighting",
+        "feSpotLight",
+        "feTile",
+        "feTurbulence",
+        "filter",
+        "foreignObject",
+        "g",
+        "image",
+        "line",
+        "linearGradient",
+        "marker",
+        "mask",
+        "metadata",
+        "mpath",
+        "path",
+        "pattern",
+        "polygon",
+        "polyline",
+        "radialGradient",
+        "rect",
+        "script",
+        "set",
+        "stop",
+        "style",
+        "svg",
+        "switch",
+        "symbol",
+        "text",
+        "textPath",
+        "title",
+        "tspan",
+        "use",
+        "view"
+    });
+}
+
+bool tvnj::isAllowedSVG(std::string document) {
+    return tvnj::isAllowedMarkupLanguage(document, {
+        "animate",
+        "color-profile",
+        "cursor",
+        "discard",
+        "font-face",
+        "font-face-format",
+        "font-face-name",
+        "font-face-src",
+        "font-face-uri",
+        "foreignobject",
+        "hatch",
+        "hatchpath",
+        "mesh",
+        "meshgradient",
+        "meshpatch",
+        "meshrow",
+        "missing-glyph",
+        "script",
+        "set",
+        "solidcolor",
+        "unknown",
+        "use"
+    }, {
+        "a",
+        "animate",
+        "animateMotion",
+        "animateTransform",
+        "circle",
+        "clipPath",
+        "defs",
+        "desc",
+        "discard",
+        "ellipse",
+        "feBlend",
+        "feColorMatrix",
+        "feComponentTransfer",
+        "feComposite",
+        "feConvolveMatrix",
+        "feDiffuseLighting",
+        "feDisplacementMap",
+        "feDistantLight",
+        "feDropShadow",
+        "feFlood",
+        "feFuncA",
+        "feFuncB",
+        "feFuncG",
+        "feFuncR",
+        "feGaussianBlur",
+        "feImage",
+        "feMerge",
+        "feMergeNode",
+        "feMorphology",
+        "feOffset",
+        "fePointLight",
+        "feSpecularLighting",
+        "feSpotLight",
+        "feTile",
+        "feTurbulence",
+        "filter",
+        "foreignObject",
+        "g",
+        "image",
+        "line",
+        "linearGradient",
+        "marker",
+        "mask",
+        "metadata",
+        "mpath",
+        "path",
+        "pattern",
+        "polygon",
+        "polyline",
+        "radialGradient",
+        "rect",
+        "script",
+        "set",
+        "stop",
+        "style",
+        "svg",
+        "switch",
+        "symbol",
+        "text",
+        "textPath",
+        "title",
+        "tspan",
+        "use",
+        "view"
+    });
 }

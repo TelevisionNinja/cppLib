@@ -681,8 +681,8 @@ void stringUtilsTests() {
             "scripti",
             "br",
             "img"
-        }), "\n\n\n\n\n<!-- comment -->");
-    
+        }, {}), "\n\n\n\n\n<!-- comment -->");
+
     UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
         "<script> </script>"
         "<script></script>"
@@ -729,7 +729,299 @@ void stringUtilsTests() {
             "scripti",
             "br",
             "img"
-        }), "\n\n\n\n\n<!-- comment -->");
+        }, {}), "\n\n\n\n\n<!-- comment -->");
+
+    UNIT_TEST_NEQ(tvnj::isAllowedMarkupLanguage(
+        "<script> </script>"
+        "<script></script>"
+        "<scripta>"
+        " asdasd"
+        "</scripta>"
+        "\n"
+        "<scriptb ></scriptb>"
+        "<scriptb a=\"\"></scriptb>"
+        "<scriptc a=\"\"b=\"\"></scriptc>"
+        "<scriptd a=\"\" b=\"\"></scriptd>"
+        "<scriptg a=\">\" b=\"\"></scriptg>"
+        "<scripth a=\">\" b=\""
+        "\"></scripth>"
+        "<scripti a=\"\" b=\""
+        "\"></scripti>"
+        "\n"
+        "<scripte>"
+        "    // </scripte>"
+        "</scripte>"
+        "\n"
+        "<scriptf>"
+        "    /*"
+        "    </scriptf>"
+        "    */"
+        "</scriptf>"
+        "\n"
+        "<br/>"
+        "<br />"
+        "<img src=\"image.jpg\" alt=\"An image>\" />"
+        "<img src=\"image.jpg\" alt=\"An image/>\" />"
+        "<img src=\"image.jpg\"alt=\"An image/>\" />"
+        "\n"
+        "<!-- comment -->", {
+            "script",
+            "scriptA",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, {}), true);
+
+    UNIT_TEST_EQ(tvnj::isAllowedMarkupLanguage(
+        "<script> </script>"
+        "<script></script>"
+        "<scripta>"
+        " asdasd"
+        "</scripta>"
+        "\n"
+        "<scriptb ></scriptb>"
+        "<scriptb a=\"\"></scriptb>"
+        "<scriptc a=\"\"b=\"\"></scriptc>"
+        "<scriptd a=\"\" b=\"\"></scriptd>"
+        "<scriptg a=\">\" b=\"\"></scriptg>"
+        "<scripth a=\">\" b=\""
+        "\"></scripth>"
+        "<scripti a=\"\" b=\""
+        "\"></scripti>"
+        "\n"
+        "<scripte>"
+        "    // </scripte>"
+        "</scripte>"
+        "\n"
+        "<scriptf>"
+        "    /*"
+        "    </scriptf>"
+        "    */"
+        "</scriptf>"
+        "\n"
+        "<br/>"
+        "<br />"
+        "<img src=\"image.jpg\" alt=\"An image>\" />"
+        "<img src=\"image.jpg\" alt=\"An image/>\" />"
+        "<img src=\"image.jpg\"alt=\"An image/>\" />"
+        "\n"
+        "<!-- comment -->", {
+            "script",
+            "scriptA",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, {}), false);
+
+    UNIT_TEST_EQ(tvnj::isAllowedMarkupLanguage(
+        "<script> </script>"
+        "<script></script>"
+        "<scripta>"
+        " asdasd"
+        "</scripta>"
+        "\n"
+        "<scriptb ></scriptb>"
+        "<scriptb a=\"\"></scriptb>"
+        "<scriptc a=\"\"b=\"\"></scriptc>"
+        "<scriptd a=\"\" b=\"\"></scriptd>"
+        "<scriptg a=\">\" b=\"\"></scriptg>"
+        "<scripth a=\">\" b=\""
+        "\"></scripth>"
+        "<scripti a=\"\" b=\""
+        "\"></scripti>"
+        "\n"
+        "<scripte>"
+        "    // </scripte>"
+        "</scripte>"
+        "\n"
+        "<scriptf>"
+        "    /*"
+        "    </scriptf>"
+        "    */"
+        "</scriptf>"
+        "\n"
+        "<br/>"
+        "<br />"
+        "<img src=\"image.jpg\" alt=\"An image>\" />"
+        "<img src=\"image.jpg\" alt=\"An image/>\" />"
+        "<img src=\"image.jpg\"alt=\"An image/>\" />"
+        "\n"
+        "<!-- comment -->", {
+            "script"
+        }, {}), false);
+
+    UNIT_TEST_EQ(tvnj::isAllowedMarkupLanguage(
+        "<script> </script>"
+        "<!-- comment -->", {
+            "scriptA",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, {}), true);
+
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<math><mi//xlink:href=\"data:x,<script>alert(4)</script>\">"), "<math><mi//xlink:href=\"data:x,\">");
+
+    UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
+        "<script> </script>"
+        "<script></script>"
+        "<scripta>"
+        " asdasd"
+        "</scripta>"
+        "\n"
+        "<scriptb ></scriptb>"
+        "<scriptb a=\"\"></scriptb>"
+        "<scriptc a=\"\"b=\"\"></scriptc>"
+        "<scriptd a=\"\" b=\"\"></scriptd>"
+        "<scriptg a=\">\" b=\"\"></scriptg>"
+        "<scripth a=\">\" b=\""
+        "\"></scripth>"
+        "<scripti a=\"\" b=\""
+        "\"></scripti>"
+        "\n"
+        "<scripte>"
+        "    // </scripte>"
+        "</scripte>"
+        "\n"
+        "<scriptf>"
+        "    /*"
+        "    </scriptf>"
+        "    */"
+        "</scriptf>"
+        "\n"
+        "<br/>"
+        "<br />"
+        "<img src=\"image.jpg\" alt=\"An image>\" />"
+        "<img src=\"image.jpg\" alt=\"An image/>\" />"
+        "<img src=\"image.jpg\"alt=\"An image/>\" />"
+        "\n"
+        "<!-- comment -->", {
+            "animate",
+            "color-profile",
+            "cursor",
+            "discard",
+            "font-face",
+            "font-face-format",
+            "font-face-name",
+            "font-face-src",
+            "font-face-uri",
+            "foreignobject",
+            "hatch",
+            "hatchpath",
+            "mesh",
+            "meshgradient",
+            "meshpatch",
+            "meshrow",
+            "missing-glyph",
+            "script",
+            "set",
+            "solidcolor",
+            "unknown",
+            "use"
+        }, {}),
+        "<scripta>"
+        " asdasd"
+        "</scripta>"
+        "\n"
+        "<scriptb ></scriptb>"
+        "<scriptb a=\"\"></scriptb>"
+        "<scriptc a=\"\"b=\"\"></scriptc>"
+        "<scriptd a=\"\" b=\"\"></scriptd>"
+        "<scriptg a=\">\" b=\"\"></scriptg>"
+        "<scripth a=\">\" b=\""
+        "\"></scripth>"
+        "<scripti a=\"\" b=\""
+        "\"></scripti>"
+        "\n"
+        "<scripte>"
+        "    // </scripte>"
+        "</scripte>"
+        "\n"
+        "<scriptf>"
+        "    /*"
+        "    </scriptf>"
+        "    */"
+        "</scriptf>"
+        "\n"
+        "<br/>"
+        "<br />"
+        "<img src=\"image.jpg\" alt=\"An image>\" />"
+        "<img src=\"image.jpg\" alt=\"An image/>\" />"
+        "<img src=\"image.jpg\"alt=\"An image/>\" />"
+        "\n"
+        "<!-- comment -->");
+
+    UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
+        "<script> </script>"
+        "<script></script>"
+        "<scripta>"
+        " asdasd"
+        "</scripta>"
+        "\n"
+        "<scriptb ></scriptb>"
+        "<scriptb a=\"\"></scriptb>"
+        "<scriptc a=\"\"b=\"\"></scriptc>"
+        "<scriptd a=\"\" b=\"\"></scriptd>"
+        "<scriptg a=\">\" b=\"\"></scriptg>"
+        "<scripth a=\">\" b=\""
+        "\"></scripth>"
+        "<scripti a=\"\" b=\""
+        "\"></scripti>"
+        "\n"
+        "<scripte>"
+        "    // </scripte>"
+        "</scripte>"
+        "\n"
+        "<scriptf>"
+        "    /*"
+        "    </scriptf>"
+        "    */"
+        "</scriptf>"
+        "\n"
+        "<br/>"
+        "<br />"
+        "<img src=\"image.jpg\" alt=\"An image>\" />"
+        "<img src=\"image.jpg\" alt=\"An image/>\" />"
+        "<img src=\"image.jpg\"alt=\"An image/>\" />"
+        "\n"
+        "<!-- comment -->", {
+            "script",
+            "scripta",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti"
+        }, {"br", "img"}), "\n\n\n\n<br/><br /><img src=\"image.jpg\" alt=\"An image>\" /><img src=\"image.jpg\" alt=\"An image/>\" /><img src=\"image.jpg\"alt=\"An image/>\" />\n<!-- comment -->");
+
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<UL><li><A HREF=//google.com>click</UL>"), "");
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<TABLE><tr><td>HELLO</tr></TABL>"), "<TABLE></TABL>");
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<p>abc<iframe//src=jAva&Tab;script:alert(3)>def</p>"), "");
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<svg><g/onload=alert(2)//<p>"), "<svg><g/onload=alert(2)//<p>");
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<img src=x onerror=alert(1)//>"), "src=x onerror=alert(1)//>");
 }
 
 #endif
