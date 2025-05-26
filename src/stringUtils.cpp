@@ -3927,11 +3927,11 @@ std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::
         tag = tvnj::escapeRegex(tag);
 
         if (attributeQuotes) {
-            std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            std::regex tagRegex("(<\\s*(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
             result = std::regex_replace(result, tagRegex, "");
         }
         else {
-            std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\6|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\12|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            std::regex tagRegex("(<\\s*(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\6|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\12|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
             result = std::regex_replace(result, tagRegex, "");
         }
     }
@@ -3955,11 +3955,11 @@ std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::
         allowedGroup += tag + ")";
 
         if (attributeQuotes) {
-            std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\13\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            std::regex tagRegex("(<\\s*" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\13\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
             result = std::regex_replace(result, tagRegex, "");
         }
         else {
-            std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\7|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\15|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            std::regex tagRegex("(<\\s*" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\7|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\15|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
             result = std::regex_replace(result, tagRegex, "");
         }
     }
@@ -3985,14 +3985,14 @@ bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string
         tag = tvnj::escapeRegex(tag);
 
         if (attributeQuotes) {
-            std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            std::regex tagRegex("(<\\s*(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
 
             if (std::regex_search(document, tagRegex)) {
                 return false;
             }
         }
         else {
-            std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\6|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\12|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            std::regex tagRegex("(<\\s*(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\6|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\12|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
 
             if (std::regex_search(document, tagRegex)) {
                 return false;
@@ -4019,14 +4019,14 @@ bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string
         allowedGroup += tag + ")[\\s>])[a-z0-9!]+)[\\s>]";
 
         if (attributeQuotes) {
-            std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\13\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            std::regex tagRegex("(<\\s*" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\13\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
 
             if (std::regex_search(document, tagRegex)) {
                 return false;
             }
         }
         else {
-            std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\7|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\15|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            std::regex tagRegex("(<\\s*" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\7|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*?\\15|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
 
             if (std::regex_search(document, tagRegex)) {
                 return false;
