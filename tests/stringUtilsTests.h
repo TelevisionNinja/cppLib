@@ -1021,7 +1021,11 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(tvnj::sanitizeSVG("<TABLE><tr><td>HELLO</tr></TABL>"), "<TABLE></TABL>");
     UNIT_TEST_EQ(tvnj::sanitizeSVG("<p>abc<iframe//src=jAva&Tab;script:alert(3)>def</p>"), "");
     UNIT_TEST_EQ(tvnj::sanitizeSVG("<svg><g/onload=alert(2)//<p>"), "<svg><g/onload=alert(2)//<p>");
-    UNIT_TEST_EQ(tvnj::sanitizeSVG("<img src=x onerror=alert(1)//>"), "src=x onerror=alert(1)//>");
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<img src=\"x\" onerror=\"alert(1)//\">"), "<img src=\"x\" onerror=\"alert(1)//\">"); // no closing tag
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<img src=\"x\" onerror=\"alert(1)//\"></img>"), "");
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<img src=\"x\"onerror=\"alert(1)/\"/>"), "");
+    UNIT_TEST_EQ(tvnj::sanitizeSVG("<img src=x onerror=alert(1)//>"), "<img src=x onerror=alert(1)//>"); // quotes only attributes
+    // quotes optional attributes
     UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage("<img src=x onerror=alert(1)/>", {
         "animate",
         "color-profile",
