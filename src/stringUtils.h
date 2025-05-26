@@ -206,8 +206,8 @@ namespace tvnj {
 
     //-------------------------------------------------
 
-    std::string sanitizeMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags);
-    bool isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags);
+    std::string sanitizeMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags, bool attributeQuotes = true);
+    bool isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags, bool attributeQuotes = true);
     std::string sanitizeSVG(std::string document);
     bool isAllowedSVG(std::string document);
 }

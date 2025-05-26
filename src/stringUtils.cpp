@@ -3907,7 +3907,17 @@ int tvnj::editDistanceFast(std::string word1, std::string word2) {
     return distance[word2Length - 1];
 }
 
-std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags) {
+/**
+ * @brief remove tags not allowed and tags not in the language
+ * the document string must have valid syntax
+ * 
+ * @param document 
+ * @param notAllowedTags 
+ * @param allowedTags 
+ * @param attributeQuotes set to true if the attribute values must have quotes
+ * @return std::string 
+ */
+std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags, bool attributeQuotes) {
     std::string result = document;
 
     // removed forbidden tags
@@ -3916,8 +3926,14 @@ std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::
         std::string tag = notAllowedTags[i];
         tag = tvnj::escapeRegex(tag);
 
-        std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
-        result = std::regex_replace(result, tagRegex, "");
+        if (attributeQuotes) {
+            std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            result = std::regex_replace(result, tagRegex, "");
+        }
+        else {
+            std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*\\6|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])(?!\\12)[\\s\\S]*?\\12|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            result = std::regex_replace(result, tagRegex, "");
+        }
     }
 
     // remove tags not in the language
@@ -3938,23 +3954,47 @@ std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::
         tag = tvnj::escapeRegex(tag);
         allowedGroup += tag + ")";
 
-        std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+|\\s*\\/\\s*>)(\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\14\\s*)*\\s*\\/\\s*>)?)", std::regex_constants::icase);
-        result = std::regex_replace(result, tagRegex, "");
+        if (attributeQuotes) {
+            std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+|\\s*\\/\\s*>)(\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\14\\s*)*\\s*\\/\\s*>)?)", std::regex_constants::icase);
+            result = std::regex_replace(result, tagRegex, "");
+        }
+        else {
+            std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*\\7|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+|\\s*\\/\\s*>)(\\s*([a-z\\-]+\\s*=\\s*(([\"'`])(?!\\16)[\\s\\S]*?\\16|[^\\s/]+\\s?)\\s*)*\\s*\\/\\s*>)?)", std::regex_constants::icase);
+            result = std::regex_replace(result, tagRegex, "");
+        }
     }
 
     return result;
 }
 
-bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags) {
+/**
+ * @brief detect tags not allowed and tags not in the language
+ * the document string must have valid syntax
+ * 
+ * @param document 
+ * @param notAllowedTags 
+ * @param allowedTags 
+ * @param attributeQuotes set to true if the attribute values must have quotes
+ * @return std::string 
+ */
+bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags, bool attributeQuotes) {
     // detect forbidden tags
 
     for (size_t i = 0; i < notAllowedTags.size(); i++) {
         std::string tag = notAllowedTags[i];
         tag = tvnj::escapeRegex(tag);
 
-        std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
-        if (std::regex_search(document, tagRegex)) {
-            return false;
+        if (attributeQuotes) {
+            std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\5\\s*)*)?>[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\10\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            if (std::regex_search(document, tagRegex)) {
+                return false;
+            }
+        }
+        else {
+            std::regex tagRegex("(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*\\6|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<(" + tag + ")(\\s+([a-z\\-]+\\s*=\\s*(([\"'`])(?!\\12)[\\s\\S]*?\\12|[^\\s/]+\\s?)\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
+            if (std::regex_search(document, tagRegex)) {
+                return false;
+            }
         }
     }
 
@@ -3976,9 +4016,19 @@ bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string
         tag = tvnj::escapeRegex(tag);
         allowedGroup += tag + ")[\\s>])[a-z0-9!]+)[\\s>]";
 
-        std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+|\\s*\\/\\s*>)(\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\14\\s*)*\\s*\\/\\s*>)?)", std::regex_constants::icase);
-        if (std::regex_search(document, tagRegex)) {
-            return false;
+        if (attributeQuotes) {
+            std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\6\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+|\\s*\\/\\s*>)(\\s*([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*\\14\\s*)*\\s*\\/\\s*>)?)", std::regex_constants::icase);
+            
+            if (std::regex_search(document, tagRegex)) {
+                return false;
+            }
+        }
+        else {
+            std::regex tagRegex("(<" + allowedGroup + "[\\s>])[a-z0-9!]+)[\\s>](\\s*([a-z\\-]+\\s*=\\s*(([\"'`])[\\s\\S]*\\7|[^\\s>]+\\s?)\\s*)*>)?[\\s\\S]*<\\s*\\/\\s*\\2>)|(<" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+|\\s*\\/\\s*>)(\\s*([a-z\\-]+\\s*=\\s*(([\"'`])(?!\\16)[\\s\\S]*?\\16|[^\\s/]+\\s?)\\s*)*\\s*\\/\\s*>)?)", std::regex_constants::icase);
+            
+            if (std::regex_search(document, tagRegex)) {
+                return false;
+            }
         }
     }
 
