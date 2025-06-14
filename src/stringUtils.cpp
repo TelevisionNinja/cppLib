@@ -4016,7 +4016,7 @@ bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string
 
         std::string tag = allowedTags[n];
         tag = tvnj::escapeRegex(tag);
-        allowedGroup += tag + ")[\\s>])[a-z0-9!]+)[\\s>]";
+        allowedGroup += tag + ")";
 
         if (attributeQuotes) {
             std::regex tagRegex("(<\\s*" + allowedGroup + "[\\s>])[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\6\\s*)*)?\\s*>[\\s\\S]*<\\s*\\/\\s*\\2\\s*>)|(<\\s*" + allowedGroup + "(\\s+|\\s*\\/\\s*>))[a-z0-9!]+)(\\s+([a-z\\-]+\\s*=\\s*([\"'`])[\\s\\S]*?\\13\\s*)*)?\\s*\\/\\s*>)", std::regex_constants::icase);
