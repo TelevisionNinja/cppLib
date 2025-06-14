@@ -3942,7 +3942,7 @@ std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::
 
     if (n > 0) {
         n--;
-        std::string allowedGroup = "((?!("; // need negative lookbehind
+        std::string allowedGroup = "((?!(";
 
         for (size_t i = 0; i < n; i++) {
             std::string tag = allowedTags[i];
