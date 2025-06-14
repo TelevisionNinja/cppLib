@@ -894,7 +894,57 @@ void stringUtilsTests() {
             "scripti",
             "br",
             "img"
+        }, {}), "<h1> </h1>");
+
+    UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
+        "<h1> </h1>", {
+            "h1",
+            "script",
+            "scripta",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
         }, {}), "");
+
+    UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
+        "<h1> </h1>", {
+            "script",
+            "scripta",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, { "h1" }), "<h1> </h1>");
+
+    UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
+        "<h1> </h1>", {
+            "h1",
+            "script",
+            "scripta",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, { "h1" }), "");
 
     UNIT_TEST_EQ(tvnj::isAllowedMarkupLanguage(
         "<h1> </h1>", {
@@ -954,7 +1004,7 @@ void stringUtilsTests() {
             "scripti",
             "br",
             "img"
-        }, { "h1" }), true);
+        }, { "h1" }), false);
 
     UNIT_TEST_EQ(tvnj::sanitizeSVG("<math><mi//xlink:href=\"data:x,<script>alert(4)</script>\">"), "<math><mi//xlink:href=\"data:x,\">");
 
