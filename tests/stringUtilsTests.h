@@ -880,6 +880,82 @@ void stringUtilsTests() {
             "img"
         }, {}), true);
 
+    UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
+        "<h1> </h1>", {
+            "script",
+            "scripta",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, {}), "");
+
+    UNIT_TEST_EQ(tvnj::isAllowedMarkupLanguage(
+        "<h1> </h1>", {
+            "scriptA",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, {}), true);
+
+    UNIT_TEST_EQ(tvnj::isAllowedMarkupLanguage(
+        "<h1> </h1>", {
+            "h1",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, {}), false);
+
+    UNIT_TEST_EQ(tvnj::isAllowedMarkupLanguage(
+        "<h1> </h1>", {
+            "scriptA",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, { "h1" }), true);
+
+    UNIT_TEST_EQ(tvnj::isAllowedMarkupLanguage(
+        "<h1> </h1>", {
+            "h1",
+            "scriptb",
+            "scriptc",
+            "scriptd",
+            "scripte",
+            "scriptf",
+            "scriptg",
+            "scripth",
+            "scripti",
+            "br",
+            "img"
+        }, { "h1" }), true);
+
     UNIT_TEST_EQ(tvnj::sanitizeSVG("<math><mi//xlink:href=\"data:x,<script>alert(4)</script>\">"), "<math><mi//xlink:href=\"data:x,\">");
 
     UNIT_TEST_EQ(tvnj::sanitizeMarkupLanguage(
