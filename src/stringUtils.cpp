@@ -3913,11 +3913,11 @@ int tvnj::editDistanceFast(std::string word1, std::string word2) {
  * 
  * @param document 
  * @param notAllowedTags 
- * @param allowedTags 
+ * @param tagsInLanguage all of the tags in the markup language. pass empty array to skip check for tags not in the language
  * @param attributeQuotes set to true if the attribute values must have quotes
  * @return std::string 
  */
-std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags, bool attributeQuotes) {
+std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> tagsInLanguage, bool attributeQuotes) {
     std::string result = document;
 
     // removed forbidden tags
@@ -3938,19 +3938,19 @@ std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::
 
     // remove tags not in the language
 
-    size_t n = allowedTags.size();
+    size_t n = tagsInLanguage.size();
 
     if (n > 0) {
         n--;
         std::string allowedGroup = "((?!(";
 
         for (size_t i = 0; i < n; i++) {
-            std::string tag = allowedTags[i];
+            std::string tag = tagsInLanguage[i];
             tag = tvnj::escapeRegex(tag);
             allowedGroup += tag + "|";
         }
 
-        std::string tag = allowedTags[n];
+        std::string tag = tagsInLanguage[n];
         tag = tvnj::escapeRegex(tag);
         allowedGroup += tag + ")";
 
@@ -3973,11 +3973,11 @@ std::string tvnj::sanitizeMarkupLanguage(std::string document, std::vector<std::
  * 
  * @param document 
  * @param notAllowedTags 
- * @param allowedTags 
+ * @param tagsInLanguage all of the tags in the markup language. pass empty array to skip check for tags not in the language
  * @param attributeQuotes set to true if the attribute values must have quotes
  * @return std::string 
  */
-bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> allowedTags, bool attributeQuotes) {
+bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> tagsInLanguage, bool attributeQuotes) {
     // detect forbidden tags
 
     for (size_t i = 0; i < notAllowedTags.size(); i++) {
@@ -4002,19 +4002,19 @@ bool tvnj::isAllowedMarkupLanguage(std::string document, std::vector<std::string
 
     // detect tags not in the language
 
-    size_t n = allowedTags.size();
+    size_t n = tagsInLanguage.size();
 
     if (n > 0) {
         n--;
         std::string allowedGroup = "((?!(";
 
         for (size_t i = 0; i < n; i++) {
-            std::string tag = allowedTags[i];
+            std::string tag = tagsInLanguage[i];
             tag = tvnj::escapeRegex(tag);
             allowedGroup += tag + "|";
         }
 
-        std::string tag = allowedTags[n];
+        std::string tag = tagsInLanguage[n];
         tag = tvnj::escapeRegex(tag);
         allowedGroup += tag + ")";
 
