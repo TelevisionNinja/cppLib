@@ -5,6 +5,7 @@
 #include "stringUtilsTests.h"
 #include "arrayUtilsTests.h"
 #include "mathUtilsTests.h"
+#include "problemsTests.h"
 
 int main() {
     maxHeapTests();
@@ -12,6 +13,7 @@ int main() {
     stringUtilsTests();
     arrayUtilsTests();
     mathUtilsTests();
+    problemsTests();
 
     std::cout << "Tests ended";
     return 0;
