@@ -1241,6 +1241,39 @@ void stringUtilsTests() {
         "use",
         "view"
     }, false), "");
+
+    tvnj::Trie trie;
+
+    UNIT_TEST_EQ(trie.search(""), true);
+
+    trie.insert("apple");
+    trie.insert("app");
+    trie.insert("bat");
+
+    UNIT_TEST_EQ(trie.search("apple"), true);
+    trie.remove("apple");
+    UNIT_TEST_EQ(trie.search("apple"), false);
+    UNIT_TEST_EQ(trie.search("app"), true);
+    trie.remove("app");
+    UNIT_TEST_EQ(trie.search("app"), false);
+    UNIT_TEST_EQ(trie.search("bat"), true);
+
+    trie.insert("apple");
+    trie.insert("app");
+    UNIT_TEST_EQ(trie.startsWith("ba"), true);
+    UNIT_TEST_EQ(trie.startsWith("a"), true);
+    UNIT_TEST_EQ(trie.startsWith("ap"), true);
+    UNIT_TEST_EQ(trie.startsWith("appl"), true);
+
+    trie.remove("apple");
+    trie.remove("app");
+    UNIT_TEST_EQ(trie.startsWith("ba"), true);
+    UNIT_TEST_EQ(trie.startsWith("a"), false);
+    UNIT_TEST_EQ(trie.startsWith("ap"), false);
+    UNIT_TEST_EQ(trie.startsWith("appl"), false);
+
+    trie.remove("bat");
+    UNIT_TEST_EQ(trie.search(""), true);
 }
 
 #endif

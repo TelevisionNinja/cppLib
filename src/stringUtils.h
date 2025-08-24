@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 
 namespace tvnj {
     std::string rotate(std::string str, int n);
@@ -210,6 +211,31 @@ namespace tvnj {
     bool isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> tagsInLanguage, bool attributeQuotes = true);
     std::string sanitizeSVG(std::string document);
     bool isAllowedSVG(std::string document);
+
+    //-------------------------------------------------
+
+    class Trie {
+        private:
+            class TrieNode {
+                public:
+                    std::unordered_map<char, TrieNode*> children; // can be replaced with array if alphabet is known
+                    bool isEndOfWord;
+
+                    TrieNode();
+            };
+
+            TrieNode* root;
+
+            bool deleteNode(TrieNode* node, const std::string& word, size_t depth);
+
+        public:
+            Trie();
+
+            void insert(const std::string& word);
+            bool search(const std::string& word);
+            bool startsWith(const std::string& prefix);
+            void remove(const std::string& word);
+    };
 }
 
 #endif
