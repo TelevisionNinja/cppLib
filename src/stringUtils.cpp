@@ -4273,10 +4273,6 @@ void tvnj::Trie::insert(const std::string& word) {
 bool tvnj::Trie::search(const std::string& word) {
     tvnj::Trie::TrieNode* node = this->root;
 
-    if (word.size() == 0) {
-        return true;
-    }
-
     for (char c : word) {
         if (!node->children.contains(c)) {
             return false;
@@ -4290,10 +4286,6 @@ bool tvnj::Trie::search(const std::string& word) {
 
 bool tvnj::Trie::startsWith(const std::string& prefix) {
     tvnj::Trie::TrieNode* node = this->root;
-
-    if (prefix.size() == 0) {
-        return true;
-    }
 
     for (char c : prefix) {
         if (!node->children.contains(c)) {

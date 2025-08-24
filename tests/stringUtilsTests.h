@@ -1244,7 +1244,7 @@ void stringUtilsTests() {
 
     tvnj::Trie trie;
 
-    UNIT_TEST_EQ(trie.search(""), true);
+    UNIT_TEST_EQ(trie.search(""), false);
 
     trie.insert("apple");
     trie.insert("app");
@@ -1272,9 +1272,14 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(trie.startsWith("ap"), false);
     UNIT_TEST_EQ(trie.startsWith("appl"), false);
 
-    UNIT_TEST_EQ(trie.search(""), true);
+    UNIT_TEST_EQ(trie.search(""), false);
     trie.remove("bat");
+    UNIT_TEST_EQ(trie.search(""), false);
+
+    trie.insert("");
     UNIT_TEST_EQ(trie.search(""), true);
+    trie.remove("");
+    UNIT_TEST_EQ(trie.search(""), false);
 }
 
 #endif
