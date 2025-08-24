@@ -1272,6 +1272,7 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(trie.startsWith("ap"), false);
     UNIT_TEST_EQ(trie.startsWith("appl"), false);
 
+    UNIT_TEST_EQ(trie.search(""), true);
     trie.remove("bat");
     UNIT_TEST_EQ(trie.search(""), true);
 }
