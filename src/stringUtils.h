@@ -227,9 +227,11 @@ namespace tvnj {
             TrieNode* root;
 
             bool deleteNode(TrieNode* node, const std::string& word, size_t depth);
+            void freeNode(TrieNode* node);
 
         public:
             Trie();
+            ~Trie();
 
             void insert(const std::string& word);
             bool search(const std::string& word);

@@ -4256,6 +4256,10 @@ tvnj::Trie::Trie() {
     this->root = new tvnj::Trie::TrieNode();
 }
 
+tvnj::Trie::~Trie() {
+    this->freeNode(this->root);
+}
+
 void tvnj::Trie::insert(const std::string& word) {
     tvnj::Trie::TrieNode* node = this->root;
 
@@ -4300,4 +4304,12 @@ bool tvnj::Trie::startsWith(const std::string& prefix) {
 
 void tvnj::Trie::remove(const std::string& word) {
     this->deleteNode(this->root, word, 0);
+}
+
+void tvnj::Trie::freeNode(tvnj::Trie::TrieNode* node) {
+    for (auto& [key, value] : node->children) { // node.children.values()
+        this->freeNode(value);
+    }
+
+    delete node;
 }
