@@ -1280,6 +1280,9 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(trie.search(""), true);
     trie.remove("");
     UNIT_TEST_EQ(trie.search(""), false);
+
+    tvnj::Trie* heapTrie = new tvnj::Trie();
+    delete heapTrie;
 }
 
 #endif
