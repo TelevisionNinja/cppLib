@@ -238,6 +238,32 @@ namespace tvnj {
             bool startsWith(const std::string& prefix);
             void remove(const std::string& word);
     };
+
+    class AhoCorasick {
+        private:
+            class AhoCorasickNode {
+                public:
+                    std::unordered_map<char, AhoCorasickNode*> children; // can be replaced with array if alphabet is known
+                    bool isEndOfWord;
+                    AhoCorasickNode* suffixLink;
+                    std::unordered_set<AhoCorasickNode*> outputLinks;
+                    size_t length;
+
+                    AhoCorasickNode();
+            };
+
+            AhoCorasickNode* root;
+
+            void insertTrie(const std::string& word);
+            void constructLinks();
+
+        public:
+            AhoCorasick();
+            AhoCorasick(const std::vector<std::string>& strings);
+
+            void build(const std::vector<std::string>& strings);
+            std::vector<std::pair<size_t, size_t>> search(const std::string& string);
+    };
 }
 
 #endif

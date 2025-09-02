@@ -10,6 +10,25 @@ std::string vectorToString(std::vector<type> v) {
     return tvnj::join(v, ", ");
 }
 
+template <typename type>
+std::string vectorPairToString(std::vector<std::pair<type, type>> vec, std::string separator = ", ") {
+    size_t n = vec.size();
+
+    if (n == 0) {
+        return "";
+    }
+
+    n--;
+
+    std::string s = "";
+
+    for (size_t i = 0; i < n; i++) {
+        s += "(" + std::to_string(vec[i].first) + " " + std::to_string(vec[i].second) + ")" + separator;
+    }
+
+    return s + "(" + std::to_string(vec[n].first) + " " + std::to_string(vec[n].second) + ")";
+}
+
 void stringUtilsTests() {
     UNIT_TEST_EQ(tvnj::indexOfNaiveSkip("", "a"), -1);
     UNIT_TEST_EQ(tvnj::indexOfNaiveSkip("a", "a"), 0);
@@ -1283,6 +1302,18 @@ void stringUtilsTests() {
 
     tvnj::Trie* heapTrie = new tvnj::Trie();
     delete heapTrie;
+
+    tvnj::AhoCorasick ahoCorasick;
+
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("")), "");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("apple")), "");
+    std::vector<std::string> wordList = {"apple", "app", "bat"};
+    ahoCorasick.build(wordList);
+
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("apple")), "(0 3), (0 5)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("app")), "(0 3)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("bat")), "(0 3)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("batapple")), "(0 3), (3 3), (3 5)");
 }
 
 #endif

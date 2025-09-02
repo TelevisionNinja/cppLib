@@ -2,6 +2,7 @@
 #include <stdexcept> // throw exceptions
 #include <regex>
 #include "arrayUtils.h"
+#include <queue>
 
 const std::unordered_set<char> whitespaceChars = {
     '\n', // 10, newline
@@ -4312,4 +4313,116 @@ void tvnj::Trie::freeNode(tvnj::Trie::TrieNode* node) {
     }
 
     delete node;
+}
+
+tvnj::AhoCorasick::AhoCorasickNode::AhoCorasickNode() {
+    this->isEndOfWord = false;
+    this->suffixLink = nullptr;
+    this->length = 0;
+}
+
+tvnj::AhoCorasick::AhoCorasick() {
+    this->root = new tvnj::AhoCorasick::AhoCorasickNode();
+}
+
+tvnj::AhoCorasick::AhoCorasick(const std::vector<std::string>& strings) {
+    this->build(strings);
+}
+
+void tvnj::AhoCorasick::build(const std::vector<std::string>& strings) {
+    this->root = new tvnj::AhoCorasick::AhoCorasickNode();
+
+    for (size_t i = 0; i < strings.size(); i++) {
+        this->insertTrie(strings[i]);
+    }
+
+    this->constructLinks();
+}
+
+void tvnj::AhoCorasick::insertTrie(const std::string& word) {
+    tvnj::AhoCorasick::AhoCorasickNode* node = this->root;
+    size_t i = 0;
+
+    while (i < word.size()) {
+        char c = word[i];
+        i++;
+
+        if (!node->children.contains(c)) {
+            node->children[c] = new tvnj::AhoCorasick::AhoCorasickNode();
+            node->children[c]->length = i; // height of the tree is the length of the string
+        }
+
+        node = node->children[c];
+    }
+
+    node->outputLinks.insert(node);
+    node->isEndOfWord = true;
+}
+
+/**
+ * returns [tuple(index, length), ...]
+ */
+std::vector<std::pair<size_t, size_t>> tvnj::AhoCorasick::search(const std::string& string) {
+    tvnj::AhoCorasick::AhoCorasickNode* node = this->root;
+    std::vector<std::pair<size_t, size_t>> output;
+
+    size_t i = 0;
+
+    while (i < string.size()) {
+        const char c = string[i];
+        if (node->children.contains(c)) {
+            node = node->children[c];
+            i++;
+
+            if (!node->outputLinks.empty()) {
+                for (tvnj::AhoCorasick::AhoCorasickNode* outputNode : node->outputLinks) { // node.outputLinks.values()
+                    output.push_back({i - outputNode->length, outputNode->length});
+                }
+            }
+        }
+        else if (node == this->root) {
+            i++;
+        }
+        else {
+            node = node->suffixLink;
+        }
+    }
+
+    return output;
+}
+
+void tvnj::AhoCorasick::constructLinks() {
+    // BFS
+    std::queue<tvnj::AhoCorasick::AhoCorasickNode*> nodeQueue;
+
+    for (auto& [key, value] : this->root->children) { // node.children.values()
+        nodeQueue.push(value);
+        value->suffixLink = this->root;
+    }
+
+    while (!nodeQueue.empty()) {
+        tvnj::AhoCorasick::AhoCorasickNode* currentNode = nodeQueue.front();
+        nodeQueue.pop();
+
+        for (auto& [key, value] : currentNode->children) { // node.children.values()
+            nodeQueue.push(value);
+
+            // output links
+            tvnj::AhoCorasick::AhoCorasickNode* childFailureNode = currentNode->suffixLink;
+            while (childFailureNode != nullptr && !childFailureNode->children.contains(key)) {
+                childFailureNode = childFailureNode->suffixLink;
+            }
+
+            if (childFailureNode != nullptr) {
+                value->suffixLink = childFailureNode->children[key];
+            }
+            else {
+                value->suffixLink = this->root;
+            }
+
+            if (value->suffixLink->isEndOfWord) {
+                value->outputLinks.insert(value->suffixLink->outputLinks.begin(), value->suffixLink->outputLinks.end()); // set1 U copy(set2)
+            }
+        }
+    }
 }
