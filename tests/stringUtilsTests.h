@@ -1314,6 +1314,30 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("app")), "(0 3)");
     UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("bat")), "(0 3)");
     UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("batapple")), "(0 3), (3 3), (3 5)");
+
+    ahoCorasick.remove("apple");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("apple")), "(0 3)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("app")), "(0 3)");
+    ahoCorasick.remove("app");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("app")), "");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("bat")), "(0 3)");
+
+    ahoCorasick.insert("apple");
+    ahoCorasick.insert("app");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("apple")), "(0 3), (0 5)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("app")), "(0 3)");
+
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("")), "");
+    ahoCorasick.remove("bat");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("")), "");
+
+    ahoCorasick.insert("");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("")), "(0 0)");
+    ahoCorasick.remove("");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("")), "");
+
+    tvnj::AhoCorasick* heapAhoCorasick = new tvnj::AhoCorasick();
+    delete heapAhoCorasick;
 }
 
 #endif

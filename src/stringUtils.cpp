@@ -3,6 +3,7 @@
 #include <regex>
 #include "arrayUtils.h"
 #include <queue>
+#include <stack>
 
 const std::unordered_set<char> whitespaceChars = {
     '\n', // 10, newline
@@ -4321,6 +4322,33 @@ tvnj::AhoCorasick::AhoCorasickNode::AhoCorasickNode() {
     this->length = 0;
 }
 
+bool tvnj::AhoCorasick::deleteTrieNode(tvnj::AhoCorasick::AhoCorasickNode* node, const std::string& word, size_t depth) {
+    if (depth == word.size()) {
+        if (!node->isEndOfWord) {
+            return false;
+        }
+
+        node->isEndOfWord = false;
+        return node->children.empty();
+    }
+
+    char c = word[depth];
+
+    if (!node->children.contains(c)) {
+        return false;
+    }
+
+    bool shouldDeleteChild = this->deleteTrieNode(node->children[c], word, depth + 1);
+
+    if (shouldDeleteChild) {
+        delete node->children[c];
+        node->children.erase(c);
+        return node->children.empty() && !node->isEndOfWord;
+    }
+
+    return false;
+}
+
 tvnj::AhoCorasick::AhoCorasick() {
     this->root = new tvnj::AhoCorasick::AhoCorasickNode();
 }
@@ -4337,6 +4365,10 @@ void tvnj::AhoCorasick::build(const std::vector<std::string>& strings) {
     }
 
     this->constructLinks();
+}
+
+tvnj::AhoCorasick::~AhoCorasick() {
+    this->freeTrieNode(this->root);
 }
 
 void tvnj::AhoCorasick::insertTrie(const std::string& word) {
@@ -4359,12 +4391,21 @@ void tvnj::AhoCorasick::insertTrie(const std::string& word) {
     node->isEndOfWord = true;
 }
 
+void tvnj::AhoCorasick::insert(const std::string& word) {
+    this->insertTrie(word);
+    this->constructLinks();
+}
+
 /**
  * returns [tuple(index, length), ...]
  */
 std::vector<std::pair<size_t, size_t>> tvnj::AhoCorasick::search(const std::string& string) {
     tvnj::AhoCorasick::AhoCorasickNode* node = this->root;
     std::vector<std::pair<size_t, size_t>> output;
+
+    if (node->isEndOfWord) { // empty string case
+        output.push_back({0, 0}); // no need to iterate through output links
+    }
 
     size_t i = 0;
 
@@ -4389,6 +4430,20 @@ std::vector<std::pair<size_t, size_t>> tvnj::AhoCorasick::search(const std::stri
     }
 
     return output;
+}
+
+void tvnj::AhoCorasick::remove(const std::string& word) {
+    this->deleteTrieNode(this->root, word, 0);
+    this->deleteLinks();
+    this->constructLinks();
+}
+
+void tvnj::AhoCorasick::freeTrieNode(tvnj::AhoCorasick::AhoCorasickNode* node) {
+    for (auto& [key, value] : node->children) { // node.children.values()
+        this->freeTrieNode(value);
+    }
+
+    delete node;
 }
 
 void tvnj::AhoCorasick::constructLinks() {
@@ -4423,6 +4478,29 @@ void tvnj::AhoCorasick::constructLinks() {
             if (value->suffixLink->isEndOfWord) {
                 value->outputLinks.insert(value->suffixLink->outputLinks.begin(), value->suffixLink->outputLinks.end()); // set1 U copy(set2)
             }
+        }
+    }
+}
+
+void tvnj::AhoCorasick::deleteLinks() {
+    // DFS becuase of stack implementation
+    std::stack<tvnj::AhoCorasick::AhoCorasickNode*> nodeStack;
+    nodeStack.push(this->root);
+
+    while (!nodeStack.empty()) {
+        tvnj::AhoCorasick::AhoCorasickNode* currentNode = nodeStack.top();
+        nodeStack.pop();
+
+        // clear out all links because some are pointing to the deleted nodes
+        currentNode->suffixLink = nullptr;
+        currentNode->outputLinks.clear();
+
+        if (currentNode->isEndOfWord) {
+            currentNode->outputLinks.insert(currentNode);
+        }
+
+        for (auto& [key, value] : currentNode->children) { // node.children.values()
+            nodeStack.push(value);
         }
     }
 }
