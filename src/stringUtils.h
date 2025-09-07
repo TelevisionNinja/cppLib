@@ -240,7 +240,7 @@ namespace tvnj {
     };
 
     class AhoCorasick {
-        private:
+        protected:
             class AhoCorasickNode {
                 public:
                     std::unordered_map<char, AhoCorasickNode*> children; // can be replaced with array if alphabet is known
@@ -271,6 +271,11 @@ namespace tvnj {
             std::vector<std::pair<size_t, size_t>> search(const std::string& string);
 
             void remove(const std::string& word);
+    };
+
+    class AhoCorasickFilter : public AhoCorasick {
+        public:
+            std::string filter(const std::string& string, const std::string& censoredString = "*");
     };
 }
 

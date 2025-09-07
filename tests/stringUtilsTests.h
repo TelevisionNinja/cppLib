@@ -1338,6 +1338,59 @@ void stringUtilsTests() {
 
     tvnj::AhoCorasick* heapAhoCorasick = new tvnj::AhoCorasick();
     delete heapAhoCorasick;
+
+    tvnj::AhoCorasickFilter ahoCorasickFilter;
+
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("")), "");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("apple")), "");
+    ahoCorasickFilter.build(wordList);
+
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("apple")), "(0 3), (0 5)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("app")), "(0 3)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("bat")), "(0 3)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("batapple")), "(0 3), (3 3), (3 5)");
+
+    ahoCorasickFilter.remove("apple");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("apple")), "(0 3)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("app")), "(0 3)");
+    ahoCorasickFilter.remove("app");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("app")), "");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("bat")), "(0 3)");
+
+    ahoCorasickFilter.insert("apple");
+    ahoCorasickFilter.insert("app");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("apple")), "(0 3), (0 5)");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("app")), "(0 3)");
+
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("")), "");
+    ahoCorasickFilter.remove("bat");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("")), "");
+
+    ahoCorasickFilter.insert("");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("")), "(0 0)");
+    ahoCorasickFilter.remove("");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasickFilter.search("")), "");
+
+    //-----
+
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("apple"), "*****");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("app"), "***");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("bat"), "bat");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("batapple"), "bat*****");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter(""), "");
+
+    ahoCorasickFilter.insert("bat");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("bat"), "***");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("batapple"), "********");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("bataapple"), "***a*****");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("batapapple"), "***ap*****");
+
+    ahoCorasickFilter.insert("");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("apple"), "*****");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("app"), "***");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("bat"), "***");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter("batapple"), "********");
+    UNIT_TEST_EQ(ahoCorasickFilter.filter(""), "");
 }
 
 #endif
