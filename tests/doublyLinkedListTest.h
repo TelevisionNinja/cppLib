@@ -2,7 +2,7 @@
 #define DOUBLYLINKEDLISTTESTS_H
 
 #include "../src/unitTest.h"
-#include "../src/data structures/DoublyLinkedList.h"
+#include "../src/data_structures/DoublyLinkedList.h"
 
 void doublyLinkedListTests() {
     tvnj::DoublyLinkedList<int> list;

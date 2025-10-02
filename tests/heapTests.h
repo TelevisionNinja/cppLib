@@ -2,8 +2,8 @@
 #define HEAPTESTS_H
 
 #include "../src/unitTest.h"
-#include "../src/data structures/MaxBinaryHeap.h"
-#include "../src/data structures/MinBinaryHeap.h"
+#include "../src/data_structures/MaxBinaryHeap.h"
+#include "../src/data_structures/MinBinaryHeap.h"
 
 void maxHeapTests() {
     tvnj::MaxBinaryHeap<int> heapA({1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17});

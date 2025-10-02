@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
-#include <unordered_map>
 
 namespace tvnj {
     std::string rotate(std::string str, int n);
@@ -211,72 +210,6 @@ namespace tvnj {
     bool isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> tagsInLanguage, bool attributeQuotes = true);
     std::string sanitizeSVG(std::string document);
     bool isAllowedSVG(std::string document);
-
-    //-------------------------------------------------
-
-    class Trie {
-        private:
-            class TrieNode {
-                public:
-                    std::unordered_map<char, TrieNode*> children; // can be replaced with array if alphabet is known
-                    bool isEndOfWord;
-
-                    TrieNode();
-            };
-
-            TrieNode* root;
-
-            bool deleteNode(TrieNode* node, const std::string& word, size_t depth);
-            void freeNode(TrieNode* node);
-
-        public:
-            Trie();
-            ~Trie();
-
-            void insert(const std::string& word);
-            bool search(const std::string& word);
-            bool startsWith(const std::string& prefix);
-            void remove(const std::string& word);
-    };
-
-    class AhoCorasick {
-        protected:
-            class AhoCorasickNode {
-                public:
-                    std::unordered_map<char, AhoCorasickNode*> children; // can be replaced with array if alphabet is known
-                    bool isEndOfWord;
-                    AhoCorasickNode* suffixLink;
-                    std::unordered_set<AhoCorasickNode*> outputLinks;
-                    size_t length;
-
-                    AhoCorasickNode();
-            };
-
-            AhoCorasickNode* root;
-
-            bool deleteTrieNode(AhoCorasickNode* node, const std::string& word, size_t depth);
-            void freeTrieNode(AhoCorasickNode* node);
-            void deleteLinks();
-
-            void insertTrie(const std::string& word);
-            void constructLinks();
-
-        public:
-            AhoCorasick();
-            AhoCorasick(const std::vector<std::string>& strings);
-            ~AhoCorasick();
-
-            void insert(const std::string& word);
-            void build(const std::vector<std::string>& strings);
-            std::vector<std::pair<size_t, size_t>> search(const std::string& string);
-
-            void remove(const std::string& word);
-    };
-
-    class AhoCorasickFilter : public AhoCorasick {
-        public:
-            std::string filter(const std::string& string, const std::string& censoredString = "*");
-    };
 }
 
 #endif

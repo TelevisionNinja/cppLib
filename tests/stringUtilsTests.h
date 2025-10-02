@@ -4,6 +4,9 @@
 #include "../src/unitTest.h"
 #include "../src/stringUtils.h"
 #include <vector>
+#include "../src/data_structures/Trie.h"
+#include "../src/data_structures/AhoCorasick.h"
+#include "../src/data_structures/AhoCorasickFilter.h"
 
 template <typename type>
 std::string vectorToString(std::vector<type> v) {
