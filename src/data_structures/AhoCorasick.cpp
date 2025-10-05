@@ -169,7 +169,7 @@ void tvnj::AhoCorasick::constructLinks() {
 }
 
 void tvnj::AhoCorasick::deleteLinks() {
-    // DFS becuase of stack implementation time complexity. traversal order does not matter
+    // DFS because of stack implementation time complexity. traversal order does not matter
     std::stack<tvnj::AhoCorasick::AhoCorasickNode*> nodeStack;
     nodeStack.push(this->root);
 
