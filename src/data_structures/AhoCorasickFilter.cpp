@@ -21,7 +21,13 @@ std::string tvnj::AhoCorasickFilter::filter(const std::string& string, const std
             if (!node->outputLinks.empty()) {
                 for (tvnj::AhoCorasick::AhoCorasickNode* outputNode : node->outputLinks) { // node.outputLinks.values()
                     const size_t startIndex = i - outputNode->length;
-                    indices[startIndex] = std::max(indices[startIndex], outputNode->length);
+
+                    if (indices.contains(startIndex)) {
+                        indices[startIndex] = std::max(indices[startIndex], outputNode->length);
+                    }
+                    else {
+                        indices[startIndex] = outputNode->length;
+                    }
                 }
             }
         }
