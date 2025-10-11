@@ -41,7 +41,7 @@ std::string tvnj::AhoCorasickFilter::filter(const std::string& string, const std
     while (j < string.size()) {
         if (indices.contains(j)) {
             // the found longer bound is always in the array bounds because of the DFA
-            // loop is unrolled by 1 iteration fo have all loop logic in the required iterations
+            // loop is unrolled by 1 iteration to have all loop logic in the required iterations
             // all accept indices will have return lengths greater than 0
             output += censoredString;
 
