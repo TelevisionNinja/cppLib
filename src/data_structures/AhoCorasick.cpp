@@ -67,7 +67,6 @@ void tvnj::AhoCorasick::insertTrie(const std::string& word) {
 
         if (!node->children.contains(c)) {
             node->children[c] = new tvnj::AhoCorasick::AhoCorasickNode();
-            node->children[c]->length = i; // height of the tree is the length of the string
         }
 
         node = node->children[c];
@@ -75,6 +74,7 @@ void tvnj::AhoCorasick::insertTrie(const std::string& word) {
 
     node->outputLinks.insert(node);
     node->isEndOfWord = true;
+    node->length = word.size(); // height at the node is the length of the string
 }
 
 void tvnj::AhoCorasick::insert(const std::string& word) {
