@@ -12,7 +12,6 @@ namespace tvnj {
             class AhoCorasickNode {
                 public:
                     std::unordered_map<char, AhoCorasickNode*> children; // can be replaced with array if alphabet is known
-                    bool isEndOfWord;
                     AhoCorasickNode* suffixLink;
                     std::unordered_set<AhoCorasickNode*> outputLinks;
                     size_t length;

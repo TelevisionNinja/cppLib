@@ -3,18 +3,17 @@
 #include <stack>
 
 tvnj::AhoCorasick::AhoCorasickNode::AhoCorasickNode() {
-    this->isEndOfWord = false;
     this->suffixLink = nullptr;
     this->length = 0;
 }
 
 bool tvnj::AhoCorasick::deleteTrieNode(tvnj::AhoCorasick::AhoCorasickNode* node, const std::string& word, size_t depth) {
     if (depth == word.size()) {
-        if (!node->isEndOfWord) {
+        if (node->length == 0) {
             return false;
         }
 
-        node->isEndOfWord = false;
+        node->length = 0;
         return node->children.empty();
     }
 
@@ -29,7 +28,7 @@ bool tvnj::AhoCorasick::deleteTrieNode(tvnj::AhoCorasick::AhoCorasickNode* node,
     if (shouldDeleteChild) {
         delete node->children[c];
         node->children.erase(c);
-        return node->children.empty() && !node->isEndOfWord;
+        return node->children.empty() && node->length == 0;
     }
 
     return false;
@@ -73,7 +72,6 @@ void tvnj::AhoCorasick::insertTrie(const std::string& word) {
     }
 
     node->outputLinks.insert(node);
-    node->isEndOfWord = true;
     node->length = word.size(); // height at the node is the length of the string
 }
 
@@ -89,7 +87,9 @@ std::vector<std::pair<size_t, size_t>> tvnj::AhoCorasick::search(const std::stri
     tvnj::AhoCorasick::AhoCorasickNode* node = this->root;
     std::vector<std::pair<size_t, size_t>> output;
 
-    if (node->isEndOfWord) { // empty string case
+    // empty string case
+    // only the root's output set's size is check because the empty string has no length
+    if (!node->outputLinks.empty()) {
         output.push_back({0, 0}); // no need to iterate through output links
     }
 
@@ -161,7 +161,7 @@ void tvnj::AhoCorasick::constructLinks() {
                 value->suffixLink = this->root;
             }
 
-            if (value->suffixLink->isEndOfWord) {
+            if (value->suffixLink->length != 0) {
                 value->outputLinks.insert(value->suffixLink->outputLinks.begin(), value->suffixLink->outputLinks.end()); // set1 U copy(set2)
             }
         }
@@ -181,7 +181,7 @@ void tvnj::AhoCorasick::deleteLinks() {
         currentNode->suffixLink = nullptr;
         currentNode->outputLinks.clear();
 
-        if (currentNode->isEndOfWord) {
+        if (currentNode->length != 0) {
             currentNode->outputLinks.insert(currentNode);
         }
 
