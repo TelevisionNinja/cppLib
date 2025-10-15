@@ -161,7 +161,7 @@ void tvnj::AhoCorasick::constructLinks() {
                 value->suffixLink = this->root;
             }
 
-            if (value->suffixLink->length != 0) {
+            if (!value->suffixLink->outputLinks.empty()) {
                 value->outputLinks.insert(value->suffixLink->outputLinks.begin(), value->suffixLink->outputLinks.end()); // set1 U copy(set2)
             }
         }

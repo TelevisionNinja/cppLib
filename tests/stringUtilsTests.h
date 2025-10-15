@@ -1339,6 +1339,12 @@ void stringUtilsTests() {
     ahoCorasick.remove("");
     UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("")), "");
 
+    ahoCorasick.insert("i");
+    ahoCorasick.insert("in");
+    ahoCorasick.insert("tin");
+    ahoCorasick.insert("sting");
+    UNIT_TEST_EQ(vectorPairToString(ahoCorasick.search("stings")), "(2 1), (1 3), (2 2), (0 5)");
+
     tvnj::AhoCorasick* heapAhoCorasick = new tvnj::AhoCorasick();
     delete heapAhoCorasick;
 
