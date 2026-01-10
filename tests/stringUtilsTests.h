@@ -267,7 +267,7 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(tvnj::join(arrayThing, ", "), "1, 2, 3, 4");
     UNIT_TEST_EQ(tvnj::join(arrayThing, ", ",-1), "");
     UNIT_TEST_EQ(tvnj::join(arrayThing, ", ",0,1000), "1, 2, 3, 4");
-    UNIT_TEST_EQ(tvnj::join(arrayThing, ", "-1,-1), "");
+    UNIT_TEST_EQ(tvnj::join(arrayThing, ", ",-1,-1), "");
     UNIT_TEST_EQ(tvnj::join(arrayThing, ", ",1000), "");
     UNIT_TEST_EQ(tvnj::join(arrayThing, ", ",1000,1000), "");
     UNIT_TEST_EQ(tvnj::join(arrayThing, ", ",0,0), "");
