@@ -1,4 +1,5 @@
 #include "AhoCorasickFilter.h"
+#include "../stringUtils.h"
 
 /**
  * time: O(n)
@@ -186,6 +187,8 @@ std::string tvnj::AhoCorasickFilter::filterAndIgnoreChars(const std::string& str
             }
         }
     }
+
+    tvnj::reverse(output);
 
     return output;
 }
