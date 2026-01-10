@@ -1425,7 +1425,12 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("bataapapple", "*", std::unordered_set<char>()), "***a*******");
 
     ahoCorasickFilter = tvnj::AhoCorasickFilter();
-    ahoCorasickFilter.insert("135");
+    ahoCorasickFilter.insert("135"); // used to not work with class reinitialization
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("123456", "*", std::unordered_set<char>{'2', '4', '6'}), "*2*4*6");
+
+    ahoCorasickFilter = tvnj::AhoCorasickFilter();
+    wordList = {"135"};
+    ahoCorasickFilter.build(wordList); // works with class reinitialization even before the fix
     UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("123456", "*", std::unordered_set<char>{'2', '4', '6'}), "*2*4*6");
 }
 
