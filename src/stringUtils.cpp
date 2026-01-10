@@ -4220,3 +4220,41 @@ bool tvnj::isAllowedSVG(std::string document) {
         "view"
     });
 }
+
+/**
+ * @brief in place
+ * time O(n / 2) = O(n)
+ * space O(1)
+ * 
+ * @param string 
+ * @param start 
+ * @param end 
+ */
+void tvnj::reverse(std::string &string, const int &start, const int &end) {
+    const int middle = (end - start) / 2;
+
+    for (int i = 0; i <= middle; i++) {
+        const int startIndex = start + i,
+            lastIndex = end - i;
+        char temp = string[startIndex];
+        string[startIndex] = string[lastIndex];
+        string[lastIndex] = temp;
+    }
+}
+
+/**
+ * @brief in place
+ * time O(n / 2) = O(n)
+ * space O(1)
+ * 
+ * @param string 
+ */
+void tvnj::reverse(std::string &string) {
+    size_t size = string.size();
+
+    if (size < 2) {
+        return;
+    }
+
+    tvnj::reverse(string, 0, size - 1);
+}

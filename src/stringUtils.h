@@ -210,6 +210,28 @@ namespace tvnj {
     bool isAllowedMarkupLanguage(std::string document, std::vector<std::string> notAllowedTags, std::vector<std::string> tagsInLanguage, bool attributeQuotes = true);
     std::string sanitizeSVG(std::string document);
     bool isAllowedSVG(std::string document);
+
+    //-------------------------------------------------
+
+    /**
+     * @brief in place
+     * time O(n / 2) = O(n)
+     * space O(1)
+     * 
+     * @param string 
+     * @param start 
+     * @param end 
+     */
+    void reverse(std::string &string, const int &start, const int &end);
+
+    /**
+     * @brief in place
+     * time O(n / 2) = O(n)
+     * space O(1)
+     * 
+     * @param string 
+     */
+    void reverse(std::string &string);
 }
 
 #endif
