@@ -54,6 +54,7 @@ void tvnj::AhoCorasick::build(const std::vector<std::string>& strings) {
 
 tvnj::AhoCorasick::~AhoCorasick() {
     this->freeTrieNode(this->root);
+    this->root = new tvnj::AhoCorasick::AhoCorasickNode(); // added because of reinitialization issues
 }
 
 void tvnj::AhoCorasick::insertTrie(const std::string& word) {
