@@ -1400,6 +1400,33 @@ void stringUtilsTests() {
     UNIT_TEST_EQ(ahoCorasickFilter.filter("bat"), "***");
     UNIT_TEST_EQ(ahoCorasickFilter.filter("batapple"), "********");
     UNIT_TEST_EQ(ahoCorasickFilter.filter(""), "");
+
+    //-----
+
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("apple", "*", std::unordered_set<char>()), "*****");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("app", "*", std::unordered_set<char>()), "***");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("", "*", std::unordered_set<char>()), "");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("bat", "*", std::unordered_set<char>()), "***");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("batapple", "*", std::unordered_set<char>()), "********");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("bataapple", "*", std::unordered_set<char>()), "***a*****");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("batapapple", "*", std::unordered_set<char>()), "***ap*****");
+
+    ahoCorasickFilter = tvnj::AhoCorasickFilter();
+    wordList = {"apple", "app", "bat", "apapple"};
+    ahoCorasickFilter.build(wordList);
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("batapapple", "*", std::unordered_set<char>()), "**********");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("bataapapple", "*", std::unordered_set<char>()), "***a*******");
+
+    ahoCorasickFilter = tvnj::AhoCorasickFilter();
+    wordList = {"apple", "app", "bat", "apap"};
+    ahoCorasickFilter.build(wordList);
+
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("batapapple", "*", std::unordered_set<char>()), "**********");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("bataapapple", "*", std::unordered_set<char>()), "***a*******");
+
+    ahoCorasickFilter = tvnj::AhoCorasickFilter();
+    ahoCorasickFilter.insert("135");
+    UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("123456", "*", std::unordered_set<char>{'2', '4', '6'}), "*2*4*6");
 }
 
 #endif
