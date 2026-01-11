@@ -15,6 +15,6 @@ int main() {
     mathUtilsTests();
     problemsTests();
 
-    std::cout << "Tests ended";
+    std::cout << "Tests ended\n";
     return 0;
 }
