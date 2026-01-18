@@ -191,3 +191,59 @@ void tvnj::AhoCorasick::deleteLinks() {
         }
     }
 }
+
+/**
+ * returns a vector of tuples (global index, length, line number, line index)
+ */
+std::vector<std::tuple<size_t, size_t, size_t, size_t>> tvnj::AhoCorasick::searchVerbose(const std::string& string) {
+    tvnj::AhoCorasick::AhoCorasickNode* node = this->root;
+    std::vector<std::tuple<size_t, size_t, size_t, size_t>> output;
+
+    // empty string case
+    // only the root's output set's size is check because the empty string has no length
+    if (!node->outputLinks.empty()) {
+        output.push_back({0, 0, 1, 1}); // no need to iterate through output links
+    }
+
+    size_t i = 0;
+    size_t lineNumber = 1;
+    bool skipIncrement = false;
+    size_t lineIndex = 1;
+
+    while (i < string.size()) {
+        const char c = string[i];
+
+        if (skipIncrement) {
+            skipIncrement = false;
+        }
+        else {
+            if (c == '\n') {
+                lineNumber++;
+                lineIndex = 1;
+            }
+            else {
+                lineIndex++;
+            }
+        }
+
+        if (node->children.contains(c)) {
+            node = node->children[c];
+            i++;
+
+            if (!node->outputLinks.empty()) {
+                for (tvnj::AhoCorasick::AhoCorasickNode* outputNode : node->outputLinks) { // node.outputLinks.values()
+                    output.push_back({i - outputNode->length, outputNode->length, lineNumber, lineIndex - outputNode->length});
+                }
+            }
+        }
+        else if (node == this->root) {
+            i++;
+        }
+        else {
+            node = node->suffixLink;
+            skipIncrement = true;
+        }
+    }
+
+    return output;
+}

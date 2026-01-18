@@ -7,6 +7,7 @@
 #include "../src/data_structures/Trie.h"
 #include "../src/data_structures/AhoCorasick.h"
 #include "../src/data_structures/AhoCorasickFilter.h"
+#include <tuple>
 
 template <typename type>
 std::string vectorToString(std::vector<type> v) {
@@ -30,6 +31,25 @@ std::string vectorPairToString(std::vector<std::pair<type, type>> vec, std::stri
     }
 
     return s + "(" + std::to_string(vec[n].first) + " " + std::to_string(vec[n].second) + ")";
+}
+
+template <typename type>
+std::string vectorQuadToString(std::vector<std::tuple<type, type, type, type>> vec, std::string separator = ", ") {
+    size_t n = vec.size();
+
+    if (n == 0) {
+        return "";
+    }
+
+    n--;
+
+    std::string s = "";
+
+    for (size_t i = 0; i < n; i++) {
+        s += "(" + std::to_string(std::get<0>(vec[i])) + " " + std::to_string(std::get<1>(vec[i])) + " " + std::to_string(std::get<2>(vec[i])) + " " + std::to_string(std::get<3>(vec[i])) + ")" + separator;
+    }
+
+    return s + "(" + std::to_string(std::get<0>(vec[n])) + " " + std::to_string(std::get<1>(vec[n])) + " " + std::to_string(std::get<2>(vec[n])) + " " + std::to_string(std::get<3>(vec[n])) + ")";
 }
 
 void stringUtilsTests() {
@@ -1432,6 +1452,46 @@ void stringUtilsTests() {
     wordList = {"135"};
     ahoCorasickFilter.build(wordList); // works with class reinitialization even before the fix
     UNIT_TEST_EQ(ahoCorasickFilter.filterAndIgnoreChars("123456", "*", std::unordered_set<char>{'2', '4', '6'}), "*2*4*6");
+
+    //-----
+
+    ahoCorasick = tvnj::AhoCorasick();
+
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("")), "");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("apple")), "");
+
+    wordList = {"apple", "app", "bat"};
+    ahoCorasick.build(wordList);
+
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("apple")), "(0 3 1 1), (0 5 1 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("app")), "(0 3 1 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("bat")), "(0 3 1 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("batapple")), "(0 3 1 1), (3 3 1 4), (3 5 1 4)");
+
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\napple")), "(1 3 2 1), (1 5 2 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\napp")), "(1 3 2 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\nbat")), "(1 3 2 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\nbatapple")), "(1 3 2 1), (4 3 2 4), (4 5 2 4)");
+
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("apple\n")), "(0 3 1 1), (0 5 1 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("app\n")), "(0 3 1 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("bat\n")), "(0 3 1 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("batapple\n")), "(0 3 1 1), (3 3 1 4), (3 5 1 4)");
+
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\napple\n")), "(1 3 2 1), (1 5 2 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\napp\n")), "(1 3 2 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\nbat\n")), "(1 3 2 1)");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\nbatapple\n")), "(1 3 2 1), (4 3 2 4), (4 5 2 4)");
+
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("\nbat\napple\n")), "(1 3 2 1), (5 3 3 1), (5 5 3 1)");
+
+    ahoCorasick.insert("i");
+    ahoCorasick.insert("in");
+    ahoCorasick.insert("tin");
+    ahoCorasick.insert("sting");
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("stings")), "(2 1 1 3), (1 3 1 2), (2 2 1 3), (0 5 1 1)");
+
+    UNIT_TEST_EQ(vectorQuadToString(ahoCorasick.searchVerbose("st\nings")), "(3 1 2 1), (3 2 2 1)");
 }
 
 #endif

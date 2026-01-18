@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
+#include <tuple>
 
 namespace tvnj {
     class AhoCorasick {
@@ -36,6 +37,7 @@ namespace tvnj {
             void insert(const std::string& word);
             void build(const std::vector<std::string>& strings);
             std::vector<std::pair<size_t, size_t>> search(const std::string& string);
+            std::vector<std::tuple<size_t, size_t, size_t, size_t>> searchVerbose(const std::string& string);
 
             void remove(const std::string& word);
     };
